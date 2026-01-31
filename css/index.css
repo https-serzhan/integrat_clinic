@@ -1,0 +1,486 @@
+/* ================= RESET ================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: #000;
+    background: #fff;
+}
+
+/* ================= CONTAINER ================= */
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+/* ================= HEADER ================= */
+.header {
+    padding: 24px 32px;
+}
+
+.header-inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+}
+
+.logo {
+    font-size: 36px;
+    letter-spacing: 1px;
+}
+
+/* Navigation pills */
+.nav-pill {
+    margin: 0 auto;
+    background: #e6e6e6;
+    padding: 6px;
+    border-radius: 999px;
+    display: flex;
+    gap: 16px;
+}
+
+.pill {
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    background: #fff;
+    color: #000;
+    line-height: 1;
+}
+
+.pill.active {
+    background: #000;
+    color: #fff;
+}
+
+/* Header right */
+.header-right {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-black {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-outline {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* ================= HERO ================= */
+.hero {
+    position: relative;
+    height: 760px;
+    overflow: hidden;
+}
+
+.hero-inner {
+    position: relative;
+    height: 100%;
+}
+
+/* Background text */
+.hero-bg-text {
+    position: absolute;
+    top: 80px;
+    left: 5%;
+    font-size: 270px;
+    font-weight: 400;
+    letter-spacing: -8px;
+    line-height: 1;
+    white-space: nowrap;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ================= HERO VISUAL ================= */
+.hero-visual {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    z-index: 2;
+}
+
+.hero-black-bg {
+    position: absolute;
+    bottom: 32px;
+    left: 0;
+    width: 100%;
+    height: 260px;
+    background-image: url("../assets/hero-black-shape.svg");
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 100% 100%; /* 🔴 THIS IS THE FIX */
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hero-person {
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    transform: translateX(-50%);
+    height: 700px;
+    z-index: 2;
+}
+
+/* ================= HERO CARD ================= */
+.hero-card {
+    position: absolute;
+    left: 5px;
+    bottom: 50px;
+    background: #000;
+    color: #fff;
+    padding: 32px;
+    width: 360px;
+    border-radius: 24px;
+    z-index: 3;
+}
+
+.hero-card h3 {
+    font-size: 26px;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+.hero-card p {
+    font-size: 16px;
+    opacity: 0.8;
+    line-height: 1.6;
+}
+
+/* ================= HERO ACTIONS ================= */
+.hero-actions {
+    position: absolute;
+    right: -16px;
+    bottom: 50px;
+    z-index: 3;
+    padding: 14px 18px;
+    border-radius: 999px;
+    display: flex;
+    gap: 54px;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Social icons */
+.socials {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.social {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.social img {
+    width: 30px;
+    height: 30px;
+    display: block;
+    opacity: 0.95;
+}
+
+/* CTA button */
+.book-pill {
+    height: 80px;
+    background: #fff;
+    border-radius: 999px;
+    padding: 0 26px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: #000;
+    font-size: 36px;
+    font-weight: 500;
+}
+
+.book-arrow {
+    font-size: 22px;
+    line-height: 1;
+}
+
+/* ===== WHY CHOOSE ===== */
+.why-choose {
+    padding: 120px 0;
+}
+
+.why-title {
+    text-align: center;
+    font-size: 60px;
+    margin-bottom: 80px;
+}
+
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+}
+
+.why-card {
+    background: #000;
+    border-radius: 40px;
+    height: 420px;
+    padding: 40px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+}
+
+.why-icon {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.why-percent {
+    font-size: 54px;
+    color: #fff;
+}
+
+.why-label {
+    font-size: 42px;
+    color: #fff;
+}
+
+/* ===== SLIDER ===== */
+.course-slider {
+    padding: 90px 0 120px; /* 🔴 more bottom space */
+    position: relative;
+}
+
+.course-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateX(40px);
+    transition: 0.5s;
+}
+
+.course-slide.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.course-card {
+    position: relative;
+    background: #000;
+    border-radius: 40px;
+    padding: 0 80px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    height: 600px;
+    overflow: hidden;
+}
+
+.course-title {
+    font-size: 72px;
+    color: #fff;
+}
+
+.course-desc {
+    font-size: 24px;
+    color: #ccc;
+    max-width: 520px;
+}
+
+.course-person {
+    height: 500px;
+    bottom: 100px;
+}
+
+.course-progress {
+    margin-top: 40px;
+    padding: 0 40px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.course-progress .seg {
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.25); /* 🔴 visible on black */
+}
+
+.course-progress .seg.active {
+    background: #ffffff; /* 🔴 pure white */
+}
+
+
+.course-track {
+    position: relative;
+    height: 520px; /* MATCH your design card height */
+}
+
+/* ================= CONTACT SECTION ================= */
+
+.contact-section {
+    padding: 120px 0;
+}
+
+.contact-map {
+    position: relative;
+    height: 520px;
+    border-radius: 32px;
+    overflow: hidden;
+    background: #f0f0f0;
+}
+
+/* Google map */
+.map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    filter: grayscale(1) contrast(1.1);
+}
+
+/* Black form card */
+.contact-form {
+    position: absolute;
+    left: 40px;
+    top: 40px;
+    bottom: 40px;
+
+    width: 500px;
+    background: #000;
+    border-radius: 28px;
+    padding: 36px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+
+    z-index: 2;
+}
+
+/* Titles */
+.contact-title {
+    font-size: 40px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.contact-subtitle {
+    font-size: 18px;
+    line-height: 1.4;
+    color: rgba(255,255,255,0.85);
+}
+
+/* Inputs */
+.contact-form input,
+.contact-form textarea {
+    background: #fff;
+    border: none;
+    border-radius: 14px;
+    padding: 18px 20px;
+    font-size: 16px;
+    outline: none;
+}
+
+textarea {
+    resize: none;
+    height: 120px;
+}
+
+/* Row */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* Bottom area */
+.form-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Checkbox */
+.checkbox {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 14px;
+    align-items: start;
+    cursor: pointer;
+}
+
+.checkbox input {
+    display: none;
+}
+
+.checkbox span {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.checkbox p {
+    font-size: 14px;
+    line-height: 1.4;
+    color: rgba(255,255,255,0.75);
+}
+
+/* Address block */
+.contact-info {
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    z-index: 2;
+    text-align: right;
+}
+
+.contact-info .address {
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.contact-info .phone {
+    font-size: 20px;
+    margin-top: 6px;
+}
+
+
