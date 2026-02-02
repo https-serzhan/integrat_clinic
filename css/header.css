@@ -1,0 +1,45 @@
+/* ================= HEADER ================= */
+.header {
+    padding: 24px 32px;
+}
+
+.header-inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+}
+
+.logo {
+    font-size: 36px;
+    letter-spacing: 1px;
+}
+
+/* Navigation pills */
+.nav-pill {
+    margin: 0 auto;
+    background: #e6e6e6;
+    padding: 6px;
+    border-radius: 999px;
+    display: flex;
+    gap: 16px;
+}
+
+.pill {
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 500;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+}
+
+.pill.active {
+    background: #000;
+    color: #fff;
+}
+
+.header-right {
+    display: flex;
+    gap: 12px;
+}
