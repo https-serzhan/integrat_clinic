@@ -1,0 +1,390 @@
+/* ================= PAGE BASE ================= */
+
+.page-doctors {
+    background: #fff;
+}
+
+/* ================= DOCTORS HERO ================= */
+
+.doctors-hero {
+    padding: 20px 0 120px;
+}
+
+/* HERO CONTAINER */
+.doctors-hero-inner {
+    position: relative;
+    height: 620px;
+    border-radius: 32px;
+    overflow: hidden;
+
+    /* background like design */
+    background: #eef2f8;
+}
+
+/* FULL IMAGE — THIS IS THE KEY FIX */
+.doctors-hero-image {
+    position: absolute;
+    inset: 0;
+}
+
+.doctors-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* LEFT TEXT OVER IMAGE */
+.doctors-hero-text {
+    position: relative;
+    z-index: 2;
+
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    bottom: -120px;
+    padding-left: 20px;
+    max-width: 420px;
+}
+
+/* TITLE */
+.doctors-hero-text h1 {
+    font-size: 72px;
+    line-height: 1.05;
+    font-weight: 500;
+    margin-bottom: 24px;
+    color: #000;
+}
+
+/* SUBTITLE */
+.doctors-hero-text p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #444;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1024px) {
+    .doctors-hero-inner {
+        height: 420px;
+    }
+
+    .doctors-hero-text {
+        padding-left: 48px;
+    }
+}
+
+@media (max-width: 768px) {
+    .doctors-hero-inner {
+        height: auto;
+        padding: 60px 32px;
+    }
+
+    .doctors-hero-text {
+        padding-left: 0;
+    }
+
+    .doctors-hero-text h1 {
+        font-size: 48px;
+    }
+}
+
+
+/* ================= DOCTORS LIST ================= */
+
+.doctors-list {
+    padding: 120px 0;
+}
+
+/* header */
+.doctors-list-header {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    margin-bottom: 48px;
+}
+
+.doctors-list-header h2 {
+    font-size: 62px;
+    font-weight: 500;
+}
+
+/* filters */
+.doctors-filters {
+    display: flex;
+    gap: 100px;
+}
+
+.filter-btn {
+    background: none;
+    border: none;
+    font-size: 40px;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    opacity: 0.5;
+}
+
+.filter-btn.active {
+    opacity: 1;
+    font-weight: 500;
+}
+
+/* grid */
+.doctors-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px 32px;
+}
+
+/* card */
+.doctor-card {
+    cursor: pointer;
+}
+
+.doctor-photo {
+    width: 100%;
+    height: 320px;
+    background: #e0e0e0;
+    border-radius: 24px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.doctor-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.doctor-card h4 {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.doctor-card p {
+    font-size: 14px;
+    color: #666;
+}
+
+
+/* ================= DOCTOR MODAL ================= */
+
+/* Overlay */
+.doctor-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+
+    /* CRITICAL */
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 2000;
+}
+
+/* Active state */
+.doctor-modal-overlay.active {
+    display: flex;
+}
+
+/* Modal box */
+.doctor-modal {
+    width: 880px;
+    max-width: calc(100vw - 40px);
+    max-height: 90vh;
+
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 32px;
+
+    position: relative;
+    z-index: 2001;
+
+    overflow-y: auto;
+}
+
+/* Close button */
+.doctor-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    background: none;
+    border: none;
+
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Top images */
+.doctor-modal-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.doctor-modal-img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    border-radius: 20px;
+    background: #e0e0e0;
+}
+
+/* Header */
+.doctor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+
+    margin-bottom: 20px;
+}
+
+.doctor-name {
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.doctor-role {
+    font-size: 15px;
+    opacity: 0.7;
+}
+
+.doctor-exp {
+    font-size: 14px;
+    opacity: 0.7;
+    white-space: nowrap;
+}
+
+/* Text */
+.doctor-text {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+}
+
+.doctor-text p {
+    margin-bottom: 12px;
+}
+
+/* Actions */
+.doctor-actions {
+    display: flex;
+    gap: 16px;
+}
+
+/* ================= TREATMENTS PAGE ================= */
+
+.treatments-page {
+    padding: 120px 0;
+}
+
+/* header */
+.treatments-header {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    margin-bottom: 48px;
+}
+
+.treatments-header h2 {
+    font-size: 62px;
+    font-weight: 500;
+}
+
+/* filters */
+.treatments-filters {
+    display: flex;
+    gap: 100px;
+}
+
+.treatment-filter {
+    background: none;
+    border: none;
+    letter-spacing: 1px;
+    font-size: 40px;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.treatment-filter.active {
+    opacity: 1;
+    font-weight: 500;
+}
+
+/* grid layout */
+.treatments-grid {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 40px;
+}
+
+/* left list */
+.treatments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.treatment-list-item {
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 20px 24px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.treatment-list-item span {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* cards grid */
+.treatments-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+/* card */
+.treatment-card {
+    display: block;
+    height: 240px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #e0e0e0;
+}
+
+.treatment-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+/* hover */
+.treatment-card:hover img {
+    transform: scale(1.03);
+    transition: 0.3s ease;
+}
+
