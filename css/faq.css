@@ -261,11 +261,35 @@ body.page-faq {
     }
 
     .faq-testimonials-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 640px) {
+    .faq-header {
+        padding: 16px 0;
+    }
+
+    .faq-hero {
+        padding: 12px 0 24px;
+    }
+
+    .faq-card-primary {
+        min-height: auto;
+    }
+
+    .faq-card-primary h1 {
+        font-size: 20px;
+    }
+
+    .faq-video-card {
+        height: 220px;
+    }
+
+    .faq-testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+
     .faq-modal-row {
         grid-template-columns: 1fr;
     }

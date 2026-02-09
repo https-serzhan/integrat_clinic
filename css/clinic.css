@@ -598,3 +598,177 @@
     height: 680px; /* optional fine-tuning */
 }
 
+@media (max-width: 1200px) {
+    .page-clinic .hero-bg-text {
+        font-size: 180px;
+    }
+
+    .page-clinic .hero-person {
+        height: 520px;
+        right: 20px;
+    }
+
+    .clinic-directions-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        gap: 32px;
+    }
+
+    .clinic-tooth {
+        grid-column: 1 / -1;
+        grid-row: auto;
+    }
+
+    .card-01,
+    .card-02,
+    .card-03,
+    .clinic-principle {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .clinic-services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .clinic-directions {
+        padding: 100px 0;
+    }
+
+    .clinic-directions-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .clinic-tooth img {
+        max-height: 360px;
+        width: 100%;
+    }
+
+    .clinic-card {
+        max-width: none;
+    }
+
+    .clinic-principle h3 {
+        font-size: 28px;
+    }
+
+    .doctors-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .doctors-scroll {
+        padding-left: 0;
+    }
+
+    .doctor-card {
+        width: 240px;
+    }
+
+    .treatments-title {
+        font-size: 40px;
+    }
+
+    .treat-slide {
+        width: 70vw;
+    }
+
+    .treat-card img {
+        height: 360px;
+    }
+
+    .reviews-title {
+        font-size: 40px;
+    }
+
+    .reviews-track {
+        padding: 0 24px;
+    }
+
+    .review-card {
+        flex: 0 0 420px;
+    }
+}
+
+@media (max-width: 640px) {
+    .page-clinic .hero-person {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        height: 320px;
+    }
+
+    .clinic-services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-card {
+        min-height: 200px;
+    }
+
+    .treatments-top {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .treat-arrow {
+        display: none;
+    }
+
+    .treatments-text {
+        text-align: left;
+    }
+
+    .treatments-title {
+        font-size: 32px;
+    }
+
+    .treatments-subtitle {
+        font-size: 15px;
+    }
+
+    .treat-slide {
+        width: 86vw;
+        transform: scale(0.9);
+    }
+
+    .treat-slide.is-active {
+        transform: scale(1);
+    }
+
+    .treat-overlay-left,
+    .treat-overlay-right {
+        position: static;
+        margin-top: 16px;
+    }
+
+    .treatments-slider {
+        padding-bottom: 40px;
+    }
+
+    .reviews {
+        padding: 100px 0;
+    }
+
+    .review-card {
+        flex: 0 0 80vw;
+        height: auto;
+    }
+
+    .doctor-modal {
+        width: 100%;
+        padding: 24px;
+    }
+
+    .doctor-modal-top {
+        grid-template-columns: 1fr;
+    }
+
+    .doctor-actions {
+        flex-direction: column;
+    }
+}

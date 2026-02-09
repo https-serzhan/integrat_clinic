@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- GLOBAL -->
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/global.css">
 
     <!-- CLINIC ONLY -->
     <link rel="stylesheet" href="../css/clinic.css">
@@ -26,11 +26,11 @@
 
         <nav class="nav-pill">
             <a href="index.html" class="pill">HOME</a>
-            <a class="pill active">CLINIC</a>
-            <a class="pill">ACADEMY</a>
-            <a class="pill">LABORATORY</a>
-            <a class="pill">STORE</a>
-            <a class="pill">ABOUT US</a>
+            <a href="clinic.html" class="pill active">CLINIC</a>
+            <a href="academy.html" class="pill">ACADEMY</a>
+            <a href="laboratory.html" class="pill">LABORATORY</a>
+            <a href="store.html" class="pill">STORE</a>
+            <a href="about.html" class="pill">ABOUT US</a>
         </nav>
 
         <div class="header-right">
@@ -476,7 +476,7 @@
                 </button>
 
                 <label class="checkbox">
-                    <input type="checkbox" required>
+                    <input type="checkbox" id="agree" name="agree" required>
                     <span class="checkmark"></span>
                     <p>
                         Ставя отметку, я даю свое согласие на обработку
@@ -548,7 +548,8 @@
     </div>
 </div>
 
-
+<script src="../js/shared/animations.js"></script>
+<script src="../js/shared/contact-form.js"></script>
 <script src="../js/clinic.js"></script>
 </body>
 </html>

@@ -11,6 +11,19 @@ body {
     background: #fff;
 }
 
+img,
+video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+button,
+input,
+textarea {
+    font-family: inherit;
+}
+
 /* ================= CONTAINER ================= */
 .container {
     max-width: 1440px;
@@ -54,9 +67,47 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-decoration: none;
 }
 
 .social img {
     width: 30px;
     height: 30px;
+    display: block;
+    opacity: 0.95;
+}
+
+/* ================= ANIMATIONS ================= */
+html.js .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 600ms ease, transform 600ms ease;
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+}
+
+html.js .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html.js .reveal {
+        transition: none;
+        transform: none;
+        opacity: 1;
+    }
+}
+
+/* ================= RESPONSIVE BASE ================= */
+@media (max-width: 1200px) {
+    .container {
+        padding: 0 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
 }

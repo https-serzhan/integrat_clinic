@@ -796,3 +796,137 @@ body {
     font-size: 14px;
     color: #666;
 }
+
+@media (max-width: 1200px) {
+    .academy-content {
+        left: 0;
+        padding: 0 32px;
+    }
+
+    .academy-text-inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .academy-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .doctors-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .academy-slide {
+        padding-bottom: 120px;
+        min-height: 600px;
+    }
+
+    .academy-content h1 {
+        font-size: 44px;
+    }
+
+    .academy-content p {
+        font-size: 16px;
+    }
+
+    .academy-title {
+        font-size: 40px;
+    }
+
+    .academy-courses__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .academy-filters {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .doctors-list-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .doctors-filters {
+        flex-wrap: wrap;
+        gap: 24px;
+    }
+
+    .doctors-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .doctor-photo {
+        height: 260px;
+    }
+}
+
+@media (max-width: 640px) {
+    .academy-slide {
+        padding-bottom: 80px;
+        min-height: 520px;
+    }
+
+    .academy-content {
+        padding: 0 16px;
+        bottom: 0;
+    }
+
+    .academy-content h1 {
+        font-size: 34px;
+    }
+
+    .academy-text {
+        margin-top: -60px;
+        padding: 80px 0;
+    }
+
+    .academy-title {
+        font-size: 32px;
+    }
+
+    .academy-info p {
+        font-size: 16px;
+    }
+
+    .academy-socials {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .academy-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .academy-card__images {
+        height: 220px;
+    }
+
+    .academy-card__body {
+        padding: 18px 20px;
+    }
+
+    .doctors-list {
+        padding: 80px 0;
+    }
+
+    .doctors-list-header h2 {
+        font-size: 40px;
+    }
+
+    .filter-btn {
+        font-size: 24px;
+    }
+
+    .doctors-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .doctor-photo {
+        height: 240px;
+    }
+}

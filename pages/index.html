@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/index.css">
 </head>
 <body>
@@ -21,12 +22,12 @@
         <div class="logo">INTEGRAT</div>
 
         <nav class="nav-pill">
-            <a href="#" class="pill  active">HOME</a>
+            <a href="index.html" class="pill active">HOME</a>
             <a href="clinic.html" class="pill">CLINIC</a>
             <a href="academy.html" class="pill">ACADEMY</a>
-            <a class="pill">LABORATORY</a>
-            <a class="pill">STORE</a>
-            <a class="pill">ABOUT US</a>
+            <a href="laboratory.html" class="pill">LABORATORY</a>
+            <a href="store.html" class="pill">STORE</a>
+            <a href="about.html" class="pill">ABOUT US</a>
         </nav>
 
         <div class="header-right">
@@ -248,7 +249,7 @@
                 </button>
 
                 <label class="checkbox">
-                    <input type="checkbox" required>
+                    <input type="checkbox" id="agree" name="agree" required>
                     <span class="checkmark"></span>
                     <p>
                         Ставя отметку, я даю свое согласие на обработку
@@ -325,7 +326,8 @@
     </div>
 </section>
 
-
+<script src="../js/shared/animations.js"></script>
+<script src="../js/shared/contact-form.js"></script>
 <script src="../js/index.js"></script>
 </body>
 </html>
