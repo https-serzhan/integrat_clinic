@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Integrat — FAQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- GLOBAL -->
+    <link rel="stylesheet" href="../css/index.css">
+
+    <!-- FAQ ONLY -->
+    <link rel="stylesheet" href="../css/faq.css">
+</head>
+<body class="page-faq">
+
+<header class="faq-header">
+    <div class="container faq-header-inner">
+        <a href="index.html" class="faq-close-link">
+            <span class="faq-close-icon">←</span>
+            Close
+        </a>
+    </div>
+</header>
+
+<main>
+    <section class="faq-hero">
+        <div class="container faq-hero-grid">
+            <article class="faq-card-primary">
+                <h1>ЧАСТО ЗАДАВАЕМЫЕ<br>ВОПРОСЫ ПО<br>ЭНДОДОНТИИ. ЧАСТЬ I</h1>
+                <p>ЭФФЕКТИВНОЕ ЛЕЧЕНИЕ<br>КОРНЕВЫХ КАНАЛОВ</p>
+                <button class="faq-primary-action" type="button" data-modal-open>
+                    УЧАСТВОВАТЬ
+                </button>
+            </article>
+
+            <div class="faq-card-list">
+                <article class="faq-card-secondary">
+                    <h3>PREVENTIVE DENTISTRY</h3>
+                    <p>Preventive examinations, professional hygiene, fluoridation.</p>
+                </article>
+                <article class="faq-card-secondary">
+                    <h3>PREVENTIVE DENTISTRY</h3>
+                    <p>Preventive examinations, professional hygiene, fluoridation.</p>
+                </article>
+                <article class="faq-card-secondary">
+                    <h3>PREVENTIVE DENTISTRY</h3>
+                    <p>Preventive examinations, professional hygiene, fluoridation.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-video">
+        <div class="container">
+            <div class="faq-video-card">
+                <span class="faq-play-icon" aria-hidden="true"></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-testimonials">
+        <div class="container faq-testimonials-grid">
+            <article class="faq-testimonial-card">
+                <div class="faq-testimonial-header">
+                    <h4>Ramazan</h4>
+                    <span class="faq-avatar-dot"></span>
+                </div>
+                <p>
+                    Came in for a regular check-up and left with a brighter smile than ever.
+                    Quick, painless, and truly caring service.
+                </p>
+                <span class="faq-testimonial-author">Dr.Aben</span>
+            </article>
+            <article class="faq-testimonial-card">
+                <div class="faq-testimonial-header">
+                    <h4>Ramazan</h4>
+                    <span class="faq-avatar-dot"></span>
+                </div>
+                <p>
+                    Came in for a regular check-up and left with a brighter smile than ever.
+                    Quick, painless, and truly caring service.
+                </p>
+                <span class="faq-testimonial-author">Dr.Aben</span>
+            </article>
+            <article class="faq-testimonial-card">
+                <div class="faq-testimonial-header">
+                    <h4>Ramazan</h4>
+                    <span class="faq-avatar-dot"></span>
+                </div>
+                <p>
+                    Came in for a regular check-up and left with a brighter smile than ever.
+                    Quick, painless, and truly caring service.
+                </p>
+                <span class="faq-testimonial-author">Dr.Aben</span>
+            </article>
+        </div>
+    </section>
+</main>
+
+<div class="faq-modal" data-modal>
+    <div class="faq-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="faq-modal-title">
+        <button class="faq-modal-close" type="button" aria-label="Close modal" data-modal-close>
+            ×
+        </button>
+        <h2 id="faq-modal-title">ЗАПОЛНИТЕ ФОРМУ</h2>
+        <p>и наши менеджеры позвонят вам<br>для подробной консультации</p>
+        <form class="faq-modal-form">
+            <div class="faq-modal-row">
+                <input type="text" name="name" placeholder="Имя" required>
+                <input type="tel" name="phone" placeholder="Телефон" required>
+            </div>
+            <textarea name="question" placeholder="Комментарий" rows="4"></textarea>
+            <div class="faq-modal-row">
+                <input type="text" name="city" placeholder="Город">
+                <label class="faq-modal-consent">
+                    <input type="checkbox" required>
+                    <span>Ставя отметку, я даю свое согласие на обработку своих персональных данных.</span>
+                </label>
+            </div>
+            <button class="faq-modal-submit" type="submit">Отправить</button>
+        </form>
+    </div>
+</div>
+
+<script src="../js/faq.js"></script>
+</body>
+</html>
