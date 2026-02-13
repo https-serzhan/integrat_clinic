@@ -38,6 +38,12 @@
 
         alert("Форма успешно отправлена ✅");
 
+        const modal = form.closest("[data-modal]");
+        if (modal) {
+            modal.classList.remove("is-active");
+            document.body.style.overflow = "";
+        }
+
         // BACKEND READY:
         // fetch("/api/send", { method: "POST", body: new FormData(form) })
     });
