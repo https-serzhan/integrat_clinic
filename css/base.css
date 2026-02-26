@@ -114,8 +114,15 @@ html.js .reveal.is-visible {
     }
 }
 
-@media (max-width: 768px) {
-    .container {
-        padding: 0 16px;
-    }
+
+/* ================= UTILITY ================= */
+.highlight-flash {
+    animation: flash 1.5s ease-out;
 }
+
+@keyframes flash {
+    0% { background-color: rgba(255, 255, 0, 0); }
+    30% { background-color: rgba(255, 255, 0, 0.4); }
+    100% { background-color: rgba(255, 255, 0, 0); }
+}
+
