@@ -3,6 +3,13 @@ body.page-faq {
     color: #111;
 }
 
+.faq-header,
+.faq-header *,
+.faq-hero,
+.faq-hero * {
+    font-family: var(--font-display);
+}
+
 .faq-header {
     padding: 24px 0 16px;
 }

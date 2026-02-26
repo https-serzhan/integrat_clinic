@@ -1,6 +1,7 @@
 /* ================= HEADER ================= */
 .header {
     padding: 24px 32px;
+    font-family: var(--font-display);
 }
 
 .header-inner {

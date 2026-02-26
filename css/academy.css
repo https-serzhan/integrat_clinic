@@ -6,12 +6,20 @@
     --academy-text-dark: #1d1d1f;
     --academy-text-muted: #6f6f75;
     --academy-border: #e6e6e8;
+    --academy-hero-overlap: 120px;
 }
 
 body {
     margin: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     background: #fff;
+}
+
+.header-overlay,
+.header-overlay *,
+.academy-hero,
+.academy-hero * {
+    font-family: var(--font-display);
 }
 
 /* ================= HEADER OVER HERO ================= */
@@ -57,8 +65,93 @@ body {
     background: rgba(255, 255, 255, 0.28);
 }
 
+.academy-auth-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: grid;
+    place-items: center;
+    z-index: 100;
+    padding: 20px;
+}
+
+.academy-auth-modal[hidden] {
+    display: none !important;
+}
+
+.academy-auth-modal__dialog {
+    width: min(440px, 100%);
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px;
+    position: relative;
+    display: grid;
+    gap: 12px;
+}
+
+.academy-auth-modal__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.academy-auth-modal__tabs {
+    display: flex;
+    gap: 10px;
+    padding-right: 36px;
+}
+
+.academy-auth-modal__tabs button {
+    border: 1px solid #d9d9d9;
+    border-radius: 999px;
+    background: #fff;
+    padding: 8px 14px;
+    cursor: pointer;
+}
+
+.academy-auth-modal__tabs button.active {
+    background: #000;
+    color: #fff;
+}
+
+.academy-auth-modal form {
+    display: grid;
+    gap: 10px;
+}
+
+.academy-auth-modal label {
+    display: grid;
+    gap: 5px;
+    font-size: 13px;
+}
+
+.academy-auth-modal input {
+    height: 42px;
+    border: 1px solid #d7d7d7;
+    border-radius: 10px;
+    padding: 0 10px;
+}
+
+.academy-auth-modal__feedback {
+    min-height: 18px;
+    font-size: 12px;
+    color: #2f2f2f;
+}
+
+.academy-auth-modal__feedback.is-error {
+    color: #b10000;
+}
+
 /* ================= HERO ================= */
 
+.academy-hero {
+    position: relative;
+    z-index: 1;
+}
 
 .academy-slide {
     position: relative;
@@ -84,7 +177,7 @@ body {
     position: relative;
     z-index: 2;
     left: -350px;
-    bottom: -50px;
+    bottom: -200px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -136,7 +229,8 @@ body {
     position: absolute;
     left: 40px;
     right: 40px;
-    bottom: 80px;
+    bottom: calc(80px + var(--academy-hero-overlap));
+    z-index: 6;
 
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -182,7 +276,7 @@ body {
     border-radius: 48px 48px 0 0;
 
     /* pull it upward over hero */
-    margin-top: -120px;
+    margin-top: calc(-1 * var(--academy-hero-overlap));
 
     /* spacing */
     padding: 120px 0;
@@ -866,6 +960,10 @@ body {
 }
 
 @media (max-width: 640px) {
+    :root {
+        --academy-hero-overlap: 60px;
+    }
+
     .academy-slide {
         padding-bottom: 80px;
         min-height: 520px;
@@ -881,7 +979,6 @@ body {
     }
 
     .academy-text {
-        margin-top: -60px;
         padding: 80px 0;
     }
 

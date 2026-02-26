@@ -34,7 +34,7 @@
         </nav>
 
         <div class="header-right">
-            <button class="btn-black">LOGIN</button>
+            <button class="btn-black" id="academyAuthButton" data-action="open">LOGIN</button>
             <button class="btn-outline">ENG</button>
         </div>
     </div>
@@ -210,7 +210,7 @@
                         canyons.</p>
                     <div class="academy-card__footer">
                         <p class="academy-card__price">$139 <span>/ night</span></p>
-                        <a class="academy-card__cta" href="faq.html">Book Now <span class="academy-card__cta-icon">↗</span></a>
+                        <a class="academy-card__cta" href="videos.html?course=endo-faq">Open Course <span class="academy-card__cta-icon">↗</span></a>
                     </div>
                 </div>
             </article>
@@ -248,7 +248,7 @@
                         demonstrations, and expert feedback.</p>
                     <div class="academy-card__footer">
                         <p class="academy-card__price">$259 <span>/ seat</span></p>
-                        <a class="academy-card__cta" href="faq.html">Book Now <span class="academy-card__cta-icon">↗</span></a>
+                        <a class="academy-card__cta" href="videos.html?course=endo-faq">Open Course <span class="academy-card__cta-icon">↗</span></a>
                     </div>
                 </div>
             </article>
@@ -287,7 +287,7 @@
                         Integrat workflow team.</p>
                     <div class="academy-card__footer">
                         <p class="academy-card__price">$189 <span>/ seat</span></p>
-                        <a class="academy-card__cta" href="faq.html">Book Now <span class="academy-card__cta-icon">↗</span></a>
+                        <a class="academy-card__cta" href="videos.html?course=endo-faq">Open Course <span class="academy-card__cta-icon">↗</span></a>
                     </div>
                 </div>
             </article>
@@ -326,7 +326,7 @@
                         canyons.</p>
                     <div class="academy-card__footer">
                         <p class="academy-card__price">$139 <span>/ night</span></p>
-                        <a class="academy-card__cta" href="faq.html">Book Now <span class="academy-card__cta-icon">↗</span></a>
+                        <a class="academy-card__cta" href="videos.html?course=endo-faq">Open Course <span class="academy-card__cta-icon">↗</span></a>
                     </div>
                 </div>
             </article>
@@ -365,7 +365,7 @@
                         canyons.</p>
                     <div class="academy-card__footer">
                         <p class="academy-card__price">$139 <span>/ night</span></p>
-                        <a class="academy-card__cta" href="faq.html">Book Now <span class="academy-card__cta-icon">↗</span></a>
+                        <a class="academy-card__cta" href="videos.html?course=endo-faq">Open Course <span class="academy-card__cta-icon">↗</span></a>
                     </div>
                 </div>
             </article>
@@ -404,7 +404,7 @@
                         canyons.</p>
                     <div class="academy-card__footer">
                         <p class="academy-card__price">$139 <span>/ night</span></p>
-                        <a class="academy-card__cta" href="faq.html">Book Now <span class="academy-card__cta-icon">↗</span></a>
+                        <a class="academy-card__cta" href="videos.html?course=endo-faq">Open Course <span class="academy-card__cta-icon">↗</span></a>
                     </div>
                 </div>
             </article>
@@ -599,8 +599,78 @@
     </div>
 </section>
 
+<div class="academy-auth-modal" id="academyAuthModal" hidden>
+    <div class="academy-auth-modal__dialog">
+        <button class="academy-auth-modal__close" type="button" data-auth-close>×</button>
+        <div class="academy-auth-modal__tabs">
+            <button type="button" class="active" data-auth-tab="login">Login</button>
+            <button type="button" data-auth-tab="signup">Sign Up</button>
+        </div>
+        <p class="academy-auth-modal__feedback" id="academyAuthFeedback"></p>
+
+        <form id="academyLoginForm" data-auth-form="login">
+            <label>
+                Email
+                <input type="email" name="email" required>
+            </label>
+            <label>
+                Password
+                <input type="password" name="password" required>
+            </label>
+            <button class="btn-black" type="submit">Login</button>
+        </form>
+
+        <form id="academySignupForm" data-auth-form="signup" hidden>
+            <label>
+                Full Name
+                <input type="text" name="name" required>
+            </label>
+            <label>
+                Email
+                <input type="email" name="email" required>
+            </label>
+            <label>
+                Password
+                <input type="password" name="password" minlength="8" required>
+            </label>
+            <button class="btn-black" type="submit">Create Account</button>
+        </form>
+    </div>
+</div>
+
 <script src="../js/shared/animations.js"></script>
-<script src="index.html"></script>
+<script src="../js/shared/auth-api.js"></script>
 <script src="../js/academy.js"></script>
+<script src="../js/academy-auth.js"></script>
+<footer class="site-footer">
+    <div class="container">
+        <div class="site-footer__top">
+            <div class="site-footer__brand">
+                <div class="site-footer__logo">INTEGRAT</div>
+                <p class="site-footer__tagline">Next-generation dental ecosystem: clinic, academy, laboratory and store.</p>
+            </div>
+
+            <nav class="site-footer__links">
+                <a class="site-footer__link" href="index.html">HOME</a>
+                <a class="site-footer__link" href="clinic.html">CLINIC</a>
+                <a class="site-footer__link" href="academy.html">ACADEMY</a>
+                <a class="site-footer__link" href="laboratory.html">LABORATORY</a>
+                <a class="site-footer__link" href="store.html">STORE</a>
+                <a class="site-footer__link" href="about.html">ABOUT US</a>
+            </nav>
+        </div>
+
+        <div class="site-footer__meta">
+            <p class="site-footer__copy">© 2026 Integrat. All rights reserved.</p>
+
+            <div class="site-footer__socials">
+                <a class="site-footer__social" href="#" aria-label="Instagram"><img src="../icons/insta.svg" alt=""></a>
+                <a class="site-footer__social" href="#" aria-label="Telegram"><img src="../icons/telega.svg" alt=""></a>
+                <a class="site-footer__social" href="#" aria-label="WhatsApp"><img src="../icons/whatsap.svg" alt=""></a>
+                <a class="site-footer__social" href="#" aria-label="Google"><img src="../icons/google.svg" alt=""></a>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

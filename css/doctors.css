@@ -4,6 +4,11 @@
     background: #fff;
 }
 
+.doctors-hero,
+.doctors-hero * {
+    font-family: var(--font-display);
+}
+
 /* ================= DOCTORS HERO ================= */
 
 .doctors-hero {

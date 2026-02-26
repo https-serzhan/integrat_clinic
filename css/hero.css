@@ -3,6 +3,7 @@
     position: relative;
     height: 760px;
     overflow: hidden;
+    font-family: var(--font-display);
 }
 
 .hero-inner {

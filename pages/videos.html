@@ -90,12 +90,13 @@
     </aside>
 
     <section class="videos-content">
+        <div class="videos-access videos-access--hidden" id="videosAccessBanner"></div>
         <div class="videos-text">
             <h1>ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ ПО ЭНДОДОНТИИ. ЧАСТЬ I</h1>
             <p>ЭФФЕКТИВНОЕ ЛЕЧЕНИЕ КОРНЕВЫХ КАНАЛОВ</p>
         </div>
 
-        <div class="videos-player">
+        <div class="videos-player" id="videosPlayer">
             <div class="videos-player__play">▶</div>
         </div>
 
@@ -110,6 +111,37 @@
 </main>
 
 <script src="../js/shared/animations.js"></script>
+<script src="../js/shared/auth-api.js"></script>
 <script src="../js/videos.js"></script>
+<footer class="site-footer">
+    <div class="container">
+        <div class="site-footer__top">
+            <div class="site-footer__brand">
+                <div class="site-footer__logo">INTEGRAT</div>
+                <p class="site-footer__tagline">Next-generation dental ecosystem: clinic, academy, laboratory and store.</p>
+            </div>
+
+            <nav class="site-footer__links">
+                <a class="site-footer__link" href="index.html">HOME</a>
+                <a class="site-footer__link" href="clinic.html">CLINIC</a>
+                <a class="site-footer__link" href="academy.html">ACADEMY</a>
+                <a class="site-footer__link" href="laboratory.html">LABORATORY</a>
+                <a class="site-footer__link" href="store.html">STORE</a>
+                <a class="site-footer__link" href="about.html">ABOUT US</a>
+            </nav>
+        </div>
+
+        <div class="site-footer__meta">
+            <p class="site-footer__copy">© 2026 Integrat. All rights reserved.</p>
+
+            <div class="site-footer__socials">
+                <a class="site-footer__social" href="#" aria-label="Instagram"><img src="../icons/insta.svg" alt=""></a>
+                <a class="site-footer__social" href="#" aria-label="Telegram"><img src="../icons/telega.svg" alt=""></a>
+                <a class="site-footer__social" href="#" aria-label="WhatsApp"><img src="../icons/whatsap.svg" alt=""></a>
+                <a class="site-footer__social" href="#" aria-label="Google"><img src="../icons/google.svg" alt=""></a>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
