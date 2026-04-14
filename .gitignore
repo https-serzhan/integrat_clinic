@@ -173,4 +173,6 @@ cython_debug/
 # Project specific
 integrat_clinic.db
 integrat_clinic.db-journal
+src/backend/academy/data/*.json
+!src/backend/academy/data/.gitkeep
 *.log

@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Integrat — Academy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Global -->
+    <link rel="stylesheet" href="../styles/global.css">
+
+    <!-- Page -->
+    <link rel="stylesheet" href="../styles/academy.css">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="header header-overlay">
+    <div class="container header-inner">
+        <div class="logo">INTEGRAT</div>
+
+        <nav class="nav-pill">
+            <a href="index.html" class="pill">HOME</a>
+            <a href="clinic.html" class="pill">CLINIC</a>
+            <a href="academy.html" class="pill active">ACADEMY</a>
+            <a href="laboratory.html" class="pill">LABORATORY</a>
+            <a href="store.html" class="pill">STORE</a>
+            <a href="about.html" class="pill">ABOUT US</a>
+        </nav>
+
+        <div class="header-right">
+            <button class="btn-black" id="academyAuthButton" data-action="open">LOGIN</button>
+            <button class="btn-outline">ENG</button>
+        </div>
+    </div>
+</header>
+
+<!-- ================= HERO / SLIDER ================= -->
+<section class="academy-hero">
+
+    <!-- SLIDE -->
+    <div class="academy-slide"
+         style="background-image: url('../../assets/images/academy-hero.png');">
+
+        <div class="academy-overlay"></div>
+
+        <div class="container academy-content">
+            <h1>ACADEMY</h1>
+
+            <p>
+                Комплексный разбор принципов организации окклюзии,
+                биомеханических основ и клинических подходов к управлению
+                перемещением зубов
+            </p>
+
+            <a href="#" class="academy-btn">
+                Book an appointment <span>↗</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="course-progress">
+        <span class="seg active" data-index="0"></span>
+        <span class="seg" data-index="1"></span>
+        <span class="seg" data-index="2"></span>
+        <span class="seg" data-index="3"></span>
+    </div>
+
+</section>
+
+<section class="academy-text">
+    <div class="academy-text-inner">
+
+        <!-- LEFT -->
+        <h2 class="academy-title">
+            Explore the artistry and<br>
+            precision behind our<br>
+            portfolio of timeless<br>
+            photography
+        </h2>
+
+        <!-- RIGHT -->
+        <div class="academy-info">
+            <p>
+                Patient-centered, optimal treatment —
+                guided not by brands of brackets, aligners,
+                or implants, but by biological limitations,
+                sound biomechanics, and clear functional
+                objectives.
+            </p>
+
+            <div class="academy-socials">
+                <a href="" class="social"><img src="../../assets/icons/instagram.svg" alt="INST"></a>
+                <a href="#" class="social"><img src="../../assets/icons/telegram.svg" alt="TG"></a>
+                <a href="#" class="social"><img src="../../assets/icons/whatsapp.svg" alt="WHT"></a>
+                <a href="#" class="social"><img src="../../assets/icons/google.svg" alt="Google"></a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="doctors-slider">
+    <div class="doctors-track">
+
+        <article class="doctor-slide">
+            <div class="doctor-times">
+                <span>TIME:</span>
+                <span>TIME:</span>
+                <span>TIME:</span>
+                <span>TIME:</span>
+            </div>
+
+            <div class="doctor-info">
+                <h4>Dr. Aben</h4>
+                <p>Architect of the clinic</p>
+            </div>
+
+            <button class="doctor-btn">
+                MORE DETAILS
+                <span>›</span>
+            </button>
+        </article>
+
+        <article class="doctor-slide">
+            <div class="doctor-info">
+                <h4>Dr. Aben</h4>
+            </div>
+
+            <button class="doctor-btn outline">
+                MORE DETAILS
+                <span>›</span>
+            </button>
+        </article>
+
+        <article class="doctor-slide">
+            <div class="doctor-info">
+                <h4>Dr. Aben</h4>
+            </div>
+
+            <button class="doctor-btn outline">
+                MORE DETAILS
+                <span>›</span>
+            </button>
+        </article>
+
+        <article class="doctor-slide">
+            <div class="doctor-info">
+                <h4>Dr. Aben</h4>
+            </div>
+
+            <button class="doctor-btn outline">
+                MORE DETAILS
+                <span>›</span>
+            </button>
+        </article>
+
+    </div>
+</section>
+
+
+<section class="academy-courses">
+    <div class="container">
+        <div class="academy-courses__header">
+            <h2>OUR COURSES</h2>
+            <div class="academy-filters">
+                <button class="academy-filter active">All</button>
+                <button class="academy-filter">Veneers</button>
+                <button class="academy-filter">Implants</button>
+            </div>
+        </div>
+
+        <div class="academy-grid">
+            <article class="academy-card" data-category="implants">
+                <div class="academy-card__media">
+                    <div class="academy-card__images">
+                        <img src="../../assets/images/ph-integrat-group.png" alt="Ancient monuments at sunset"
+                             class="academy-card__image active">
+                        <img src="../../assets/images/treatments.png" alt="Desert landscape" class="academy-card__image">
+                        <img src="../../assets/images/clinic-hero.svg" alt="Training retreat" class="academy-card__image">
+                    </div>
+                    <div class="academy-card__overlay">
+                        <div class="academy-card__tags">
+                            <span>Adventure</span>
+                            <span>Ancient Monuments</span>
+                        </div>
+                        <div class="academy-card__rating">
+                            <span class="academy-card__star">★</span>
+                            <span>4.8</span>
+                        </div>
+                    </div>
+                    <div class="academy-card__dots">
+                        <button class="academy-card__dot active" aria-label="Image 1"></button>
+                        <button class="academy-card__dot" aria-label="Image 2"></button>
+                        <button class="academy-card__dot" aria-label="Image 3"></button>
+                    </div>
+                </div>
+                <div class="academy-card__body">
+                    <div class="academy-card__header">
+                        <h3>Petra, Jordan</h3>
+                        <span class="academy-card__badge">Top rated</span>
+                    </div>
+                    <p class="academy-card__meta">May 1 - 6 · Business host</p>
+                    <p class="academy-card__desc">A lost city carved in rose-colored stone, hidden in majestic desert
+                        canyons.</p>
+                    <div class="academy-card__footer">
+                        <p class="academy-card__price">$139 <span>/ night</span></p>
+                        <a class="academy-card__cta" href="videos.html?course=endo-faq">Open Course <span class="academy-card__cta-icon">↗</span></a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="academy-card" data-category="veneers">
+                <div class="academy-card__media">
+                    <div class="academy-card__images">
+                        <img src="../../assets/images/blue-doctor.png" alt="Hands-on workshop" class="academy-card__image active">
+                        <img src="../../assets/images/orange-doctor.png" alt="Clinical mentoring" class="academy-card__image">
+                        <img src="../../assets/images/hero-ph-integrat.svg" alt="Academy team" class="academy-card__image">
+                    </div>
+                    <div class="academy-card__overlay">
+                        <div class="academy-card__tags">
+                            <span>Implantology</span>
+                            <span>Hands-on</span>
+                        </div>
+                        <div class="academy-card__rating">
+                            <span class="academy-card__star">★</span>
+                            <span>4.9</span>
+                        </div>
+                    </div>
+                    <div class="academy-card__dots">
+                        <button class="academy-card__dot active" aria-label="Image 1"></button>
+                        <button class="academy-card__dot" aria-label="Image 2"></button>
+                        <button class="academy-card__dot" aria-label="Image 3"></button>
+                    </div>
+                </div>
+                <div class="academy-card__body">
+                    <div class="academy-card__header">
+                        <h3>Precision Implant Lab</h3>
+                        <span class="academy-card__badge">New</span>
+                    </div>
+                    <p class="academy-card__meta">Aug 12 - 15 · Clinical mentor</p>
+                    <p class="academy-card__desc">Advance your implant workflow with guided practice, live
+                        demonstrations, and expert feedback.</p>
+                    <div class="academy-card__footer">
+                        <p class="academy-card__price">$259 <span>/ seat</span></p>
+                        <a class="academy-card__cta" href="videos.html?course=endo-faq">Open Course <span class="academy-card__cta-icon">↗</span></a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="academy-card">
+                <div class="academy-card__media">
+                    <div class="academy-card__images">
+                        <img src="../../assets/images/treatments.png" alt="Digital dentistry course"
+                             class="academy-card__image active">
+                        <img src="../../assets/images/tooth-clinic.svg" alt="Scanner training" class="academy-card__image">
+                        <img src="../../assets/images/hero-ph-integrat.svg" alt="Academy hall" class="academy-card__image">
+                    </div>
+                    <div class="academy-card__overlay">
+                        <div class="academy-card__tags">
+                            <span>Digital</span>
+                            <span>Workflow</span>
+                        </div>
+                        <div class="academy-card__rating">
+                            <span class="academy-card__star">★</span>
+                            <span>4.7</span>
+                        </div>
+                    </div>
+                    <div class="academy-card__dots">
+                        <button class="academy-card__dot active" aria-label="Image 1"></button>
+                        <button class="academy-card__dot" aria-label="Image 2"></button>
+                        <button class="academy-card__dot" aria-label="Image 3"></button>
+                    </div>
+                </div>
+                <div class="academy-card__body">
+                    <div class="academy-card__header">
+                        <h3>Digital Smile Retreat</h3>
+                        <span class="academy-card__badge">Popular</span>
+                    </div>
+                    <p class="academy-card__meta">Sep 3 - 6 · Design partner</p>
+                    <p class="academy-card__desc">Master digital scans, planning, and restorative delivery with the
+                        Integrat workflow team.</p>
+                    <div class="academy-card__footer">
+                        <p class="academy-card__price">$189 <span>/ seat</span></p>
+                        <a class="academy-card__cta" href="videos.html?course=endo-faq">Open Course <span class="academy-card__cta-icon">↗</span></a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="academy-card">
+                <div class="academy-card__media">
+                    <div class="academy-card__images">
+                        <img src="../../assets/images/ph-integrat-group.png" alt="Ancient monuments at sunset"
+                             class="academy-card__image active">
+                        <img src="../../assets/images/treatments.png" alt="Desert landscape" class="academy-card__image">
+                        <img src="../../assets/images/clinic-hero.svg" alt="Training retreat" class="academy-card__image">
+                    </div>
+                    <div class="academy-card__overlay">
+                        <div class="academy-card__tags">
+                            <span>Adventure</span>
+                            <span>Ancient Monuments</span>
+                        </div>
+                        <div class="academy-card__rating">
+                            <span class="academy-card__star">★</span>
+                            <span>4.8</span>
+                        </div>
+                    </div>
+                    <div class="academy-card__dots">
+                        <button class="academy-card__dot active" aria-label="Image 1"></button>
+                        <button class="academy-card__dot" aria-label="Image 2"></button>
+                        <button class="academy-card__dot" aria-label="Image 3"></button>
+                    </div>
+                </div>
+                <div class="academy-card__body">
+                    <div class="academy-card__header">
+                        <h3>Petra, Jordan</h3>
+                        <span class="academy-card__badge">Top rated</span>
+                    </div>
+                    <p class="academy-card__meta">May 1 - 6 · Business host</p>
+                    <p class="academy-card__desc">A lost city carved in rose-colored stone, hidden in majestic desert
+                        canyons.</p>
+                    <div class="academy-card__footer">
+                        <p class="academy-card__price">$139 <span>/ night</span></p>
+                        <a class="academy-card__cta" href="videos.html?course=endo-faq">Open Course <span class="academy-card__cta-icon">↗</span></a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="academy-card">
+                <div class="academy-card__media">
+                    <div class="academy-card__images">
+                        <img src="../../assets/images/ph-integrat-group.png" alt="Ancient monuments at sunset"
+                             class="academy-card__image active">
+                        <img src="../../assets/images/treatments.png" alt="Desert landscape" class="academy-card__image">
+                        <img src="../../assets/images/clinic-hero.svg" alt="Training retreat" class="academy-card__image">
+                    </div>
+                    <div class="academy-card__overlay">
+                        <div class="academy-card__tags">
+                            <span>Adventure</span>
+                            <span>Ancient Monuments</span>
+                        </div>
+                        <div class="academy-card__rating">
+                            <span class="academy-card__star">★</span>
+                            <span>4.8</span>
+                        </div>
+                    </div>
+                    <div class="academy-card__dots">
+                        <button class="academy-card__dot active" aria-label="Image 1"></button>
+                        <button class="academy-card__dot" aria-label="Image 2"></button>
+                        <button class="academy-card__dot" aria-label="Image 3"></button>
+                    </div>
+                </div>
+                <div class="academy-card__body">
+                    <div class="academy-card__header">
+                        <h3>Petra, Jordan</h3>
+                        <span class="academy-card__badge">Top rated</span>
+                    </div>
+                    <p class="academy-card__meta">May 1 - 6 · Business host</p>
+                    <p class="academy-card__desc">A lost city carved in rose-colored stone, hidden in majestic desert
+                        canyons.</p>
+                    <div class="academy-card__footer">
+                        <p class="academy-card__price">$139 <span>/ night</span></p>
+                        <a class="academy-card__cta" href="videos.html?course=endo-faq">Open Course <span class="academy-card__cta-icon">↗</span></a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="academy-card">
+                <div class="academy-card__media">
+                    <div class="academy-card__images">
+                        <img src="../../assets/images/ph-integrat-group.png" alt="Ancient monuments at sunset"
+                             class="academy-card__image active">
+                        <img src="../../assets/images/treatments.png" alt="Desert landscape" class="academy-card__image">
+                        <img src="../../assets/images/clinic-hero.svg" alt="Training retreat" class="academy-card__image">
+                    </div>
+                    <div class="academy-card__overlay">
+                        <div class="academy-card__tags">
+                            <span>Adventure</span>
+                            <span>Ancient Monuments</span>
+                        </div>
+                        <div class="academy-card__rating">
+                            <span class="academy-card__star">★</span>
+                            <span>4.8</span>
+                        </div>
+                    </div>
+                    <div class="academy-card__dots">
+                        <button class="academy-card__dot active" aria-label="Image 1"></button>
+                        <button class="academy-card__dot" aria-label="Image 2"></button>
+                        <button class="academy-card__dot" aria-label="Image 3"></button>
+                    </div>
+                </div>
+                <div class="academy-card__body">
+                    <div class="academy-card__header">
+                        <h3>Petra, Jordan</h3>
+                        <span class="academy-card__badge">Top rated</span>
+                    </div>
+                    <p class="academy-card__meta">May 1 - 6 · Business host</p>
+                    <p class="academy-card__desc">A lost city carved in rose-colored stone, hidden in majestic desert
+                        canyons.</p>
+                    <div class="academy-card__footer">
+                        <p class="academy-card__price">$139 <span>/ night</span></p>
+                        <a class="academy-card__cta" href="videos.html?course=endo-faq">Open Course <span class="academy-card__cta-icon">↗</span></a>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="academy-more">
+            <button class="academy-more__button">more</button>
+        </div>
+    </div>
+</section>
+
+
+<section class="reviews">
+    <div class="container">
+        <h2 class="reviews-title">REVIEWS FROM OUR PATIENTS</h2>
+    </div>
+
+    <div class="reviews-scroll">
+        <div class="reviews-track">
+
+            <article class="review-card">
+                <h4 class="review-name">Ramazan</h4>
+                <p class="review-text">
+                    Came in for a regular check-up and left with a brighter smile than ever.
+                    Quick, painless, and truly caring service.
+                </p>
+                <span class="review-doctor">Dr. Aben</span>
+                <span class="review-dot"></span>
+            </article>
+
+            <article class="review-card">
+                <h4 class="review-name">Ramazan</h4>
+                <p class="review-text">
+                    Came in for a regular check-up and left with a brighter smile than ever.
+                    Quick, painless, and truly caring service.
+                </p>
+                <span class="review-doctor">Dr. Aben</span>
+                <span class="review-dot"></span>
+            </article>
+
+            <article class="review-card">
+                <h4 class="review-name">Ramazan</h4>
+                <p class="review-text">
+                    Came in for a regular check-up and left with a brighter smile than ever.
+                    Quick, painless, and truly caring service.
+                </p>
+                <span class="review-doctor">Dr. Aben</span>
+                <span class="review-dot"></span>
+            </article>
+
+            <article class="review-card">
+                <h4 class="review-name">Ramazan</h4>
+                <p class="review-text">
+                    Came in for a regular check-up and left with a brighter smile than ever.
+                    Quick, painless, and truly caring service.
+                </p>
+                <span class="review-doctor">Dr. Aben</span>
+                <span class="review-dot"></span>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+
+
+<section class="doctors-list">
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="doctors-list-header">
+            <h2>OUR LECTORS</h2>
+
+            <div class="doctors-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="veneers">Veneers</button>
+                <button class="filter-btn" data-filter="implants">Implants</button>
+                <button class="filter-btn" data-filter="ortho">Ortho</button>
+            </div>
+        </div>
+
+        <!-- GRID -->
+        <div class="doctors-grid">
+
+            <!-- Doctor card -->
+            <article class="doctor-card"
+                     data-category="veneers implants"
+                     data-name="Dr. Aben"
+                     data-role="Architect of the clinic"
+                     data-exp="12"
+                     data-edu="2013 – Dentistry, WK Medical University<br>2014 – General Dentist"
+                     data-spec="Veneers, aesthetic dentistry, restorative care"
+                     data-img="../../assets/images/orange-doctor.png">
+
+                <div class="doctor-photo">
+                    <img src="../../assets/images/orange-doctor.png" alt="">
+                </div>
+                <h4>Dr. Aben</h4>
+                <p>Architect of the clinic</p>
+            </article>
+
+            <!-- Duplicate cards freely -->
+            <article class="doctor-card"
+                     data-category="ortho"
+                     data-name="Dr. Aben"
+                     data-role="Orthodontist"
+                     data-exp="8"
+                     data-edu="Orthodontics specialization"
+                     data-spec="Braces, aligners, bite correction"
+                     data-img="../../assets/images/orange-doctor.png">
+
+                <div class="doctor-photo">
+                    <img src="../../assets/images/blue-doctor.png" alt="">
+                </div>
+                <h4>Dr. Aben</h4>
+                <p>Architect of the clinic</p>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+
+<section class="contact-section">
+    <div class="contact-map container">
+
+        <!-- FORM CARD -->
+        <form class="contact-form" id="contactForm">
+
+            <h2 class="contact-title">ЗАПОЛНИТЕ ФОРМУ</h2>
+            <p class="contact-subtitle">
+                и наши менеджеры позвонят вам<br>
+                для подробной консультации
+            </p>
+
+            <div class="form-row">
+                <input
+                        type="text"
+                        name="fullname"
+                        placeholder="ФИО"
+                        required
+                >
+
+                <input
+                        type="tel"
+                        name="phone"
+                        id="phoneInput"
+                        placeholder="+7 (___) ___ __-__"
+                        required
+                >
+            </div>
+
+            <textarea
+                    name="comment"
+                    placeholder="Комментарий"
+                    required
+            ></textarea>
+
+            <div class="form-bottom">
+
+                <button type="submit" class="send-btn">
+                    Отправить
+                </button>
+
+                <label class="checkbox">
+                    <input type="checkbox" required>
+                    <span class="checkmark"></span>
+                    <p>
+                        Ставя отметку, я даю свое согласие на обработку
+                        своих персональных данных.
+                    </p>
+                </label>
+
+
+            </div>
+
+        </form>
+
+        <!-- MAP INFO -->
+        <div class="contact-info">
+            <p class="address">Астана, Мангилик Ел 36</p>
+            <p class="phone">+7 747 457 17 40</p>
+        </div>
+
+        <!-- MAP -->
+        <iframe
+                class="map"
+                src="https://www.google.com/maps?q=Astana%20Mangilik%20El%2036&output=embed"
+                loading="lazy">
+        </iframe>
+
+    </div>
+</section>
+
+<div class="academy-auth-modal" id="academyAuthModal" hidden>
+    <div class="academy-auth-modal__dialog">
+        <button class="academy-auth-modal__close" type="button" data-auth-close>×</button>
+        <div class="academy-auth-modal__tabs">
+            <button type="button" class="active" data-auth-tab="login">Login</button>
+            <button type="button" data-auth-tab="signup">Sign Up</button>
+        </div>
+        <p class="academy-auth-modal__feedback" id="academyAuthFeedback"></p>
+
+        <form id="academyLoginForm" data-auth-form="login">
+            <label>
+                Email
+                <input type="email" name="email" required>
+            </label>
+            <label>
+                Password
+                <input type="password" name="password" required>
+            </label>
+            <button class="btn-black" type="submit">Login</button>
+        </form>
+
+        <form id="academySignupForm" data-auth-form="signup" hidden>
+            <label>
+                Full Name
+                <input type="text" name="name" required>
+            </label>
+            <label>
+                Email
+                <input type="email" name="email" required>
+            </label>
+            <label>
+                Password
+                <input type="password" name="password" minlength="8" required>
+            </label>
+            <button class="btn-black" type="submit">Create Account</button>
+        </form>
+    </div>
+</div>
+
+<script src="../scripts/shared/animations.js"></script>
+<script src="../scripts/shared/auth-api.js"></script>
+<script src="../scripts/academy.js"></script>
+<script src="../scripts/academy-auth.js"></script>
+<footer class="site-footer">
+    <div class="container">
+        <div class="site-footer__top">
+            <div class="site-footer__brand">
+                <div class="site-footer__logo">INTEGRAT</div>
+                <p class="site-footer__tagline">Next-generation dental ecosystem: clinic, academy, laboratory and store.</p>
+            </div>
+
+            <nav class="site-footer__links">
+                <a class="site-footer__link" href="index.html">HOME</a>
+                <a class="site-footer__link" href="clinic.html">CLINIC</a>
+                <a class="site-footer__link" href="academy.html">ACADEMY</a>
+                <a class="site-footer__link" href="laboratory.html">LABORATORY</a>
+                <a class="site-footer__link" href="store.html">STORE</a>
+                <a class="site-footer__link" href="about.html">ABOUT US</a>
+            </nav>
+        </div>
+
+        <div class="site-footer__meta">
+            <p class="site-footer__copy">© 2026 Integrat. All rights reserved.</p>
+
+            <div class="site-footer__socials">
+                <a class="site-footer__social" href="#" aria-label="Instagram"><img src="../../assets/icons/instagram.svg" alt=""></a>
+                <a class="site-footer__social" href="#" aria-label="Telegram"><img src="../../assets/icons/telegram.svg" alt=""></a>
+                <a class="site-footer__social" href="#" aria-label="WhatsApp"><img src="../../assets/icons/whatsapp.svg" alt=""></a>
+                <a class="site-footer__social" href="#" aria-label="Google"><img src="../../assets/icons/google.svg" alt=""></a>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

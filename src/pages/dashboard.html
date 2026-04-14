@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Integrat — Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tooling -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/dashboard.css">
+</head>
+<body class="dashboard-page">
+
+    <!-- ================= HEADER (Simplified) ================= -->
+    <header class="header">
+        <div class="container header-inner">
+            <div class="logo">INTEGRAT <span style="font-size: 12px; color: #666;">DASHBOARD</span></div>
+            <nav class="nav-pill">
+                <a href="index.html" class="pill">Back to Site</a>
+            </nav>
+            <div class="header-right">
+                <button class="btn-black" onclick="localStorage.removeItem('token'); window.location.href='auth.html'">LOGOUT</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">System Activity</h1>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Contacts</h3>
+                <div class="value" id="totalContacts">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Appointments</h3>
+                <div class="value" id="totalAppointments">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Active Users</h3>
+                <div class="value" id="totalUsers">0</div>
+            </div>
+        </div>
+
+        <!-- CHART -->
+        <div class="chart-section">
+            <canvas id="activityChart" height="100"></canvas>
+        </div>
+
+        <!-- TABS -->
+        <div class="dashboard-tabs">
+            <button class="dashboard-tab active" data-tab="contacts">Contact Form Requests</button>
+            <button class="dashboard-tab" data-tab="appointments">Doctor Appointments</button>
+        </div>
+
+        <!-- DATA TABLE -->
+        <div class="data-table-container">
+            <div id="contactsContent">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>Phone</th>
+                            <th>Comment</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contactsTableBody">
+                        <!-- Data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="appointmentsContent" style="display: none;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Patient Email</th>
+                            <th>Doctor</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appointmentsTableBody">
+                        <!-- Data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="../scripts/shared/api.js"></script>
+    <script src="../scripts/dashboard.js"></script>
+</body>
+</html>

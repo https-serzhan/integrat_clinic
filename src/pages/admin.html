@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Integrat — Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/admin.css">
+</head>
+<body class="admin-page">
+<header class="admin-header">
+    <div class="container admin-header__inner">
+        <a href="academy.html" class="admin-header__back">← Back to Academy</a>
+        <h1>Admin Permissions</h1>
+        <button id="adminLogout" class="btn-black" type="button">LOGOUT</button>
+    </div>
+</header>
+
+<main class="container admin-main">
+    <section class="admin-card" id="adminAccessGuard">
+        <h2>Access Required</h2>
+        <p>You need an admin account to manage course permissions.</p>
+        <a class="admin-link" href="academy.html">Open academy login</a>
+    </section>
+
+    <section class="admin-card" id="adminPanel" hidden>
+        <h2>Grant Video Access</h2>
+        <form id="grantForm" class="admin-form">
+            <label>
+                User Email
+                <input type="email" name="email" placeholder="student@example.com" required>
+            </label>
+            <label>
+                Course
+                <select name="courseId" id="adminCourseSelect" required></select>
+            </label>
+            <label>
+                Note (optional)
+                <input type="text" name="note" placeholder="Payment confirmed in CRM">
+            </label>
+            <button class="btn-black" type="submit">Grant Permission</button>
+        </form>
+        <p id="adminFeedback" class="admin-feedback"></p>
+    </section>
+
+    <section class="admin-card" id="adminUsers" hidden>
+        <h2>Registered Users</h2>
+        <div id="adminUsersList" class="admin-list"></div>
+    </section>
+
+    <section class="admin-card" id="adminGrants" hidden>
+        <h2>Current Grants</h2>
+        <div id="adminGrantsList" class="admin-list"></div>
+    </section>
+</main>
+
+<script src="../scripts/shared/auth-api.js"></script>
+<script src="../scripts/admin.js"></script>
+</body>
+</html>
