@@ -1,16 +1,51 @@
-# Integrat Clinic - Local Run Guide
+# Integrat Dental Ecosystem
 
-Simple full-stack run: static frontend + FastAPI backend.
+A frontend-first multi-page dental platform that brings clinic services, academy content, laboratory offerings, and store pages into one branded web experience.
 
-## 1) Requirements
+## Problem Statement
+Dental brands often present their services across disconnected pages, tools, or platforms. That creates a fragmented user experience for patients, doctors, and students. This project explores a unified digital ecosystem where users can discover services, browse specialists, submit inquiries, log in, and access educational content in one place.
 
-- Python 3.10+
-- `pip`
-- Any static file server (Live Server extension or Python `http.server`)
+## Features
+- Multi-page frontend experience for Home, Clinic, Doctors, Academy, Laboratory, Store, About, FAQ, Auth, Admin, Dashboard, and Videos
+- Reusable frontend sections such as navigation, hero blocks, sliders, cards, footer, and modal windows
+- Contact forms integrated across multiple pages
+- Doctor listing with filters and modal-based appointment flow
+- FastAPI backend for contacts, doctors, authentication, and appointments
+- Express backend for academy login, course access control, and admin permissions
+- Admin page for granting student access to academy content
+- Dashboard page for viewing contacts and appointments
+- Visual branding with custom assets, responsive layouts, and page-specific styling
 
-## 2) Backend setup (API)
+## Project Structure
+- `pages/` - HTML pages
+- `css/` - global and page-specific styles
+- `js/` - frontend scripts
+- `js/shared/` - shared frontend utilities
+- `assets/` - images and illustrations
+- `icons/` - UI icons
+- `main.py` - FastAPI backend
+- `schema.sql` - SQLite schema
+- `backend/` - Express backend for academy access flow
 
-From project root:
+## Installation
+
+### 1. Frontend Preview
+To preview the static frontend pages:
+
+```bash
+python3 -m http.server 5500
+```
+
+Then open:
+
+```text
+http://127.0.0.1:5500/pages/index.html
+```
+
+## 2. FastAPI Backend
+Use this backend for contacts, doctors, auth, and appointments.
+
+Create a virtual environment and install dependencies:
 
 ```bash
 python3 -m venv .venv
@@ -18,117 +53,63 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Create env file (already included in repo as `.env`):
-
-```env
-APP_NAME=Integrat Clinic API
-APP_ENV=development
-DEBUG=true
-DATABASE_PATH=./integrat_clinic.db
-JWT_SECRET=dev-secret-please-change
-JWT_ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=60
-CORS_ORIGINS=http://localhost:5500,http://127.0.0.1:5500,http://localhost:3000,http://127.0.0.1:3000
-```
-
-Start backend:
+Run the API:
 
 ```bash
 uvicorn main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-Health check:
+## 3. Academy Backend
+Use this backend for academy login, course access, and admin permission control.
 
 ```bash
-curl http://127.0.0.1:8000/health
+cd backend
+npm install
+npm run dev
 ```
 
-Expected:
+Then open:
 
-```json
-{ "status": "ok", "environment": "development" }
+```text
+http://localhost:3000/pages/academy.html
 ```
 
-Notes:
+## Usage Instructions
 
-- SQLite schema is auto-created on startup from `app/db/schema.sql`.
-- DB file will appear as `integrat_clinic.db` in project root.
+### Main Website
+- Start the frontend preview server.
+- Open `pages/index.html`.
+- Navigate between the Clinic, Doctors, Academy, Laboratory, Store, About, and FAQ pages.
+- Use the contact forms on supported pages.
+- Open `pages/auth.html` for registration and login.
+- Use the Doctors page and modal flow to test appointment creation.
 
-## 3) Frontend setup (site)
+### Academy Flow
+- Open `pages/academy.html` through the Express backend.
+- Sign up or log in.
+- Visit `pages/videos.html?course=endo-faq`.
+- Use `pages/admin.html` to grant course access after purchase confirmation.
 
-Use a static server from the same project root.
+Default admin credentials:
+- Email: `admin@integrat.local`
+- Password: `Admin123!`
 
-Option A (VS Code Live Server):
+## Screenshots
+Screenshots can be added here after export from the final UI.
 
-- Open `pages/index.html`
-- Click "Go Live"
-- Usually runs on `http://127.0.0.1:5500`
+Suggested screenshots:
+- Home page
+- Doctors page
+- Academy page
+- Admin page
+- Videos page
 
-Option B (Python static server):
+## Technology Stack
+- Frontend: HTML5, CSS3, Vanilla JavaScript
+- Backend API: Python, FastAPI, SQLite, aiosqlite
+- Academy backend: Node.js, Express
+- Charts: Chart.js
+- Assets: SVG, PNG, JPG
 
-```bash
-python3 -m http.server 5500
-```
-
-Open:
-
-- `http://127.0.0.1:5500/pages/index.html`
-
-## 4) Connect frontend -> backend
-
-Use this API base URL in JS:
-
-```js
-const API_BASE = "http://127.0.0.1:8000";
-```
-
-Example login:
-
-```js
-const loginRes = await fetch(`${API_BASE}/auth/login`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ email: "admin@test.com", password: "12345678" }),
-});
-const { access_token } = await loginRes.json();
-```
-
-Example authorized request:
-
-```js
-const res = await fetch(`${API_BASE}/clinics?lat=51.1&lng=71.4`, {
-  headers: { Authorization: `Bearer ${access_token}` },
-});
-const data = await res.json();
-```
-
-## 5) Minimal demo flow
-
-1. Register user:
-
-```bash
-curl -X POST http://127.0.0.1:8000/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"email":"admin@test.com","password":"12345678"}'
-```
-
-2. Login and copy `access_token`:
-
-```bash
-curl -X POST http://127.0.0.1:8000/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"admin@test.com","password":"12345678"}'
-```
-
-3. Query clinics:
-
-```bash
-curl "http://127.0.0.1:8000/clinics?lat=51.1&lng=71.4"
-```
-
-## 6) Common issues
-
-- `ModuleNotFoundError`: dependencies not installed -> run `pip install -r requirements.txt`.
-- `CORS` errors in browser -> ensure frontend URL is in `CORS_ORIGINS`.
-- `401 Unauthorized` -> JWT missing/invalid in `Authorization: Bearer <token>`.
-- Port busy -> run backend on another port (`--port 8001`) and update frontend API base.
+## Notes
+This repository is primarily strongest on the frontend side: page design, layout work, reusable UI sections, and interactive client-side behavior. The backend parts are included as supporting prototypes for forms, authentication, appointments, and academy access.
