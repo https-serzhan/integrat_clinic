@@ -11,7 +11,7 @@
 <header class="admin-header">
     <div class="container admin-header__inner">
         <a href="academy.html" class="admin-header__back">← Back to Academy</a>
-        <h1>Admin Permissions</h1>
+        <h1>Admin Confirmation</h1>
         <button id="adminLogout" class="btn-black" type="button">LOGOUT</button>
     </div>
 </header>
@@ -19,27 +19,13 @@
 <main class="container admin-main">
     <section class="admin-card" id="adminAccessGuard">
         <h2>Access Required</h2>
-        <p>You need an admin account to manage course permissions.</p>
+        <p>You need an admin account to manage course payment requests.</p>
         <a class="admin-link" href="academy.html">Open academy login</a>
     </section>
 
     <section class="admin-card" id="adminPanel" hidden>
-        <h2>Grant Video Access</h2>
-        <form id="grantForm" class="admin-form">
-            <label>
-                User Email
-                <input type="email" name="email" placeholder="student@example.com" required>
-            </label>
-            <label>
-                Course
-                <select name="courseId" id="adminCourseSelect" required></select>
-            </label>
-            <label>
-                Note (optional)
-                <input type="text" name="note" placeholder="Payment confirmed in CRM">
-            </label>
-            <button class="btn-black" type="submit">Grant Permission</button>
-        </form>
+        <h2>Payment Requests</h2>
+        <div id="adminPaymentRequestsList" class="admin-list"></div>
         <p id="adminFeedback" class="admin-feedback"></p>
     </section>
 
@@ -47,13 +33,12 @@
         <h2>Registered Users</h2>
         <div id="adminUsersList" class="admin-list"></div>
     </section>
-
-    <section class="admin-card" id="adminGrants" hidden>
-        <h2>Current Grants</h2>
-        <div id="adminGrantsList" class="admin-list"></div>
-    </section>
 </main>
 
+<script src="../scripts/shared/config.local.js"></script>
+<script src="../scripts/shared/site-config.js"></script>
+<script src="../scripts/shared/i18n.js"></script>
+<script src="../scripts/shared/site-data.js"></script>
 <script src="../scripts/shared/auth-api.js"></script>
 <script src="../scripts/admin.js"></script>
 </body>

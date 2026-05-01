@@ -1,4 +1,4 @@
-/* ================= CLINIC PAGE ================= */
+
 
 .page-clinic .hero-bg-text {
     left: 0;
@@ -6,12 +6,9 @@
     letter-spacing: -6px;
 }
 
-/* Hero mission card */
 .page-clinic .clinic-mission {
     width: 420px;
 }
-
-/* ================= CLINIC DIRECTIONS ================= */
 
 .clinic-directions {
     padding: 140px 0;
@@ -26,14 +23,12 @@
     align-items: start;
 }
 
-/* LEFT TITLE */
 .clinic-directions-text h2 {
     font-size: 40px;
     line-height: 1.25;
     font-weight: 600;
 }
 
-/* CENTER TOOTH */
 .clinic-tooth {
     grid-column: 2;
     grid-row: 1 / 4;
@@ -47,7 +42,6 @@
     width: auto;
 }
 
-/* CARDS BASE */
 .clinic-card {
     background: #000;
     color: #fff;
@@ -69,7 +63,6 @@
     opacity: 0.8;
 }
 
-/* CARD INDEX */
 .card-index {
     position: absolute;
     top: 20px;
@@ -84,7 +77,6 @@
     font-size: 14px;
 }
 
-/* CARD POSITIONS */
 .card-01 {
     grid-column: 1;
     grid-row: 2;
@@ -101,7 +93,6 @@
     grid-row: 1;
 }
 
-/* RIGHT PRINCIPLE */
 .clinic-principle {
     grid-column: 3;
     grid-row: 3;
@@ -118,9 +109,6 @@
     max-width: 420px;
 }
 
-
-/* ================= CLINIC SERVICES ================= */
-
 .clinic-services {
     padding: 120px 0;
 }
@@ -131,7 +119,6 @@
     gap: 32px;
 }
 
-/* CARD */
 .service-card {
     position: relative;
     background: #000;
@@ -145,21 +132,22 @@
     justify-content: space-between;
 }
 
-/* TITLE */
 .service-card h4 {
     font-size: 22px;
     line-height: 1.25;
     font-weight: 500;
 }
 
-/* TEXT */
 .service-card p {
     font-size: 14px;
     line-height: 1.5;
     opacity: 0.75;
 }
 
-/* PLUS BUTTON */
+.service-card.is-active {
+    box-shadow: 0 0 0 2px #f59e0b inset;
+}
+
 .service-plus {
     position: absolute;
     top: 20px;
@@ -182,23 +170,16 @@
     justify-content: center;
 }
 
-/* OPTIONAL HOVER */
 .service-card:hover .service-plus {
     background: #fff;
     color: #000;
     transition: 0.2s;
 }
 
-
-/* ================= DOCTORS SECTION ================= */
-
-/* ================= OUR DOCTORS ================= */
-
 .clinic-doctors {
     padding: 120px 0;
 }
 
-/* Header */
 .doctors-header {
     display: flex;
     justify-content: space-between;
@@ -211,7 +192,6 @@
     font-weight: 600;
 }
 
-/* fake grid icon (top-right) */
 .doctors-icon {
     width: 32px;
     height: 32px;
@@ -224,34 +204,30 @@
     background-repeat: no-repeat;
 }
 
-/* Scroll container */
 .doctors-scroll {
     overflow-x: auto;
     padding-left: calc((100vw - 1440px) / 2 + 32px);
     padding-bottom: 20px;
 
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE */
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
 }
 
 .doctors-scroll::-webkit-scrollbar {
-    display: none; /* Chrome / Safari */
+    display: none; 
 }
 
-/* Track */
 .doctors-track {
     display: flex;
     gap: 32px;
     width: max-content;
 }
 
-/* Card */
 .doctor-card {
     width: 320px;
     flex-shrink: 0;
 }
 
-/* Photo */
 .doctor-photo {
     width: 100%;
     height: 360px;
@@ -267,7 +243,6 @@
     object-fit: cover;
 }
 
-/* Text */
 .doctor-card h4 {
     font-size: 18px;
     font-weight: 600;
@@ -279,16 +254,10 @@
     color: #666;
 }
 
-
-/* ================= TREATMENTS SLIDER ================= */
-
-/* ================= TREATMENTS (CENTER CAROUSEL) ================= */
-
 .treatments {
     padding: 120px 0 140px;
 }
 
-/* top header area */
 .treatments-top {
     display: grid;
     grid-template-columns: 64px 1fr 64px;
@@ -328,14 +297,12 @@
     cursor: pointer;
 }
 
-/* slider viewport */
 .treatments-slider {
     position: relative;
-    overflow: hidden; /* important */
+    overflow: hidden; 
     padding: 20px 0 0;
 }
 
-/* track */
 .treatments-track {
     display: flex;
     align-items: center;
@@ -344,11 +311,10 @@
     will-change: transform;
 }
 
-/* each slide */
 .treat-slide {
     flex: 0 0 auto;
-    width: 860px; /* center card size (tune if needed) */
-    transform: scale(0.72); /* minimized default */
+    width: 860px; 
+    transform: scale(0.72); 
     opacity: 0.35;
     transition: transform 700ms ease, opacity 700ms ease;
     transform-origin: center center;
@@ -359,7 +325,6 @@
     opacity: 1;
 }
 
-/* image card */
 .treat-card {
     border-radius: 36px;
     overflow: hidden;
@@ -373,14 +338,12 @@
     display: block;
 }
 
-/* GLOBAL OVERLAYS */
 .treat-overlay {
     position: absolute;
     bottom: 36px;
     z-index: 5;
 }
 
-/* SEE ALL CASES */
 .treat-overlay-left {
     bottom: 0;
     left: 80px;
@@ -391,7 +354,6 @@
     color: #000;
 }
 
-/* GRID BUTTON */
 .treat-overlay-right {
     bottom: 0;
     right: 80px;
@@ -410,14 +372,9 @@
     border-radius: 2px;
 }
 
-
-/* hide scrollbar if browser adds it */
 .treatments-slider::-webkit-scrollbar {
     display: none;
 }
-
-
-/* ================= REVIEWS ================= */
 
 .reviews {
     padding: 140px 0;
@@ -429,7 +386,6 @@
     margin-bottom: 64px;
 }
 
-/* scroll container */
 .reviews-scroll {
     overflow-x: auto;
     overflow-y: hidden;
@@ -437,7 +393,6 @@
     padding-bottom: 20px;
 }
 
-/* hide scrollbar */
 .reviews-scroll::-webkit-scrollbar {
     display: none;
 }
@@ -447,14 +402,12 @@
     scrollbar-width: none;
 }
 
-/* horizontal row */
 .reviews-track {
     display: flex;
     gap: 32px;
     padding: 0 80px;
 }
 
-/* card */
 .review-card {
     position: relative;
     flex: 0 0 520px;
@@ -465,13 +418,11 @@
     padding: 32px;
 }
 
-/* name */
 .review-name {
     font-size: 22px;
     margin-bottom: 20px;
 }
 
-/* text */
 .review-text {
     font-size: 16px;
     line-height: 1.6;
@@ -479,7 +430,6 @@
     max-width: 420px;
 }
 
-/* doctor */
 .review-doctor {
     position: absolute;
     left: 32px;
@@ -488,7 +438,6 @@
     opacity: 0.85;
 }
 
-/* decorative dot */
 .review-dot {
     position: absolute;
     top: 28px;
@@ -498,9 +447,6 @@
     background: #e6e6e6;
     border-radius: 50%;
 }
-
-
-/* ================= DOCTOR MODAL ================= */
 
 .doctor-modal-overlay {
     position: fixed;
@@ -516,7 +462,6 @@
     display: flex;
 }
 
-/* modal card */
 .doctor-modal {
     width: 880px;
     max-height: 90vh;
@@ -527,7 +472,6 @@
     overflow-y: auto;
 }
 
-/* close */
 .doctor-modal-close {
     position: absolute;
     top: 20px;
@@ -538,7 +482,6 @@
     cursor: pointer;
 }
 
-/* top images */
 .doctor-modal-top {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -546,9 +489,6 @@
     margin-bottom: 24px;
 }
 
-
-
-/* header */
 .doctor-header {
     display: flex;
     justify-content: space-between;
@@ -571,7 +511,6 @@
     opacity: .7;
 }
 
-/* text */
 .doctor-text {
     font-size: 15px;
     line-height: 1.6;
@@ -582,20 +521,16 @@
     margin-top: 12px;
 }
 
-/* buttons */
 .doctor-actions {
     display: flex;
     gap: 16px;
 }
 
-
-/* ================= CLINIC HERO OVERRIDES ================= */
-
 .page-clinic .hero-person {
-    left: auto; /* cancel centering */
-    right: 40px; /* push to the right */
-    transform: none; /* remove translateX */
-    height: 680px; /* optional fine-tuning */
+    left: auto; 
+    right: 40px; 
+    transform: none; 
+    height: 680px; 
 }
 
 @media (max-width: 1200px) {

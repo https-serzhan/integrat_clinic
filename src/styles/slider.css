@@ -1,4 +1,4 @@
-/* ================= COURSE SLIDER ================= */
+
 .course-slider {
     padding: 120px 0;
 }
@@ -34,7 +34,6 @@
     align-items: center;
 }
 
-/* Progress */
 .course-progress {
     position: absolute;
     left: 40px;

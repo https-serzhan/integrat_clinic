@@ -1,4 +1,4 @@
-/* ================= HEADER ================= */
+
 .header {
     padding: 24px 32px;
     font-family: var(--font-display);
@@ -16,27 +16,26 @@
     font-weight: 700;
 }
 
-/* Navigation pills */
 .nav-pill {
     margin: 0 auto;
     background: #e6e6e6;
     padding: 6px;
     border-radius: 999px;
     display: flex;
-    gap: 8px; /* Reduced gap */
+    gap: 8px; 
 }
 
 .pill {
-    padding: 8px 14px; /* Reduced padding */
+    padding: 8px 14px; 
     border-radius: 999px;
-    font-size: 13px; /* Reduced font size */
-    font-weight: 600; /* Made slightly bolder */
+    font-size: 13px; 
+    font-weight: 600; 
     letter-spacing: 0.5px;
     background: #fff;
     color: #000;
     text-decoration: none;
     line-height: 1;
-    white-space: nowrap; /* Prevent "ABOUT US" wrapping */
+    white-space: nowrap; 
     transition: all 0.3s ease;
 }
 

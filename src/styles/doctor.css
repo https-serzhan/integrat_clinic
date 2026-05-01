@@ -19,8 +19,6 @@ body {
     align-items: stretch;
 }
 
-/* LEFT SIDE */
-
 .doctor-info {
     background: #000;
     color: #fff;
@@ -75,8 +73,6 @@ body {
     background: #ddd;
 }
 
-/* RIGHT SIDE SLIDER */
-
 .doctor-slider {
     width: 60%;
     position: relative;
@@ -125,8 +121,6 @@ body {
 .slider-controls button:hover {
     background: #000;
 }
-
-/* RESPONSIVE */
 
 @media (max-width: 992px) {
     .doctor-container {

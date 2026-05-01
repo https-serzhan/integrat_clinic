@@ -1,57 +1,51 @@
-const slides = document.querySelectorAll('.slide');
-const nextBtn = document.querySelector('.next');
-const prevBtn = document.querySelector('.prev');
-const slider = document.querySelector('.doctor-slider');
+(function doctorCasePage(documentObject) {
+  const slides = Array.from(documentObject.querySelectorAll('.slide'));
+  const nextButton = documentObject.querySelector('.next');
+  const prevButton = documentObject.querySelector('.prev');
+  const slider = documentObject.querySelector('.doctor-slider');
+  const bookingButton = documentObject.querySelector('.doctor-btn');
 
-let currentIndex = 0;
-let autoPlayInterval;
+  if (!slides.length || !nextButton || !prevButton || !slider) return;
 
-/* SHOW SLIDE */
-function showSlide(index) {
-    slides.forEach(slide => slide.classList.remove('active'));
-    slides[index].classList.add('active');
-}
+  let currentIndex = 0;
+  let autoplayId = null;
 
-/* NEXT */
-function nextSlide() {
-    currentIndex++;
-    if (currentIndex >= slides.length) {
-        currentIndex = 0;
-    }
+  function showSlide(index) {
+    slides.forEach((slide, slideIndex) => {
+      slide.classList.toggle('active', slideIndex === index);
+    });
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % slides.length;
     showSlide(currentIndex);
-}
+  }
 
-/* PREVIOUS */
-function prevSlide() {
-    currentIndex--;
-    if (currentIndex < 0) {
-        currentIndex = slides.length - 1;
-    }
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
     showSlide(currentIndex);
-}
+  }
 
-/* AUTOPLAY */
-function startAutoPlay() {
-    autoPlayInterval = setInterval(() => {
-        nextSlide();
-    }, 4000); // change every 4 seconds
-}
+  function startAutoplay() {
+    if (autoplayId) clearInterval(autoplayId);
+    autoplayId = setInterval(nextSlide, 4000);
+  }
 
-function stopAutoPlay() {
-    clearInterval(autoPlayInterval);
-}
+  function stopAutoplay() {
+    if (autoplayId) {
+      clearInterval(autoplayId);
+      autoplayId = null;
+    }
+  }
 
-/* EVENTS */
-nextBtn.addEventListener('click', () => {
-    nextSlide();
-});
+  nextButton.addEventListener('click', nextSlide);
+  prevButton.addEventListener('click', prevSlide);
+  bookingButton?.addEventListener('click', () => {
+    window.location.href = 'doctors.html';
+  });
+  slider.addEventListener('mouseenter', stopAutoplay);
+  slider.addEventListener('mouseleave', startAutoplay);
 
-prevBtn.addEventListener('click', () => {
-    prevSlide();
-});
-
-slider.addEventListener('mouseenter', stopAutoPlay);
-slider.addEventListener('mouseleave', startAutoPlay);
-
-/* INIT */
-startAutoPlay();
+  showSlide(currentIndex);
+  startAutoplay();
+})(document);

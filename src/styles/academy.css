@@ -1,4 +1,3 @@
-/* ================= BASE ================= */
 
 
 :root {
@@ -21,8 +20,6 @@ body {
 .academy-hero * {
     font-family: var(--font-display);
 }
-
-/* ================= HEADER OVER HERO ================= */
 
 .header-overlay {
     color: #ffffff;
@@ -123,6 +120,10 @@ body {
     gap: 10px;
 }
 
+.academy-auth-modal form[hidden] {
+    display: none !important;
+}
+
 .academy-auth-modal label {
     display: grid;
     gap: 5px;
@@ -146,8 +147,6 @@ body {
     color: #b10000;
 }
 
-/* ================= HERO ================= */
-
 .academy-hero {
     position: relative;
     z-index: 1;
@@ -164,14 +163,11 @@ body {
     background-position: top center;
 }
 
-/* dark overlay for text contrast */
 .academy-overlay {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.25);
 }
-
-/* ================= CONTENT ================= */
 
 .academy-content {
     position: relative;
@@ -187,14 +183,12 @@ body {
     color: #fff;
 }
 
-/* title */
 .academy-content h1 {
     font-size: 72px;
     font-weight: 500;
     margin-bottom: 24px;
 }
 
-/* description */
 .academy-content p {
     color: #EDEDED;
     font-size: 18px;
@@ -203,7 +197,6 @@ body {
     margin-bottom: 40px;
 }
 
-/* button */
 .academy-btn {
     display: inline-flex;
     align-items: center;
@@ -248,8 +241,6 @@ body {
     background: #fff;
 }
 
-/* ================= RESPONSIVE ================= */
-
 @media (max-width: 1024px) {
     .academy-slide {
         height: 560px;
@@ -270,15 +261,13 @@ body {
     }
 }
 
-/* ================= ACADEMY TEXT SECTION ================= */
-
 .academy-text {
     border-radius: 48px 48px 0 0;
 
-    /* pull it upward over hero */
+    
     margin-top: calc(-1 * var(--academy-hero-overlap));
 
-    /* spacing */
+    
     padding: 120px 0;
 
     position: relative;
@@ -300,7 +289,6 @@ body {
     align-items: start;
 }
 
-/* LEFT TITLE */
 .academy-title {
     font-size: 56px;
     line-height: 1.15;
@@ -309,7 +297,6 @@ body {
     color: #000;
 }
 
-/* RIGHT TEXT */
 .academy-info p {
     font-size: 18px;
     line-height: 1.6;
@@ -318,13 +305,11 @@ body {
     margin-bottom: 36px;
 }
 
-/* SOCIALS */
 .academy-socials {
     display: flex;
     gap: 32px;
 }
 
-/* ICON CIRCLES */
 .social {
     width: 56px;
     height: 56px;
@@ -349,13 +334,11 @@ body {
     opacity: 0.85;
 }
 
-/* SECTION */
 .doctors-slider {
     padding: 80px 20px;
     overflow: hidden;
 }
 
-/* HORIZONTAL SCROLL TRACK */
 .doctors-track {
     display: flex;
     gap: 32px;
@@ -370,7 +353,6 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
-/* HIDE SCROLLBAR (ALL BROWSERS) */
 .doctors-track::-webkit-scrollbar {
     display: none;
 }
@@ -379,7 +361,6 @@ body {
     scrollbar-width: none;
 }
 
-/* CARD */
 .doctor-slide {
     flex: 0 0 420px;
     height: 560px;
@@ -397,7 +378,6 @@ body {
     scroll-snap-align: start;
 }
 
-/* TIMES */
 .doctor-times {
     display: grid;
     grid-template-columns: repeat(2, max-content);
@@ -412,7 +392,6 @@ body {
     font-size: 12px;
 }
 
-/* INFO */
 .doctor-info h4 {
     font-size: 20px;
     margin-bottom: 8px;
@@ -423,7 +402,6 @@ body {
     opacity: 0.7;
 }
 
-/* BUTTON */
 .doctor-btn {
     display: flex;
     align-items: center;
@@ -444,7 +422,6 @@ body {
     font-size: 22px;
 }
 
-/* OUTLINE VARIANT */
 .doctor-btn.outline {
     background: transparent;
     color: #fff;
@@ -490,6 +467,10 @@ body {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 32px 28px;
+}
+
+.academy-grid > .content-state {
+    grid-column: 1 / -1;
 }
 
 .academy-card {
@@ -730,8 +711,70 @@ body {
     cursor: pointer;
 }
 
+.academy-feedback {
+    margin: 16px 0;
+    font-size: 14px;
+    color: #2d3748;
+}
 
-/* ================= REVIEWS ================= */
+.academy-feedback.is-error {
+    color: #b91c1c;
+}
+
+.academy-feedback.is-success {
+    color: #166534;
+}
+
+.academy-card--skeleton .academy-card__media {
+    height: 240px;
+    border-radius: 18px;
+}
+
+.academy-card--skeleton .academy-card__body {
+    display: grid;
+    gap: 10px;
+}
+
+.academy-purchases {
+    margin-top: 28px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 18px;
+}
+
+.academy-purchases__head {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.academy-purchases__list {
+    display: grid;
+    gap: 10px;
+}
+
+.academy-purchases__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    border: 1px solid #dbe2ea;
+    border-radius: 12px;
+    background: #fff;
+    padding: 10px 12px;
+    transition: border-color 0.2s ease;
+}
+
+.academy-purchases__item:hover {
+    border-color: #111827;
+}
+
+.academy-purchases__empty {
+    color: #64748b;
+    font-size: 14px;
+}
 
 .reviews {
     padding: 140px 0;
@@ -743,7 +786,6 @@ body {
     margin-bottom: 64px;
 }
 
-/* scroll container */
 .reviews-scroll {
     overflow-x: auto;
     overflow-y: hidden;
@@ -751,7 +793,6 @@ body {
     padding-bottom: 20px;
 }
 
-/* hide scrollbar */
 .reviews-scroll::-webkit-scrollbar {
     display: none;
 }
@@ -761,14 +802,12 @@ body {
     scrollbar-width: none;
 }
 
-/* horizontal row */
 .reviews-track {
     display: flex;
     gap: 32px;
     padding: 0 80px;
 }
 
-/* card */
 .review-card {
     position: relative;
     flex: 0 0 520px;
@@ -779,13 +818,11 @@ body {
     padding: 32px;
 }
 
-/* name */
 .review-name {
     font-size: 22px;
     margin-bottom: 20px;
 }
 
-/* text */
 .review-text {
     font-size: 16px;
     line-height: 1.6;
@@ -793,7 +830,6 @@ body {
     max-width: 420px;
 }
 
-/* doctor */
 .review-doctor {
     position: absolute;
     left: 32px;
@@ -802,7 +838,6 @@ body {
     opacity: 0.85;
 }
 
-/* decorative dot */
 .review-dot {
     position: absolute;
     top: 28px;
@@ -813,15 +848,10 @@ body {
     border-radius: 50%;
 }
 
-
-
-/* ================= DOCTORS LIST ================= */
-
 .doctors-list {
     padding: 120px 0;
 }
 
-/* header */
 .doctors-list-header {
     display: flex;
     align-items: center;
@@ -834,7 +864,6 @@ body {
     font-weight: 500;
 }
 
-/* filters */
 .doctors-filters {
     display: flex;
     gap: 100px;
@@ -854,14 +883,12 @@ body {
     font-weight: 500;
 }
 
-/* grid */
 .doctors-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 40px 32px;
 }
 
-/* card */
 .doctor-card {
     cursor: pointer;
 }

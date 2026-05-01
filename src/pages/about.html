@@ -5,22 +5,18 @@
     <title>Integrat — Academy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Global -->
     <link rel="stylesheet" href="../styles/global.css">
 
-    <!-- Page -->
     <link rel="stylesheet" href="../styles/academy.css">
     <link rel="stylesheet" href="../styles/about.css">
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
 <header class="header header-overlay">
     <div class="container header-inner">
         <div class="logo">INTEGRAT</div>
@@ -30,8 +26,6 @@
             <a href="clinic.html" class="pill">CLINIC</a>
             <a href="doctors.html" class="pill">DOCTORS</a>
             <a href="academy.html" class="pill">ACADEMY</a>
-            <a href="laboratory.html" class="pill">LABORATORY</a>
-            <a href="store.html" class="pill">STORE</a>
             <a href="about.html" class="pill active">ABOUT US</a>
         </nav>
 
@@ -42,10 +36,8 @@
     </div>
 </header>
 
-<!-- ================= HERO / SLIDER ================= -->
 <section class="academy-hero">
 
-    <!-- SLIDE -->
     <div class="academy-slide"
          style="background-image: url('../../assets/images/about-hero.svg');">
 
@@ -77,7 +69,6 @@
 <section class="academy-text">
     <div class="academy-text-inner">
 
-        <!-- LEFT -->
         <h2 class="academy-title">
             Explore the artistry and<br>
             precision behind our<br>
@@ -85,7 +76,6 @@
             photography
         </h2>
 
-        <!-- RIGHT -->
         <div class="academy-info">
             <p>
                 Patient-centered, optimal treatment —
@@ -96,8 +86,8 @@
             </p>
 
             <div class="academy-socials">
-                <a href="" class="social"><img src="../../assets/icons/instagram.svg" alt="INST"></a>
-                <a href="#" class="social"><img src="../../assets/icons/telegram.svg" alt="TG"></a>
+                <a href="https://www.instagram.com/https.serzhan/" class="social" target="_blank" rel="noopener noreferrer"><img src="../../assets/icons/instagram.svg" alt="INST"></a>
+                <a href="https://t.me/altawh1d" class="social" target="_blank" rel="noopener noreferrer"><img src="../../assets/icons/telegram.svg" alt="TG"></a>
                 <a href="#" class="social"><img src="../../assets/icons/whatsapp.svg" alt="WHT"></a>
                 <a href="#" class="social"><img src="../../assets/icons/google.svg" alt="Google"></a>
             </div>
@@ -107,73 +97,18 @@
 </section>
 
 <section class="doctors-slider">
-    <div class="doctors-track">
-
-        <article class="doctor-slide">
-            <div class="doctor-times">
-                <span>TIME:</span>
-                <span>TIME:</span>
-                <span>TIME:</span>
-                <span>TIME:</span>
-            </div>
-
-            <div class="doctor-info">
-                <h4>Dr. Aben</h4>
-                <p>Architect of the clinic</p>
-            </div>
-
-            <button class="doctor-btn">
-                MORE DETAILS
-                <span>›</span>
-            </button>
-        </article>
-
-        <article class="doctor-slide">
-            <div class="doctor-info">
-                <h4>Dr. Aben</h4>
-            </div>
-
-            <button class="doctor-btn outline">
-                MORE DETAILS
-                <span>›</span>
-            </button>
-        </article>
-
-        <article class="doctor-slide">
-            <div class="doctor-info">
-                <h4>Dr. Aben</h4>
-            </div>
-
-            <button class="doctor-btn outline">
-                MORE DETAILS
-                <span>›</span>
-            </button>
-        </article>
-
-        <article class="doctor-slide">
-            <div class="doctor-info">
-                <h4>Dr. Aben</h4>
-            </div>
-
-            <button class="doctor-btn outline">
-                MORE DETAILS
-                <span>›</span>
-            </button>
-        </article>
+    <div class="doctors-track" data-people-slider="doctors" data-people-limit="4">
 
     </div>
 </section>
 
-
-
-<section class="doctors-list">
+<section class="doctors-list" data-people-section="doctors">
     <div class="container">
 
-        <!-- HEADER -->
         <div class="doctors-list-header">
             <h2>OUR TEAM</h2>
 
-            <div class="doctors-filters">
+            <div class="doctors-filters" data-people-filters="doctors">
                 <button class="filter-btn active" data-filter="all">All</button>
                 <button class="filter-btn" data-filter="veneers">Veneers</button>
                 <button class="filter-btn" data-filter="implants">Implants</button>
@@ -181,50 +116,12 @@
             </div>
         </div>
 
-        <!-- GRID -->
-        <div class="doctors-grid">
-
-            <!-- Doctor card -->
-            <article class="doctor-card"
-                     data-category="veneers implants"
-                     data-name="Dr. Aben"
-                     data-role="Architect of the clinic"
-                     data-exp="12"
-                     data-edu="2013 – Dentistry, WK Medical University<br>2014 – General Dentist"
-                     data-spec="Veneers, aesthetic dentistry, restorative care"
-                     data-img="../../assets/images/orange-doctor.png">
-
-                <div class="doctor-photo">
-                    <img src="../../assets/images/orange-doctor.png" alt="">
-                </div>
-                <h4>Dr. Aben</h4>
-                <p>Architect of the clinic</p>
-            </article>
-
-            <!-- Duplicate cards freely -->
-            <article class="doctor-card"
-                     data-category="ortho"
-                     data-name="Dr. Aben"
-                     data-role="Orthodontist"
-                     data-exp="8"
-                     data-edu="Orthodontics specialization"
-                     data-spec="Braces, aligners, bite correction"
-                     data-img="../../assets/images/orange-doctor.png">
-
-                <div class="doctor-photo">
-                    <img src="../../assets/images/blue-doctor.png" alt="">
-                </div>
-                <h4>Dr. Aben</h4>
-                <p>Architect of the clinic</p>
-            </article>
+        <div class="doctors-grid" data-people-grid="doctors">
 
         </div>
     </div>
 </section>
 
-
-
-<!-- ================= ABOUT / VIDEO SLIDER ================= -->
 <section class="about-section">
     <div class="container about-header">
         <h2 class="about-title">ABOUT INTEGRAT</h2>
@@ -240,7 +137,6 @@
 
             <div class="video-track">
 
-                <!-- VIDEO 1 -->
                 <div class="video-slide active">
                     <video
                             src="https://www.w3schools.com/html/mov_bbb.mp4"
@@ -249,7 +145,6 @@
                     <div class="play-overlay">▶</div>
                 </div>
 
-                <!-- VIDEO 2 -->
                 <div class="video-slide">
                     <video
                             src="https://www.w3schools.com/html/mov_bbb.mp4"
@@ -258,7 +153,6 @@
                     <div class="play-overlay">▶</div>
                 </div>
 
-                <!-- VIDEO 3 -->
                 <div class="video-slide">
                     <video
                             src="https://www.w3schools.com/html/mov_bbb.mp4"
@@ -272,9 +166,12 @@
     </div>
 </section>
 
-
-
-<script src="../scripts/shared/api.js"></script>
+<script src="../scripts/shared/config.local.js"></script>
+<script src="../scripts/shared/site-config.js"></script>
+<script src="../scripts/shared/i18n.js"></script>
+    <script src="../scripts/shared/site-data.js"></script>
+    <script src="../scripts/shared/people-grid.js"></script>
+    <script src="../scripts/shared/api.js"></script>
 <script src="../scripts/shared/animations.js"></script>
 <script src="../scripts/shared/contact-form.js"></script>
 <script src="../scripts/shared/doctor-modal.js"></script>

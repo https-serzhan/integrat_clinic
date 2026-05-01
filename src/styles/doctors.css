@@ -1,4 +1,4 @@
-/* ================= PAGE BASE ================= */
+
 
 .page-doctors {
     background: #fff;
@@ -9,24 +9,20 @@
     font-family: var(--font-display);
 }
 
-/* ================= DOCTORS HERO ================= */
-
 .doctors-hero {
     padding: 20px 0 120px;
 }
 
-/* HERO CONTAINER */
 .doctors-hero-inner {
     position: relative;
     height: 620px;
     border-radius: 32px;
     overflow: hidden;
 
-    /* background like design */
+    
     background: #eef2f8;
 }
 
-/* FULL IMAGE — THIS IS THE KEY FIX */
 .doctors-hero-image {
     position: absolute;
     inset: 0;
@@ -38,7 +34,6 @@
     object-fit: cover;
 }
 
-/* LEFT TEXT OVER IMAGE */
 .doctors-hero-text {
     position: relative;
     z-index: 2;
@@ -52,7 +47,6 @@
     max-width: 420px;
 }
 
-/* TITLE */
 .doctors-hero-text h1 {
     font-size: 72px;
     line-height: 1.05;
@@ -61,14 +55,11 @@
     color: #000;
 }
 
-/* SUBTITLE */
 .doctors-hero-text p {
     font-size: 18px;
     line-height: 1.6;
     color: #444;
 }
-
-/* ================= RESPONSIVE ================= */
 
 @media (max-width: 1024px) {
     .doctors-hero-inner {
@@ -95,14 +86,10 @@
     }
 }
 
-
-/* ================= DOCTORS LIST ================= */
-
 .doctors-list {
     padding: 120px 0;
 }
 
-/* header */
 .doctors-list-header {
     display: flex;
     align-items: center;
@@ -115,7 +102,6 @@
     font-weight: 500;
 }
 
-/* filters */
 .doctors-filters {
     display: flex;
     gap: 100px;
@@ -135,16 +121,27 @@
     font-weight: 500;
 }
 
-/* grid */
 .doctors-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 40px 32px;
 }
 
-/* card */
+.doctors-grid > .content-state {
+    grid-column: 1 / -1;
+}
+
 .doctor-card {
     cursor: pointer;
+}
+
+.doctor-card--skeleton {
+    pointer-events: none;
+}
+
+.doctor-card--skeleton .doctor-photo {
+    min-height: 220px;
+    border-radius: 18px;
 }
 
 .doctor-photo {
@@ -172,16 +169,12 @@
     color: #666;
 }
 
-
-/* ================= DOCTOR MODAL ================= */
-
-/* Overlay */
 .doctor-modal-overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.55);
 
-    /* CRITICAL */
+    
     display: none;
 
     align-items: center;
@@ -190,12 +183,10 @@
     z-index: 2000;
 }
 
-/* Active state */
 .doctor-modal-overlay.active {
     display: flex;
 }
 
-/* Modal box */
 .doctor-modal {
     width: 880px;
     max-width: calc(100vw - 40px);
@@ -211,7 +202,6 @@
     overflow-y: auto;
 }
 
-/* Close button */
 .doctor-modal-close {
     position: absolute;
     top: 20px;
@@ -224,7 +214,6 @@
     cursor: pointer;
 }
 
-/* Top images */
 .doctor-modal-top {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -241,7 +230,6 @@
     background: #e0e0e0;
 }
 
-/* Header */
 .doctor-header {
     display: flex;
     justify-content: space-between;
@@ -267,7 +255,6 @@
     white-space: nowrap;
 }
 
-/* Text */
 .doctor-text {
     font-size: 15px;
     line-height: 1.6;
@@ -278,19 +265,15 @@
     margin-bottom: 12px;
 }
 
-/* Actions */
 .doctor-actions {
     display: flex;
     gap: 16px;
 }
 
-/* ================= TREATMENTS PAGE ================= */
-
 .treatments-page {
     padding: 120px 0;
 }
 
-/* header */
 .treatments-header {
     display: flex;
     align-items: center;
@@ -303,7 +286,6 @@
     font-weight: 500;
 }
 
-/* filters */
 .treatments-filters {
     display: flex;
     gap: 100px;
@@ -323,14 +305,12 @@
     font-weight: 500;
 }
 
-/* grid layout */
 .treatments-grid {
     display: grid;
     grid-template-columns: 260px 1fr;
     gap: 40px;
 }
 
-/* left list */
 .treatments-list {
     display: flex;
     flex-direction: column;
@@ -363,14 +343,16 @@
     justify-content: center;
 }
 
-/* cards grid */
+.treatment-list-item.active {
+    box-shadow: 0 0 0 2px #f59e0b inset;
+}
+
 .treatments-cards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
 }
 
-/* card */
 .treatment-card {
     display: block;
     height: 240px;
@@ -386,8 +368,6 @@
     display: block;
 }
 
-
-/* hover */
 .treatment-card:hover img {
     transform: scale(1.03);
     transition: 0.3s ease;

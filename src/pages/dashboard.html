@@ -5,21 +5,17 @@
     <title>Integrat — Admin Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Tooling -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Styles -->
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/dashboard.css">
 </head>
 <body class="dashboard-page">
 
-    <!-- ================= HEADER (Simplified) ================= -->
     <header class="header">
         <div class="container header-inner">
             <div class="logo">INTEGRAT <span style="font-size: 12px; color: #666;">DASHBOARD</span></div>
@@ -37,7 +33,6 @@
             <h1 class="dashboard-title">System Activity</h1>
         </div>
 
-        <!-- STATS -->
         <div class="stats-grid">
             <div class="stat-card">
                 <h3>Total Contacts</h3>
@@ -53,18 +48,15 @@
             </div>
         </div>
 
-        <!-- CHART -->
         <div class="chart-section">
             <canvas id="activityChart" height="100"></canvas>
         </div>
 
-        <!-- TABS -->
         <div class="dashboard-tabs">
             <button class="dashboard-tab active" data-tab="contacts">Contact Form Requests</button>
             <button class="dashboard-tab" data-tab="appointments">Doctor Appointments</button>
         </div>
 
-        <!-- DATA TABLE -->
         <div class="data-table-container">
             <div id="contactsContent">
                 <table class="data-table">
@@ -79,8 +71,7 @@
                         </tr>
                     </thead>
                     <tbody id="contactsTableBody">
-                        <!-- Data will be loaded here -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
 
@@ -96,14 +87,16 @@
                         </tr>
                     </thead>
                     <tbody id="appointmentsTableBody">
-                        <!-- Data will be loaded here -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>
     </main>
 
-    <!-- Scripts -->
+    <script src="../scripts/shared/config.local.js"></script>
+<script src="../scripts/shared/site-config.js"></script>
+<script src="../scripts/shared/i18n.js"></script>
+    <script src="../scripts/shared/site-data.js"></script>
     <script src="../scripts/shared/api.js"></script>
     <script src="../scripts/dashboard.js"></script>
 </body>

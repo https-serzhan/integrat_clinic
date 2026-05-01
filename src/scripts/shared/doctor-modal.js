@@ -1,95 +1,205 @@
-/* ================= DOCTOR MODAL (SHARED) ================= */
+(function doctorModal(windowObject, documentObject) {
+  const i18n = windowObject.IntegratI18n;
 
-(function () {
-    const setupDoctorModal = () => {
-        const modal = document.getElementById("doctorModal");
-        if (!modal) return;
+  function t(key, fallback) {
+    return i18n?.t ? i18n.t(key, fallback) : fallback;
+  }
 
-        const closeBtn = modal.querySelector(".doctor-modal-close");
-        const nameEl = modal.querySelector(".doctor-name");
-        const roleEl = modal.querySelector(".doctor-role");
-        const expEl  = modal.querySelector(".doctor-exp");
-        const textEl = modal.querySelector(".doctor-text");
-        const imgs   = modal.querySelectorAll(".doctor-modal-img, .doctor-photo");
-        const body = document.body;
+  function format(key, values, fallback) {
+    return i18n?.format ? i18n.format(key, values, fallback) : fallback;
+  }
 
-        const openModal = (data) => {
-            if (nameEl) nameEl.textContent = data.name;
-            if (roleEl) roleEl.textContent = data.role || data.specialty;
-            if (expEl) expEl.textContent  = `Стаж работы: ${data.exp || 10} лет`;
+  function formatLocalDateTime(value) {
+    const date = new Date(value);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
 
-            if (textEl) {
-                textEl.innerHTML = `
-                    <p><strong>Образование:</strong><br>${data.edu || 'Medical University'}</p>
-                    <p><strong>Специализация:</strong><br>${data.spec || data.specialty}</p>
-                `;
-            }
+  function nextSuggestedSlot() {
+    const next = new Date();
+    next.setDate(next.getDate() + 1);
+    next.setHours(10, 0, 0, 0);
+    return formatLocalDateTime(next);
+  }
 
-            if (imgs && imgs.length > 0) {
-                imgs.forEach(img => {
-                    const url = data.img || '../../assets/images/orange-doctor.png';
-                    if (img.tagName === 'IMG') {
-                        img.src = url;
-                    } else {
-                        img.style.backgroundImage = `url(${url})`;
-                        img.style.backgroundSize = 'cover';
-                    }
-                });
-            }
+  function buildBookingForm(modal) {
+    const container = modal.querySelector('.doctor-modal-body');
+    if (!container || modal.querySelector('.doctor-booking')) return;
 
-            modal.classList.add("active");
-            body.style.overflow = "hidden";
-            modal.dataset.doctorId = data.id;
-        };
+    const booking = documentObject.createElement('div');
+    booking.className = 'doctor-booking';
+    booking.innerHTML = `
+      <div class="doctor-booking__row">
+        <div class="doctor-booking__field">
+          <label for="doctorBookingDatetime">${t('doctor_booking_label', 'Preferred appointment time')}</label>
+          <input id="doctorBookingDatetime" class="doctor-booking__input" type="datetime-local" step="1800" />
+        </div>
+      </div>
+      <p class="form-status doctor-booking__status" data-booking-status aria-live="polite"></p>
+    `;
 
-        const closeModal = () => {
-            modal.classList.remove("active");
-            body.style.overflow = "";
-        };
+    container.appendChild(booking);
+  }
 
-        document.addEventListener("click", e => {
-            const card = e.target.closest(".doctor-card");
-            if (card) {
-                openModal({
-                    id: card.dataset.id,
-                    name: card.dataset.name,
-                    role: card.dataset.role,
-                    exp: card.dataset.exp,
-                    edu: card.dataset.edu,
-                    spec: card.dataset.spec,
-                    img: card.dataset.img
-                });
-            }
-        });
+  function setBookingStatus(modal, message, options = {}) {
+    const node = modal.querySelector('[data-booking-status]');
+    if (!node) return;
+    node.textContent = message || '';
+    node.classList.toggle('is-error', Boolean(options.isError));
+    node.classList.toggle('is-success', Boolean(options.isSuccess));
+  }
 
-        if (closeBtn) closeBtn.addEventListener("click", closeModal);
-        modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
-        document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+  function setupDoctorModal() {
+    const modal = documentObject.getElementById('doctorModal');
+    if (!modal) return;
 
-        const bookBtn = modal.querySelector(".btn-black:last-child");
-        if (bookBtn && bookBtn.textContent.includes("Записаться")) {
-            bookBtn.addEventListener("click", async () => {
-                const doctorId = modal.dataset.doctorId;
-                if (!doctorId) return;
-                try {
-                    const tomorrow = new Date();
-                    tomorrow.setDate(tomorrow.getDate() + 1);
-                    await window.api.post("/appointments", {
-                        doctor_id: parseInt(doctorId),
-                        datetime: tomorrow.toISOString()
-                    });
-                    alert("Вы успешно записаны!");
-                    closeModal();
-                } catch (e) {
-                    alert(e.message.includes("401") || e.message.includes("Unauthorized") ? "Пожалуйста, войдите в систему." : "Ошибка: " + e.message);
-                }
-            });
+    const closeButton = modal.querySelector('.doctor-modal-close');
+    const nameEl = modal.querySelector('.doctor-name');
+    const roleEl = modal.querySelector('.doctor-role');
+    const expEl = modal.querySelector('.doctor-exp');
+    const textEl = modal.querySelector('.doctor-text');
+    const imageNodes = modal.querySelectorAll('.doctor-modal-img, .doctor-photo');
+    const actionButtons = Array.from(modal.querySelectorAll('.doctor-actions .btn-black'));
+    const detailsButton = actionButtons.find((button) => /cases/i.test(button.textContent));
+    const bookButton = actionButtons.find((button) => /запис|book/i.test(button.textContent));
+
+    buildBookingForm(modal);
+    const dateInput = modal.querySelector('.doctor-booking__input');
+
+    function openModal(data) {
+      if (nameEl) nameEl.textContent = data.name || t('doctor_name_fallback', 'Integrat doctor');
+      if (roleEl) roleEl.textContent = data.role || data.specialty || t('doctor_specialist_fallback', 'Dental specialist');
+      if (expEl) {
+        expEl.textContent = format('doctor_experience', { years: data.exp || 10 }, `Experience: ${data.exp || 10} years`);
+      }
+      if (textEl) {
+        textEl.innerHTML = `
+          <p><strong>${t('doctor_education_label', 'Education:')}</strong><br>${data.edu || t('doctor_education_fallback', 'Education profile will be published soon.')}</p>
+          <p><strong>${t('doctor_focus_label', 'Focus:')}</strong><br>${data.spec || data.specialty || t('doctor_focus_fallback', 'Comprehensive dental treatment.')}</p>
+        `;
+      }
+
+      imageNodes.forEach((node) => {
+        const url = data.img || '../../assets/images/orange-doctor.png';
+        if (node.tagName === 'IMG') {
+          node.src = url;
+          node.alt = data.name || 'Doctor portrait';
+        } else {
+          node.style.backgroundImage = `url(${url})`;
+          node.style.backgroundSize = 'cover';
+          node.style.backgroundPosition = 'center';
         }
-    };
+      });
 
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", setupDoctorModal);
-    } else {
-        setupDoctorModal();
+      modal.dataset.doctorId = data.id || '';
+      if (dateInput) dateInput.value = nextSuggestedSlot();
+      setBookingStatus(modal, '');
+      modal.classList.add('active');
+      documentObject.body.style.overflow = 'hidden';
     }
-})();
+
+    function closeModal() {
+      modal.classList.remove('active');
+      documentObject.body.style.overflow = '';
+      setBookingStatus(modal, '');
+    }
+
+    documentObject.addEventListener('click', (event) => {
+      const card = event.target.closest('.doctor-card');
+      if (!card) return;
+
+      openModal({
+        id: card.dataset.id,
+        name: card.dataset.name,
+        role: card.dataset.role,
+        exp: card.dataset.exp,
+        edu: card.dataset.edu,
+        spec: card.dataset.spec,
+        img: card.dataset.img,
+        specialty: card.dataset.specialty
+      });
+    });
+
+    closeButton?.addEventListener('click', closeModal);
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) closeModal();
+    });
+    documentObject.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeModal();
+    });
+
+    detailsButton?.addEventListener('click', () => {
+      windowObject.location.href = 'doctor.html';
+    });
+
+    if (bookButton) {
+      bookButton.type = 'button';
+      bookButton.addEventListener('click', async () => {
+        const doctorId = Number(modal.dataset.doctorId || 0);
+        if (!doctorId) {
+          setBookingStatus(modal, t('doctor_incomplete', 'Doctor information is incomplete.'), { isError: true });
+          return;
+        }
+
+        if (!windowObject.localStorage.getItem('token')) {
+          const returnTo = `${windowObject.location.pathname.split('/').pop() || 'doctors.html'}${windowObject.location.search || ''}`;
+          windowObject.location.href = `auth.html?returnTo=${encodeURIComponent(returnTo)}`;
+          return;
+        }
+
+        if (!dateInput?.value) {
+          setBookingStatus(
+            modal,
+            t('appointment_pick_time', 'Select a preferred appointment time before continuing.'),
+            { isError: true }
+          );
+          return;
+        }
+
+        if (!windowObject.api) {
+          setBookingStatus(modal, t('doctor_api_missing', 'Clinic API is not configured yet.'), { isError: true });
+          return;
+        }
+
+        bookButton.disabled = true;
+        setBookingStatus(modal, t('appointment_submitting', 'Submitting appointment request...'));
+
+        try {
+          const response = await windowObject.api.post('/appointments', {
+            doctor_id: doctorId,
+            datetime: new Date(dateInput.value).toISOString()
+          });
+          const suffix = response?.telegram?.configured
+            ? i18n?.isRussian?.()
+              ? ' Код отправлен в Telegram.'
+              : ' Telegram code sent.'
+            : '';
+          setBookingStatus(
+            modal,
+            `${t('appointment_success', 'Appointment request submitted successfully.')}${suffix}`,
+            { isSuccess: true }
+          );
+          windowObject.setTimeout(closeModal, 900);
+        } catch (error) {
+          setBookingStatus(
+            modal,
+            error.message || t('appointment_error', 'Failed to create appointment.'),
+            { isError: true }
+          );
+        } finally {
+          bookButton.disabled = false;
+        }
+      });
+    }
+  }
+
+  if (documentObject.readyState === 'loading') {
+    documentObject.addEventListener('DOMContentLoaded', setupDoctorModal);
+  } else {
+    setupDoctorModal();
+  }
+})(window, document);

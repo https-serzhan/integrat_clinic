@@ -1,7 +1,6 @@
 @import url('https://fonts.cdnfonts.com/css/tt-firs-neue-trial');
 @import url('https://fonts.cdnfonts.com/css/uncage');
 
-/* ================= RESET ================= */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -19,6 +18,10 @@ body {
     background: #fff;
 }
 
+a {
+    color: inherit;
+}
+
 img,
 video {
     max-width: 100%;
@@ -32,14 +35,17 @@ textarea {
     font-family: inherit;
 }
 
-/* ================= CONTAINER ================= */
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
 .container {
     max-width: 1440px;
     margin: 0 auto;
     padding: 0 32px;
 }
 
-/* ================= BUTTONS ================= */
 .btn-black {
     background: #000;
     color: #fff;
@@ -59,7 +65,6 @@ textarea {
     cursor: pointer;
 }
 
-/* ================= SOCIALS ================= */
 .socials {
     display: flex;
     align-items: center;
@@ -85,7 +90,6 @@ textarea {
     opacity: 0.95;
 }
 
-/* ================= ANIMATIONS ================= */
 html.js .reveal {
     opacity: 0;
     transform: translateY(24px);
@@ -107,17 +111,123 @@ html.js .reveal.is-visible {
     }
 }
 
-/* ================= RESPONSIVE BASE ================= */
 @media (max-width: 1200px) {
     .container {
         padding: 0 24px;
     }
 }
 
-
-/* ================= UTILITY ================= */
 .highlight-flash {
     animation: flash 1.5s ease-out;
+}
+
+.link-disabled {
+    pointer-events: none;
+    opacity: 0.45;
+}
+
+.form-status {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.form-status.is-error {
+    color: #ff7a7a;
+}
+
+.form-status.is-success {
+    color: #86f5ac;
+}
+
+.content-state {
+    padding: 24px;
+    border-radius: 24px;
+    background: #f3f4f6;
+    color: #3f3f46;
+}
+
+.skeleton-box,
+.skeleton-line {
+    position: relative;
+    overflow: hidden;
+    background: #ebedf0;
+}
+
+.skeleton-box::after,
+.skeleton-line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+    animation: skeleton-shimmer 1.4s infinite;
+}
+
+.skeleton-line {
+    height: 12px;
+    border-radius: 8px;
+}
+
+.skeleton-line--lg {
+    width: 100%;
+    height: 16px;
+}
+
+.skeleton-line--md {
+    width: 70%;
+}
+
+.skeleton-line--sm {
+    width: 45%;
+}
+
+.doctor-booking {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #ececf0;
+}
+
+.doctor-booking__row {
+    display: flex;
+    gap: 16px;
+}
+
+.doctor-booking__field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.doctor-booking__field label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6b7280;
+}
+
+.doctor-booking__input {
+    width: 100%;
+    border: 1px solid #d4d4d8;
+    border-radius: 16px;
+    padding: 14px 16px;
+    font-size: 15px;
+}
+
+.doctor-booking__status {
+    margin-top: 12px;
+    color: #57575c;
+}
+
+.doctor-booking__status.is-error {
+    color: #b91c1c;
+}
+
+.doctor-booking__status.is-success {
+    color: #047857;
 }
 
 @keyframes flash {
@@ -126,3 +236,12 @@ html.js .reveal.is-visible {
     100% { background-color: rgba(255, 255, 0, 0); }
 }
 
+@keyframes skeleton-shimmer {
+    100% { transform: translateX(100%); }
+}
+
+@media (max-width: 640px) {
+    .doctor-booking__row {
+        flex-direction: column;
+    }
+}

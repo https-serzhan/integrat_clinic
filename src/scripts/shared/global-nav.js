@@ -1,80 +1,229 @@
-/* ================= GLOBAL NAVIGATION & ACTIONS ================= */
+(function globalNavigation(windowObject, documentObject) {
+  const config = windowObject.IntegratConfig || {};
+  const contact = config.contact || {};
+  const socials = config.socials || {};
+  const siteScope = config.siteScope || {};
+  const navItems = Array.isArray(siteScope.navItems) ? siteScope.navItems : [];
+  const archivedPages = Array.isArray(siteScope.archivedPages) ? siteScope.archivedPages : [];
+  const currentPage = windowObject.location.pathname.split('/').pop() || 'index.html';
 
-(function () {
-    const initGlobalActions = () => {
-        // Login/Logout button logic
-        const authBtn = document.querySelector(".header-right .btn-black:first-child");
-        if (authBtn) {
-            const token = localStorage.getItem("token");
-            if (token) {
-                authBtn.textContent = "LOGOUT";
-                
-                // Add Dashboard link
-                const nav = document.querySelector(".nav-pill");
-                if (nav && !nav.querySelector('a[href="dashboard.html"]')) {
-                    const dashLink = document.createElement("a");
-                    dashLink.href = "dashboard.html";
-                    dashLink.className = "pill";
-                    dashLink.textContent = "DASHBOARD";
-                    nav.appendChild(dashLink);
-                }
-
-                authBtn.addEventListener("click", () => {
-                    localStorage.removeItem("token");
-                    window.location.reload();
-                });
-            } else {
-                authBtn.addEventListener("click", () => {
-                    // Avoid redirecting when the user is already on the auth page.
-                    if (!window.location.pathname.includes("auth.html")) {
-                        window.location.href = "auth.html";
-                    }
-                });
-            }
-        }
-
-        // Header GET IN TOUCH / Book button logic
-        const headerActionBtn = document.querySelector(".header .header-right .btn-black:last-child");
-        if (headerActionBtn && (headerActionBtn.textContent.includes("GET IN TOUCH") || headerActionBtn.textContent.includes("Book"))) {
-            headerActionBtn.addEventListener("click", (e) => {
-                const contactForm = document.getElementById("contactForm");
-                if (contactForm) {
-                    e.preventDefault();
-                    contactForm.scrollIntoView({ behavior: "smooth", block: "center" });
-                    contactForm.classList.add("highlight-flash");
-                    setTimeout(() => contactForm.classList.remove("highlight-flash"), 1500);
-                } else {
-                    // If no contact form on page, redirect to home
-                    window.location.href = "index.html#contactForm";
-                }
-            });
-        }
-
-        // Global "Book an appointment" buttons
-        document.querySelectorAll(".book-pill, .academy-btn, .btn-black").forEach(btn => {
-            if (btn.textContent.includes("Book") || btn.textContent.includes("Записаться")) {
-                btn.addEventListener("click", (e) => {
-                    // Skip if it's the doctor modal button (handled in doctor-modal.js)
-                    if (btn.closest(".doctor-modal") || btn.closest(".doctor-card")) return;
-
-                    const contactForm = document.getElementById("contactForm");
-                    if (contactForm) {
-                        e.preventDefault();
-                        contactForm.scrollIntoView({ behavior: "smooth", block: "center" });
-                    } else {
-                        // If no contact form, maybe go to doctors list
-                        if (!window.location.pathname.includes("doctors.html")) {
-                            window.location.href = "doctors.html";
-                        }
-                    }
-                });
-            }
-        });
-    };
-
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initGlobalActions);
-    } else {
-        initGlobalActions();
+  const storage = {
+    get(key) {
+      try {
+        return windowObject.localStorage.getItem(key);
+      } catch {
+        return null;
+      }
+    },
+    remove(key) {
+      try {
+        windowObject.localStorage.removeItem(key);
+      } catch {}
     }
-})();
+  };
+
+  function isAuthPage() {
+    return currentPage === 'auth.html';
+  }
+
+  function hasToken() {
+    return Boolean(storage.get('token'));
+  }
+
+  function scrollToContactForm() {
+    const contactForm = documentObject.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      contactForm.classList.add('highlight-flash');
+      windowObject.setTimeout(() => contactForm.classList.remove('highlight-flash'), 1500);
+      return true;
+    }
+
+    return false;
+  }
+
+  function goToAuth() {
+    if (isAuthPage()) return;
+    const returnTo = `${currentPage}${windowObject.location.search || ''}${windowObject.location.hash || ''}`;
+    windowObject.location.href = `auth.html?returnTo=${encodeURIComponent(returnTo)}`;
+  }
+
+  function wireHeaderButton() {
+    const primaryButton = documentObject.querySelector('.header-right .btn-black');
+    if (!primaryButton || primaryButton.id === 'academyAuthButton') return;
+
+    const originalLabel = primaryButton.textContent.trim().toLowerCase();
+    const loginLike = /login|sign in|account|войти|логин|аккаунт/.test(originalLabel);
+    const ctaLike = /get in touch|contact|book|связ|контакт|запис/.test(originalLabel);
+
+    primaryButton.replaceWith(primaryButton.cloneNode(true));
+    const cleanButton = documentObject.querySelector('.header-right .btn-black');
+    if (!cleanButton) return;
+
+    if (loginLike) {
+      if (hasToken()) {
+        cleanButton.textContent = 'LOGOUT';
+        cleanButton.addEventListener('click', async () => {
+          try {
+            if (windowObject.api?.logout) {
+              await windowObject.api.logout();
+            }
+          } catch {}
+
+          storage.remove('token');
+          windowObject.location.reload();
+        });
+      } else {
+        cleanButton.textContent = 'LOGIN';
+        cleanButton.addEventListener('click', goToAuth);
+      }
+      return;
+    }
+
+    if (ctaLike) {
+      cleanButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (!scrollToContactForm()) {
+          windowObject.location.href = 'index.html#contactForm';
+        }
+      });
+    }
+  }
+
+  function wireBookingButtons() {
+    documentObject.querySelectorAll('.book-pill').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (!scrollToContactForm()) {
+          windowObject.location.href = 'doctors.html';
+        }
+      });
+    });
+  }
+
+  function syncActiveNavigation() {
+    documentObject.querySelectorAll('.nav-pill .pill').forEach((link) => {
+      const href = link.getAttribute('href');
+      link.classList.toggle('active', href === currentPage);
+    });
+  }
+
+  function renderSharedNavigation() {
+    if (!navItems.length) return;
+
+    documentObject.querySelectorAll('.nav-pill').forEach((nav) => {
+      nav.innerHTML = navItems.map((item) => `
+        <a href="${item.href}" class="pill">${item.label}</a>
+      `).join('');
+    });
+
+    documentObject.querySelectorAll('.site-footer__links').forEach((nav) => {
+      nav.innerHTML = navItems.map((item) => `
+        <a class="site-footer__link" href="${item.href}">${item.label}</a>
+      `).join('');
+    });
+  }
+
+  function pruneArchivedNavigation() {
+    if (!archivedPages.length) return;
+
+    documentObject.querySelectorAll('.nav-pill .pill, .site-footer__link').forEach((link) => {
+      const href = link.getAttribute('href');
+      if (archivedPages.includes(href)) {
+        link.remove();
+      }
+    });
+  }
+
+  function maybeAddDashboardLink() {
+    const nav = documentObject.querySelector('.nav-pill');
+    if (!nav || !hasToken() || nav.querySelector('a[href="dashboard.html"]')) return;
+
+    const dashLink = documentObject.createElement('a');
+    dashLink.href = 'dashboard.html';
+    dashLink.className = 'pill';
+    dashLink.textContent = 'DASHBOARD';
+    nav.appendChild(dashLink);
+  }
+
+  function makeLogoClickable() {
+    documentObject.querySelectorAll('.logo, .site-footer__logo').forEach((logo) => {
+      if (logo.tagName === 'A') return;
+      logo.addEventListener('click', () => {
+        windowObject.location.href = 'index.html';
+      });
+      logo.style.cursor = 'pointer';
+    });
+  }
+
+  function setLinkState(anchor, url) {
+    if (!anchor) return;
+
+    if (url) {
+      anchor.href = url;
+      anchor.classList.remove('link-disabled');
+      anchor.removeAttribute('aria-disabled');
+      return;
+    }
+
+    anchor.href = '#';
+    anchor.classList.add('link-disabled');
+    anchor.setAttribute('aria-disabled', 'true');
+  }
+
+  function populateGlobalContent() {
+    documentObject.querySelectorAll('.address').forEach((node) => {
+      node.textContent = contact.address || node.textContent;
+    });
+
+    documentObject.querySelectorAll('.phone').forEach((node) => {
+      node.textContent = contact.phone || node.textContent;
+    });
+
+    documentObject.querySelectorAll('.map').forEach((frame) => {
+      if (contact.mapEmbedUrl) {
+        frame.src = contact.mapEmbedUrl;
+      }
+    });
+
+    const year = String(new Date().getFullYear());
+    documentObject.querySelectorAll('.site-footer__copy').forEach((node) => {
+      node.textContent = `© ${year} Integrat. All rights reserved.`;
+    });
+
+    documentObject.querySelectorAll('.site-footer__tagline').forEach((node) => {
+      node.textContent = siteScope.footerTagline || node.textContent;
+    });
+
+    documentObject.querySelectorAll('a.social, a.site-footer__social').forEach((anchor) => {
+      const label = `${anchor.getAttribute('aria-label') || ''} ${anchor.querySelector('img')?.getAttribute('src') || ''}`.toLowerCase();
+      if (label.includes('instagram')) {
+        setLinkState(anchor, socials.instagram);
+      } else if (label.includes('telegram')) {
+        setLinkState(anchor, socials.telegram);
+      } else if (label.includes('whatsapp')) {
+        setLinkState(anchor, socials.whatsapp);
+      } else if (label.includes('google')) {
+        setLinkState(anchor, socials.google);
+      }
+    });
+  }
+
+  function init() {
+    renderSharedNavigation();
+    pruneArchivedNavigation();
+    syncActiveNavigation();
+    maybeAddDashboardLink();
+    wireHeaderButton();
+    wireBookingButtons();
+    makeLogoClickable();
+    populateGlobalContent();
+    windowObject.IntegratI18n?.applyDomTranslations?.();
+  }
+
+  if (documentObject.readyState === 'loading') {
+    documentObject.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})(window, document);

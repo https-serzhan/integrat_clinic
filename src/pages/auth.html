@@ -5,15 +5,12 @@
     <title>Integrat — Login & Registration</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Global Styles -->
     <link rel="stylesheet" href="../styles/global.css">
     
-    <!-- Auth Styles -->
     <link rel="stylesheet" href="../styles/auth.css">
 </head>
 <body>
@@ -27,7 +24,6 @@
                 <button class="auth-tab" data-tab="register">Register</button>
             </div>
 
-            <!-- Login Form -->
             <form id="loginForm" class="auth-form active">
                 <div class="form-group">
                     <label>Email Address</label>
@@ -41,7 +37,6 @@
                 <button type="submit" class="auth-btn">Sign In</button>
             </form>
 
-            <!-- Register Form -->
             <form id="registerForm" class="auth-form">
                 <div class="form-group">
                     <label>Email Address</label>
@@ -65,7 +60,10 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <script src="../scripts/shared/config.local.js"></script>
+<script src="../scripts/shared/site-config.js"></script>
+<script src="../scripts/shared/i18n.js"></script>
+    <script src="../scripts/shared/site-data.js"></script>
     <script src="../scripts/shared/api.js"></script>
     <script src="../scripts/auth.js"></script>
 </body>

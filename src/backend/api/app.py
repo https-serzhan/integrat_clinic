@@ -9,8 +9,6 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr
-
-# ================= Config =================
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = BASE_DIR.parents[2]
 load_dotenv(PROJECT_ROOT / ".env")
@@ -24,15 +22,12 @@ SECRET_KEY = os.getenv("INTEGRAT_API_SECRET_KEY", "dummy-secret-key-for-now")
 ALGORITHM = "HS256"
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
-
-# ================= DB setup =================
 async def get_db():
     async with aiosqlite.connect(DATABASE_URL) as db:
         db.row_factory = aiosqlite.Row
         yield db
 
 async def lifespan(_app: FastAPI):
-    # Resolve schema relative to this module so startup survives repo reorganizations.
     if SCHEMA_PATH.exists():
         sql = SCHEMA_PATH.read_text(encoding="utf-8")
         async with aiosqlite.connect(DATABASE_URL) as db:
@@ -48,8 +43,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# ================= Schemas =================
 class UserRegister(BaseModel):
     email: EmailStr
     password: str
@@ -70,8 +63,6 @@ class ContactCreate(BaseModel):
 class AppointmentCreate(BaseModel):
     doctor_id: int
     datetime: str
-
-# ================= Auth Utils =================
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -86,8 +77,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     except JWTError:
         raise credentials_exception
     return int(user_id)
-
-# ================= Routes =================
 
 @app.post("/auth/register")
 async def register(payload: UserRegister, db: aiosqlite.Connection = Depends(get_db)):
@@ -132,7 +121,6 @@ async def get_contacts(db: aiosqlite.Connection = Depends(get_db)):
 
 @app.get("/doctors")
 async def get_doctors(db: aiosqlite.Connection = Depends(get_db)):
-    # Simple query
     cursor = await db.execute("SELECT id, name, specialty FROM doctors")
     rows = await cursor.fetchall()
     return [dict(row) for row in rows]
