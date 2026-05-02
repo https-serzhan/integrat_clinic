@@ -64,6 +64,19 @@
     node.classList?.toggle?.('is-success', Boolean(options.isSuccess));
   }
 
+  function buildClinicAuthReturnTo(doctorId) {
+    return `doctor.html?doctor=${encodeURIComponent(String(doctorId || ''))}`;
+  }
+
+  function redirectToClinicAuth(doctorId) {
+    windowObject.location.href = `auth.html?returnTo=${encodeURIComponent(buildClinicAuthReturnTo(doctorId))}`;
+  }
+
+  function isUnauthorizedBookingError(error) {
+    const message = String(error?.message || '').toLowerCase();
+    return error?.status === 401 || /unauthorized|validate credentials|log in|login|auth/.test(message);
+  }
+
   function ensureBookingNodes(container, bookingButton) {
     let dateInput = documentObject.querySelector('.doctor-case-booking__input');
     let statusNode = documentObject.querySelector('.doctor-case-booking__status');
@@ -187,8 +200,7 @@
       }
 
       if (!windowObject.localStorage?.getItem('token')) {
-        const returnTo = `doctor.html?doctor=${encodeURIComponent(String(doctor.id))}`;
-        windowObject.location.href = `auth.html?returnTo=${encodeURIComponent(returnTo)}`;
+        redirectToClinicAuth(doctor.id);
         return;
       }
 
@@ -216,6 +228,16 @@
           isSuccess: true
         });
       } catch (error) {
+        if (isUnauthorizedBookingError(error)) {
+          try {
+            windowObject.localStorage.removeItem('token');
+          } catch {}
+          setBookingStatus(statusNode, t('appointment_no_auth', 'Please log in before booking an appointment.'), {
+            isError: true
+          });
+          windowObject.setTimeout(() => redirectToClinicAuth(doctor.id), 250);
+          return;
+        }
         setBookingStatus(statusNode, error.message || t('appointment_error', 'Failed to create appointment.'), {
           isError: true
         });

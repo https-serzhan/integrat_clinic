@@ -62,6 +62,19 @@
     node.classList.toggle('is-success', Boolean(options.isSuccess));
   }
 
+  function currentReturnTo() {
+    return `${windowObject.location.pathname.split('/').pop() || 'doctors.html'}${windowObject.location.search || ''}`;
+  }
+
+  function redirectToClinicAuth() {
+    windowObject.location.href = `auth.html?returnTo=${encodeURIComponent(currentReturnTo())}`;
+  }
+
+  function isUnauthorizedBookingError(error) {
+    const message = String(error?.message || '').toLowerCase();
+    return error?.status === 401 || /unauthorized|validate credentials|log in|login|auth/.test(message);
+  }
+
   function setupDoctorModal() {
     const modal = documentObject.getElementById('doctorModal');
     if (!modal) return;
@@ -156,8 +169,7 @@
         }
 
         if (!windowObject.localStorage.getItem('token')) {
-          const returnTo = `${windowObject.location.pathname.split('/').pop() || 'doctors.html'}${windowObject.location.search || ''}`;
-          windowObject.location.href = `auth.html?returnTo=${encodeURIComponent(returnTo)}`;
+          redirectToClinicAuth();
           return;
         }
 
@@ -195,6 +207,18 @@
           );
           windowObject.setTimeout(closeModal, 900);
         } catch (error) {
+          if (isUnauthorizedBookingError(error)) {
+            try {
+              windowObject.localStorage.removeItem('token');
+            } catch {}
+            setBookingStatus(
+              modal,
+              t('appointment_no_auth', 'Please log in before booking an appointment.'),
+              { isError: true }
+            );
+            windowObject.setTimeout(redirectToClinicAuth, 250);
+            return;
+          }
           setBookingStatus(
             modal,
             error.message || t('appointment_error', 'Failed to create appointment.'),
