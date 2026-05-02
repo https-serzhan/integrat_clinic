@@ -1497,6 +1497,8 @@ async function sendTelegramMessage(text) {
     text,
     parse_mode: 'HTML'
   };
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 4000);
 
   if (TELEGRAM_THREAD_ID) {
     payload.message_thread_id = Number(TELEGRAM_THREAD_ID);
@@ -1506,7 +1508,8 @@ async function sendTelegramMessage(text) {
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      signal: controller.signal
     });
 
     const raw = await response.text();
@@ -1528,7 +1531,13 @@ async function sendTelegramMessage(text) {
 
     return { ok: true, skipped: false };
   } catch (error) {
-    return { ok: false, skipped: false, reason: error.message || 'Telegram request failed' };
+    return {
+      ok: false,
+      skipped: false,
+      reason: error.name === 'AbortError' ? 'Telegram request timed out.' : (error.message || 'Telegram request failed')
+    };
+  } finally {
+    clearTimeout(timeout);
   }
 }
 
@@ -1809,8 +1818,11 @@ app.get('/api/contacts', clinicAdminRequired, (_req, res) => {
 app.get('/doctors', (_req, res) => {
   res.json(getDoctors());
 });
+app.get('/api/doctors', (_req, res) => {
+  res.json(getDoctors());
+});
 
-app.post('/appointments', clinicAuthRequired, async (req, res) => {
+async function createAppointmentHandler(req, res) {
   const doctorId = Number(req.body.doctor_id);
   const datetime = formatIsoDate(req.body.datetime);
 
@@ -1872,9 +1884,12 @@ app.post('/appointments', clinicAuthRequired, async (req, res) => {
       supabaseSaved: supabaseInsert.ok
     }
   });
-});
+}
 
-app.get('/appointments', clinicAuthRequired, async (req, res) => {
+app.post('/appointments', clinicAuthRequired, createAppointmentHandler);
+app.post('/api/appointments', clinicAuthRequired, createAppointmentHandler);
+
+async function listClinicAppointmentsHandler(req, res) {
   const appointments = await listAppointmentRecords({
     patientId: req.user.role === 'admin' ? null : req.user.id
   });
@@ -1887,7 +1902,10 @@ app.get('/appointments', clinicAuthRequired, async (req, res) => {
     doctor_name: item.doctorName,
     created_at: item.createdAt
   })));
-});
+}
+
+app.get('/appointments', clinicAuthRequired, listClinicAppointmentsHandler);
+app.get('/api/appointments', clinicAuthRequired, listClinicAppointmentsHandler);
 
 app.get('/api/admin/appointments', adminRequired, async (_req, res) => {
   const appointments = await listAppointmentRecords();
