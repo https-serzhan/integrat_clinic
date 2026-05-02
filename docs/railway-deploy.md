@@ -8,6 +8,7 @@ The backend serves both the frontend pages and the API.
 - `Dockerfile` builds and starts the app from the repository root
 - `.dockerignore` keeps local-only files out of the build context
 - `.env.example` is the variable template you can paste into Railway
+- `package.json` at the repo root gives Railway a fallback Node entrypoint when it uses Railpack instead of Docker
 - `src/scripts/shared/config.js` contains the frontend runtime config that ships with the repo
 
 ## Before You Start
@@ -53,6 +54,7 @@ In Railway:
 
 Because the repo now has a root `Dockerfile`, Railway can build it directly from the project root.
 You do not need to set a custom root directory for this setup.
+The repo also has a root `package.json`, so Railway can still start correctly if it chooses the Node builder instead of Docker.
 
 ### 3. Wait for the first build
 
@@ -63,6 +65,9 @@ node src/backend/academy/server.js
 ```
 
 If the deploy fails, open the service logs first.
+
+If you see an error about `/app/package.json`, Railway is using the Node builder without a valid root package file.
+This repository now includes that root file, so redeploy after pulling the latest changes.
 
 ### 4. Add environment variables
 

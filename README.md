@@ -105,3 +105,4 @@ node --test tests/*.test.js
 
 Use `docs/deploy-and-use.md` for the full deployment procedure.
 For Railway, use `docs/railway-deploy.md`.
+The repository also includes a root `package.json` so Railway can run it correctly even when it chooses Node/Railpack instead of the `Dockerfile`.

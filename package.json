@@ -1,0 +1,10 @@
+{
+  "name": "integrat-dental",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "postinstall": "npm ci --prefix src/backend/academy",
+    "start": "node src/backend/academy/server.js",
+    "test": "node --test tests/*.test.js"
+  }
+}
