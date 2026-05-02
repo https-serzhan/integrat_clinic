@@ -1,4 +1,6 @@
-const { app, startServer } = require('./src/backend/academy/server');
+const { app, startServer, ensureData } = require('./src/backend/academy/server');
+
+ensureData();
 
 if (require.main === module) {
   startServer();
