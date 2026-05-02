@@ -48,7 +48,7 @@ INTEGRAT_DATA_DIR=
 
 ### Frontend runtime config
 
-Create or update `src/scripts/shared/config.local.js`:
+Update `src/scripts/shared/config.js`:
 
 ```js
 const integratRuntimeOrigin =
@@ -218,7 +218,7 @@ If you want the shortest reliable path:
 2. install Node.js
 3. clone the repository
 4. create `.env`
-5. create `src/scripts/shared/config.local.js`
+5. update `src/scripts/shared/config.js`
 6. run the Supabase SQL
 7. run `npm ci` in `src/backend/academy`
 8. run the server with PM2
@@ -226,3 +226,7 @@ If you want the shortest reliable path:
 10. point your domain to the server
 
 That is the deployment model this codebase is already built for.
+
+## Railway
+
+For Railway-specific deployment, use `docs/railway-deploy.md`.

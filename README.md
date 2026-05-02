@@ -17,14 +17,17 @@ It includes:
 - `src/scripts` for frontend logic
 - `src/backend/academy` for the Node.js server and local fallback data
 - `docs/deploy-and-use.md` for deployment steps
+- `docs/railway-deploy.md` for Railway deployment
 - `docs/academy-backend.md` for backend details
 - `docs/project-defense.md` for project presentation notes
 - `docs/supabase-schema.md` for the Supabase SQL schema
+- `Dockerfile` for root-level container deployment
+- `.env.example` for deploy-time variables
 
 ## Local Run
 
 1. Create `.env` in the repository root.
-2. Create or update `src/scripts/shared/config.local.js`.
+2. Update `src/scripts/shared/config.js` if you want to change frontend contact or social links.
 3. Apply the SQL from `docs/supabase-schema.md` if you want Supabase-backed data.
 4. Install backend dependencies.
 5. Start the backend.
@@ -78,7 +81,7 @@ INTEGRAT_DATA_DIR=
 
 Frontend runtime config is stored in:
 
-- `src/scripts/shared/config.local.js`
+- `src/scripts/shared/config.js`
 
 ## What The Backend Does
 
@@ -101,3 +104,4 @@ node --test tests/*.test.js
 ## Deployment
 
 Use `docs/deploy-and-use.md` for the full deployment procedure.
+For Railway, use `docs/railway-deploy.md`.

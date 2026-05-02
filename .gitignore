@@ -15,6 +15,7 @@ src/backend/academy/node_modules/
 
 .idea/
 .vscode/
+.railway/
 .DS_Store
 
 *.log
