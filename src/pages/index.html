@@ -34,7 +34,6 @@
 
         <div class="header-right">
           <button class="btn-black">GET IN TOUCH</button>
-          <button class="btn-outline">ENG</button>
         </div>
       </div>
     </header>
@@ -123,9 +122,9 @@
               <div class="course-left">
                 <h2 class="course-title">ORGANIZATION<br />OF OCCLUSION</h2>
                 <p class="course-desc">
-                  Комплексный разбор принципов организации окклюзии,
-                  биомеханических основ и клиничесческих подходов к управлению
-                  перемещением зубов
+                  A comprehensive review of occlusion design principles,
+                  biomechanics, and practical clinical strategies for
+                  controlled tooth movement.
                 </p>
               </div>
 
@@ -138,64 +137,6 @@
               </div>
             </div>
           </div>
-
-          <div class="course-slide">
-            <div class="course-card">
-              <div class="course-left">
-                <h2 class="course-title">DIGITAL<br />DENTISTRY</h2>
-                <p class="course-desc">Описание второго курса</p>
-              </div>
-
-              <div class="course-right">
-                <img
-                  src="../../assets/images/home-page-costume.svg"
-                  class="course-person"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="course-slide">
-            <div class="course-card">
-              <div class="course-left">
-                <h2 class="course-title">ORTHO<br />CONCEPTS</h2>
-                <p class="course-desc">Описание третьего курса</p>
-              </div>
-
-              <div class="course-right">
-                <img
-                  src="../../assets/images/home-page-costume.svg"
-                  class="course-person"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="course-slide">
-            <div class="course-card">
-              <div class="course-left">
-                <h2 class="course-title">ADVANCED<br />PRACTICE</h2>
-                <p class="course-desc">Описание четвертого курса</p>
-              </div>
-
-              <div class="course-right">
-                <img
-                  src="../../assets/images/home-page-costume.svg"
-                  class="course-person"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="course-progress">
-            <span class="seg active" data-index="0"></span>
-            <span class="seg" data-index="1"></span>
-            <span class="seg" data-index="2"></span>
-            <span class="seg" data-index="3"></span>
-          </div>
         </div>
       </div>
     </section>
@@ -203,14 +144,14 @@
     <section class="contact-section">
       <div class="contact-map container">
         <form class="contact-form" id="contactForm">
-          <h2 class="contact-title">ЗАПОЛНИТЕ ФОРМУ</h2>
+          <h2 class="contact-title">FILL OUT THE FORM</h2>
           <p class="contact-subtitle">
-            и наши менеджеры позвонят вам<br />
-            для подробной консультации
+            and our managers will call you<br />
+            for a detailed consultation
           </p>
 
           <div class="form-row">
-            <input type="text" name="fullname" placeholder="ФИО" required />
+            <input type="text" name="fullname" placeholder="Full name" required />
 
             <input
               type="tel"
@@ -223,26 +164,25 @@
 
           <textarea
             name="comment"
-            placeholder="Комментарий"
+            placeholder="Comment"
             required
           ></textarea>
 
           <div class="form-bottom">
-            <button type="submit" class="send-btn">Отправить</button>
+            <button type="submit" class="send-btn">Send</button>
 
             <label class="checkbox">
               <input type="checkbox" id="agree" name="agree" required />
               <span class="checkmark"></span>
               <p>
-                Ставя отметку, я даю свое согласие на обработку своих
-                персональных данных.
+                By checking the box, I consent to the processing of my personal data.
               </p>
             </label>
           </div>
         </form>
 
         <div class="contact-info">
-          <p class="address">Астана, Мангилик Ел 36</p>
+          <p class="address">Astana, Mangilik El 36</p>
           <p class="phone">+7 747 457 17 40</p>
         </div>
 
@@ -258,36 +198,18 @@
     <section class="about-section">
       <div class="container about-header">
         <h2 class="about-title">ABOUT INTEGRAT</h2>
-
-        <div class="about-arrows">
-          <button class="arrow prev">←</button>
-          <button class="arrow next">→</button>
-        </div>
       </div>
 
       <div class="container">
         <div class="video-slider">
           <div class="video-track">
             <div class="video-slide active">
-              <video src="https://www.w3schools.com/html/mov_bbb.mp4" preload="metadata"></video>
-              <div class="play-overlay">▶</div>
-            </div>
-
-            <div class="video-slide">
-              <video src="https://www.w3schools.com/html/mov_bbb.mp4" preload="metadata"></video>
-              <div class="play-overlay">▶</div>
-            </div>
-
-            <div class="video-slide">
-              <video src="https://www.w3schools.com/html/mov_bbb.mp4" preload="metadata"></video>
-              <div class="play-overlay">▶</div>
+              <video controls data-home-video preload="metadata"></video>
             </div>
           </div>
         </div>
       </div>
     </section>
-
-    <script src="../scripts/shared/config.js"></script>
 <script src="../scripts/shared/site-config.js"></script>
 <script src="../scripts/shared/i18n.js"></script>
     <script src="../scripts/shared/site-data.js"></script>
@@ -296,6 +218,5 @@
     <script src="../scripts/shared/contact-form.js"></script>
     <script src="../scripts/shared/doctor-modal.js"></script>
     <script src="../scripts/shared/global-nav.js"></script>
-    <script src="../scripts/index.js"></script>
   </body>
 </html>

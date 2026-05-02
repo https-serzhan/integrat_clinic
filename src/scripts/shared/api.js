@@ -118,6 +118,7 @@
 
     const response = await fetch(resolveUrl(endpoint, currentBaseUrl), {
       ...options,
+      credentials: 'include',
       headers
     });
 
@@ -156,6 +157,11 @@
       return request(endpoint, {
         method: 'POST',
         body: JSON.stringify(body)
+      });
+    },
+    cancelAppointment(appointmentId) {
+      return request(`/appointments/${encodeURIComponent(String(appointmentId || ''))}/cancel`, {
+        method: 'POST'
       });
     },
     async logout() {

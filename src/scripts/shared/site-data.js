@@ -20,14 +20,62 @@
     hero: '../../assets/images/clinic-hero.svg',
     hall: '../../assets/images/hero-ph-integrat.svg',
     tooth: '../../assets/images/tooth-clinic.svg',
-    coat: '../../assets/images/home-page-costume.svg'
+    coat: '../../assets/images/home-page-costume.svg',
+    aliyaPortrait: '../../assets/images/female1_portrait.jpg',
+    madinaPortrait: '../../assets/images/female2_portrait.jpg',
+    aliyaCaseOne: '../../assets/images/female1_cases_1.jpg',
+    aliyaCaseTwo: '../../assets/images/female1_cases_2.jpg',
+    aliyaCaseThree: '../../assets/images/female1_cases_3.jpg',
+    madinaCaseOne: '../../assets/images/female2_cases_1.jpg',
+    lecturerMaleOne: '../../assets/images/male_lecturer.jpg',
+    lecturerMaleTwo: '../../assets/images/male_lecturer_2.jpg',
+    lecturerMaleThree: '../../assets/images/male_lecturer_3.jpg',
+    lecturerFemaleOne: '../../assets/images/female_lecturer.jpg',
+    lecturerFemaleTwo: '../../assets/images/female_lecturer_2.jpg',
+    compensationOne: '../../assets/images/compensation_or_orthosurgery.png',
+    compensationTwo: '../../assets/images/compensation_or_orthosurgery_2.png',
+    maxillaryOne: '../../assets/images/maxillary_expansion_1.png',
+    maxillaryTwo: '../../assets/images/maxillary_expansion_2.png',
+    maxillaryThree: '../../assets/images/maxillary_expansion_3.png',
+    maxillaryFinal: '../../assets/images/maxillary_expansion_final.png',
+    retreatmentOne: '../../assets/images/orthodontic_retreatment_of_open_bite.png',
+    retreatmentTwo: '../../assets/images/orthodontic_retreatment_of_open_bite_2.png',
+    retreatmentThree: '../../assets/images/orthodontic_retreatment_of_open_bite_3.png',
+    skeletalOne: '../../assets/images/skelet_extension_of_tooth_rows.png',
+    skeletalTwo: '../../assets/images/skelet_extension_of_tooth_rows_2.png',
+    skeletalFinal: '../../assets/images/skelet_extension_of_tooth_rows_final.png',
+    singleToothOne: '../../assets/images/sometimes_one_tooth_can_cause_problem.png',
+    singleToothTwo: '../../assets/images/sometimes_one_tooth_can_cause_problem_2.png',
+    singleToothFinal: '../../assets/images/sometimes_one_tooth_can_cause_problem_final.png',
+    uprightingOne: '../../assets/images/uprighting_stages1_2.png',
+    uprightingTwo: '../../assets/images/uprighting_stages3_4.png',
+    uprightingFinal: '../../assets/images/uprighting_without_side_effect.png'
   };
 
-  function lesson(title, titleRu, type) {
+  const documents = {
+    researchOne: '../../assets/images/research_1.pdf',
+    researchTwo: '../../assets/images/research_2.pdf',
+    researchThree: '../../assets/images/research_3.pdf',
+    researchFour: '../../assets/images/research_4.pdf'
+  };
+
+  const media = {
+    homeVideoSrc: 'https://www.w3schools.com/html/mov_bbb.mp4'
+  };
+
+  function lesson(title, titleRu, typeOrOptions) {
+    const options =
+      typeof typeOrOptions === 'string'
+        ? { type: typeOrOptions }
+        : (typeOrOptions || {});
+
     return {
       title,
       title_ru: titleRu,
-      type: type || 'video'
+      type: options.type || 'video',
+      resourceUrl: options.resourceUrl || null,
+      resourceLabel: options.resourceLabel || 'Supporting material',
+      resourceLabel_ru: options.resourceLabel_ru || options.resourceLabel || 'Дополнительный материал'
     };
   }
 
@@ -56,7 +104,8 @@
       specialty: 'Aesthetic restorative dentistry',
       specialty_ru: 'Эстетическая реставрационная стоматология',
       categories: ['esthetic'],
-      image: images.orange,
+      image: images.aliyaPortrait,
+      cases: [images.aliyaCaseOne, images.aliyaCaseTwo, images.aliyaCaseThree],
       experience: 14,
       education: '2011 - Dentistry, Astana Medical University<br>2013 - Residency in prosthodontics and direct restorations',
       education_ru: '2011 - Стоматология, Astana Medical University<br>2013 - Резидентура по ортопедии и прямым реставрациям',
@@ -70,6 +119,7 @@
       specialty_ru: 'Ортодонтия и окклюзия',
       categories: ['orthodontics'],
       image: images.blue,
+      cases: [images.blue],
       experience: 11,
       education: '2013 - Dentistry, Karaganda Medical University<br>2016 - Fellowship in orthodontics and functional occlusion',
       education_ru: '2013 - Стоматология, Карагандинский медицинский университет<br>2016 - Стажировка по ортодонтии и функциональной окклюзии',
@@ -82,7 +132,8 @@
       specialty: 'Microscope endodontics',
       specialty_ru: 'Эндодонтия под микроскопом',
       categories: ['endodontics'],
-      image: images.orange,
+      image: images.madinaPortrait,
+      cases: [images.madinaCaseOne],
       experience: 10,
       education: '2014 - Dentistry, KazNMU<br>2018 - Advanced endodontic training in rotary systems and microscope retreatment',
       education_ru: '2014 - Стоматология, КазНМУ<br>2018 - Продвинутое обучение по эндодонтии, ротационным системам и перелечиванию под микроскопом',
@@ -95,7 +146,8 @@
       specialty: 'Implantology and bone reconstruction',
       specialty_ru: 'Имплантология и костная реконструкция',
       categories: ['implants'],
-      image: images.blue,
+      image: images.orange,
+      cases: [images.orange],
       experience: 13,
       education: '2010 - Dentistry, West Kazakhstan Medical University<br>2015 - Oral surgery residency and implant fellowship',
       education_ru: '2010 - Стоматология, Западно-Казахстанский медицинский университет<br>2015 - Резидентура по хирургии и fellowship по имплантологии',
@@ -109,6 +161,7 @@
       specialty_ru: 'Пародонтология и мягкотканная пластика',
       categories: ['periodontics'],
       image: images.blue,
+      cases: [images.blue],
       experience: 12,
       education: '2012 - Dentistry, South Kazakhstan Medical Academy<br>2016 - Soft-tissue management and periodontology fellowship',
       education_ru: '2012 - Стоматология, Южно-Казахстанская медицинская академия<br>2016 - Fellowship по пародонтологии и работе с мягкими тканями',
@@ -124,7 +177,7 @@
       specialty: 'Lecturer in orthodontic planning',
       specialty_ru: 'Лектор по ортодонтическому планированию',
       categories: ['orthodontics'],
-      image: images.blue,
+      image: images.lecturerMaleOne,
       experience: 11,
       education: 'Clinical mentor for aligner systems, biomechanics, and interdisciplinary case finishing.',
       education_ru: 'Клинический ментор по элайнерам, биомеханике и междисциплинарному завершению случаев.',
@@ -137,7 +190,7 @@
       specialty: 'Lecturer in clinical endodontics',
       specialty_ru: 'Лектор по клинической эндодонтии',
       categories: ['endodontics'],
-      image: images.orange,
+      image: images.lecturerFemaleOne,
       experience: 10,
       education: 'Leads modules on diagnosis, access design, irrigation safety, and retreatment decision-making.',
       education_ru: 'Ведет модули по диагностике, дизайну доступа, безопасной ирригации и тактике перелечивания.',
@@ -150,7 +203,7 @@
       specialty: 'Lecturer in implant surgery',
       specialty_ru: 'Лектор по хирургической имплантологии',
       categories: ['implants'],
-      image: images.blue,
+      image: images.lecturerMaleTwo,
       experience: 13,
       education: 'Supervises guided surgery, grafting protocols, and restorative-driven implant planning.',
       education_ru: 'Курирует навигационную хирургию, протоколы аугментации и ортопедически ориентированное планирование.',
@@ -163,25 +216,12 @@
       specialty: 'Lecturer in digital prosthodontics',
       specialty_ru: 'Лектор по цифровой ортопедии',
       categories: ['digital'],
-      image: images.orange,
+      image: images.lecturerFemaleTwo,
       experience: 8,
       education: 'Builds course tracks around scans, design communication, mockups, and restorative delivery.',
       education_ru: 'Формирует курсы по сканированию, коммуникации в дизайне, мокапам и выдаче реставраций.',
       spec: 'Focuses on CAD/CAM communication, preparation strategy, and high-conversion case presentation.',
       spec_ru: 'Делает акцент на коммуникации CAD/CAM, стратегии препарирования и презентации плана пациенту.'
-    },
-    {
-      id: 105,
-      name: 'Dr. Nurlan Beketov',
-      specialty: 'Lecturer in periodontics',
-      specialty_ru: 'Лектор по пародонтологии',
-      categories: ['periodontics'],
-      image: images.blue,
-      experience: 12,
-      education: 'Leads modules on tissue phenotype, maintenance systems, and surgical soft-tissue correction.',
-      education_ru: 'Ведет модули по биотипу тканей, поддерживающим протоколам и хирургической коррекции мягких тканей.',
-      spec: 'Explains tissue stability before restorative or implant treatment.',
-      spec_ru: 'Объясняет, как обеспечить стабильность тканей перед ортопедическим или имплантологическим лечением.'
     }
   ];
 
@@ -205,7 +245,7 @@
       priceSuffix_ru: '/ доступ',
       tags: ['Endodontics', 'Clinical FAQ'],
       tags_ru: ['Эндодонтия', 'Клинический FAQ'],
-      images: [images.group, images.treatments, images.hero]
+      images: [images.singleToothOne, images.singleToothTwo, images.singleToothFinal]
     },
     {
       id: 'implant-lab',
@@ -226,7 +266,7 @@
       priceSuffix_ru: '/ место',
       tags: ['Implants', 'Guided workflow'],
       tags_ru: ['Имплантация', 'Навигационный протокол'],
-      images: [images.blue, images.orange, images.hall]
+      images: [images.compensationOne, images.compensationTwo, images.retreatmentOne]
     },
     {
       id: 'digital-smile',
@@ -247,7 +287,7 @@
       priceSuffix_ru: '/ место',
       tags: ['Digital', 'Smile design'],
       tags_ru: ['Цифровая стоматология', 'Дизайн улыбки'],
-      images: [images.treatments, images.tooth, images.hall]
+      images: [images.uprightingOne, images.uprightingTwo, images.uprightingFinal]
     },
     {
       id: 'occlusion-protocols',
@@ -268,7 +308,7 @@
       priceSuffix_ru: '/ место',
       tags: ['Occlusion', 'Interdisciplinary'],
       tags_ru: ['Окклюзия', 'Междисциплинарный подход'],
-      images: [images.coat, images.group, images.hero]
+      images: [images.maxillaryOne, images.maxillaryTwo, images.maxillaryFinal]
     },
     {
       id: 'perio-blueprint',
@@ -289,7 +329,7 @@
       priceSuffix_ru: '/ место',
       tags: ['Periodontics', 'Tissue management'],
       tags_ru: ['Пародонтология', 'Работа с тканями'],
-      images: [images.orange, images.treatments, images.hero]
+      images: [images.retreatmentOne, images.retreatmentTwo, images.retreatmentThree]
     },
     {
       id: 'pediatric-chairside',
@@ -310,7 +350,7 @@
       priceSuffix_ru: '/ доступ',
       tags: ['Pediatric', 'Communication'],
       tags_ru: ['Детская стоматология', 'Коммуникация'],
-      images: [images.group, images.orange, images.tooth]
+      images: [images.singleToothOne, images.singleToothTwo, images.retreatmentTwo]
     },
     {
       id: 'anterior-composites',
@@ -331,7 +371,7 @@
       priceSuffix_ru: '/ место',
       tags: ['Restorative', 'Aesthetics'],
       tags_ru: ['Реставрация', 'Эстетика'],
-      images: [images.orange, images.hall, images.treatments]
+      images: [images.compensationOne, images.compensationTwo, images.uprightingFinal]
     },
     {
       id: 'aligner-planning',
@@ -352,7 +392,7 @@
       priceSuffix_ru: '/ место',
       tags: ['Orthodontics', 'Aligners'],
       tags_ru: ['Ортодонтия', 'Элайнеры'],
-      images: [images.blue, images.hall, images.tooth]
+      images: [images.skeletalOne, images.skeletalTwo, images.skeletalFinal]
     }
   ];
 
@@ -366,7 +406,12 @@
         section('Module 1 · Diagnosis and access', 'Модуль 1 · Диагностика и доступ', [
           lesson('Case selection and pre-op checklist', 'Отбор случая и предоперационный чек-лист'),
           lesson('Access cavity strategy', 'Стратегия формирования доступа'),
-          lesson('Complication prevention checklist', 'Чек-лист профилактики осложнений', 'resource')
+          lesson('Complication prevention checklist', 'Чек-лист профилактики осложнений', {
+            type: 'resource',
+            resourceUrl: documents.researchOne,
+            resourceLabel: 'Clinical reading PDF',
+            resourceLabel_ru: 'PDF с клиническим чтением'
+          })
         ]),
         section('Module 2 · Instrumentation', 'Модуль 2 · Инструментация', [
           lesson('Working length control', 'Контроль рабочей длины'),
@@ -374,7 +419,12 @@
         ]),
         section('Module 3 · Obturation and follow-up', 'Модуль 3 · Обтурация и наблюдение', [
           lesson('Obturation decision tree', 'Дерево решений для обтурации'),
-          lesson('Follow-up protocol', 'Протокол наблюдения', 'resource')
+          lesson('Follow-up protocol', 'Протокол наблюдения', {
+            type: 'resource',
+            resourceUrl: documents.researchTwo,
+            resourceLabel: 'Follow-up checklist PDF',
+            resourceLabel_ru: 'PDF с чек-листом наблюдения'
+          })
         ])
       ]
     ),
@@ -386,14 +436,24 @@
       [
         section('Module 1 · Digital planning', 'Модуль 1 · Цифровое планирование', [
           lesson('CBCT and intraoral scan alignment', 'Совмещение КЛКТ и интраорального скана'),
-          lesson('Surgical guide checkpoints', 'Контрольные точки хирургического шаблона', 'resource')
+          lesson('Surgical guide checkpoints', 'Контрольные точки хирургического шаблона', {
+            type: 'resource',
+            resourceUrl: documents.researchThree,
+            resourceLabel: 'Guide verification PDF',
+            resourceLabel_ru: 'PDF с проверкой шаблона'
+          })
         ]),
         section('Module 2 · Surgical execution', 'Модуль 2 · Хирургический этап', [
           lesson('Site preparation and drill sequence', 'Подготовка ложа и последовательность сверления'),
           lesson('Immediate provisional decision tree', 'Алгоритм немедленной временной нагрузки')
         ]),
         section('Module 3 · Restorative handoff', 'Модуль 3 · Передача на ортопедический этап', [
-          lesson('Lab communication sheet', 'Форма передачи в лабораторию', 'resource'),
+          lesson('Lab communication sheet', 'Форма передачи в лабораторию', {
+            type: 'resource',
+            resourceUrl: documents.researchFour,
+            resourceLabel: 'Lab handoff PDF',
+            resourceLabel_ru: 'PDF для передачи в лабораторию'
+          }),
           lesson('Emergence profile control', 'Контроль профиля прорезывания')
         ])
       ]
@@ -413,7 +473,12 @@
           lesson('Mockup transfer protocol', 'Протокол переноса мокапа')
         ]),
         section('Module 3 · Patient communication', 'Модуль 3 · Коммуникация с пациентом', [
-          lesson('Case presentation script', 'Скрипт презентации случая', 'resource'),
+          lesson('Case presentation script', 'Скрипт презентации случая', {
+            type: 'resource',
+            resourceUrl: documents.researchOne,
+            resourceLabel: 'Presentation script PDF',
+            resourceLabel_ru: 'PDF со скриптом презентации'
+          }),
           lesson('Approval and consent flow', 'Согласование плана и маршрута лечения')
         ])
       ]
@@ -430,7 +495,12 @@
         ]),
         section('Module 2 · Planning stable contacts', 'Модуль 2 · Планирование стабильных контактов', [
           lesson('Centric relation checkpoints', 'Контрольные точки центрального соотношения'),
-          lesson('Wax-up communication sheet', 'Форма коммуникации для wax-up', 'resource')
+          lesson('Wax-up communication sheet', 'Форма коммуникации для wax-up', {
+            type: 'resource',
+            resourceUrl: documents.researchTwo,
+            resourceLabel: 'Wax-up planning PDF',
+            resourceLabel_ru: 'PDF по планированию wax-up'
+          })
         ]),
         section('Module 3 · Interdisciplinary execution', 'Модуль 3 · Междисциплинарное выполнение', [
           lesson('Orthodontic-restorative sequencing', 'Последовательность ортодонтического и реставрационного этапов'),
@@ -449,7 +519,12 @@
           lesson('Inflammation control sequence', 'Последовательность контроля воспаления')
         ]),
         section('Module 2 · Surgical and non-surgical strategy', 'Модуль 2 · Хирургическая и нехирургическая тактика', [
-          lesson('Maintenance scheduling', 'Планирование поддерживающих визитов', 'resource'),
+          lesson('Maintenance scheduling', 'Планирование поддерживающих визитов', {
+            type: 'resource',
+            resourceUrl: documents.researchThree,
+            resourceLabel: 'Maintenance protocol PDF',
+            resourceLabel_ru: 'PDF с протоколом поддержания'
+          }),
           lesson('Soft-tissue correction planning', 'Планирование мягкотканной коррекции')
         ])
       ]
@@ -461,7 +536,12 @@
       'Поведенческое сопровождение и малоинвазивное детское лечение',
       [
         section('Module 1 · First contact and adaptation', 'Модуль 1 · Первый контакт и адаптация', [
-          lesson('Parent communication script', 'Скрипт общения с родителями', 'resource'),
+          lesson('Parent communication script', 'Скрипт общения с родителями', {
+            type: 'resource',
+            resourceUrl: documents.researchFour,
+            resourceLabel: 'Parent communication PDF',
+            resourceLabel_ru: 'PDF для общения с родителями'
+          }),
           lesson('Tell-show-do workflow', 'Протокол tell-show-do')
         ]),
         section('Module 2 · Prevention and treatment', 'Модуль 2 · Профилактика и лечение', [
@@ -478,7 +558,12 @@
       [
         section('Module 1 · Color and shape', 'Модуль 1 · Цвет и форма', [
           lesson('Shade selection protocol', 'Протокол выбора оттенка'),
-          lesson('Morphology map', 'Карта морфологии', 'resource')
+          lesson('Morphology map', 'Карта морфологии', {
+            type: 'resource',
+            resourceUrl: documents.researchOne,
+            resourceLabel: 'Morphology map PDF',
+            resourceLabel_ru: 'PDF с картой морфологии'
+          })
         ]),
         section('Module 2 · Layering execution', 'Модуль 2 · Выполнение послойной техники', [
           lesson('Isolation and matrix strategy', 'Изоляция и матричная стратегия'),
@@ -497,7 +582,12 @@
           lesson('Attachment strategy', 'Стратегия аттачментов')
         ]),
         section('Module 2 · Staging and monitoring', 'Модуль 2 · Стадийность и контроль', [
-          lesson('Movement staging checklist', 'Чек-лист стадийности перемещений', 'resource'),
+          lesson('Movement staging checklist', 'Чек-лист стадийности перемещений', {
+            type: 'resource',
+            resourceUrl: documents.researchTwo,
+            resourceLabel: 'Movement staging PDF',
+            resourceLabel_ru: 'PDF со стадийностью перемещений'
+          }),
           lesson('Refinement triggers', 'Показания к refinement')
         ]),
         section('Module 3 · Patient communication', 'Модуль 3 · Коммуникация с пациентом', [
@@ -512,6 +602,7 @@
     doctors,
     lecturers,
     academyCourses,
-    academyVideoCatalog
+    academyVideoCatalog,
+    media
   };
 });

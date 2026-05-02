@@ -52,6 +52,11 @@
       .slice(0, 4);
   }
 
+  function doctorCases(doctor) {
+    const cases = Array.isArray(doctor?.cases) ? doctor.cases.filter(Boolean) : [];
+    return cases.length ? cases : [doctor?.image || '../../assets/images/orange-doctor.png'];
+  }
+
   function renderList(node, items) {
     if (!node) return;
     node.innerHTML = items.map((item) => `<p>${item}</p>`).join('');
@@ -105,14 +110,27 @@
   }
 
   function setupSlider() {
-    const slides = Array.from(documentObject.querySelectorAll('.slide'));
     const nextButton = documentObject.querySelector('.next');
     const prevButton = documentObject.querySelector('.prev');
     const slider = documentObject.querySelector('.doctor-slider');
-    if (!slides.length || !nextButton || !prevButton || !slider) return;
+    const sliderWrapper = documentObject.querySelector('.slider-wrapper');
+    if (!sliderWrapper || !nextButton || !prevButton || !slider) return;
 
     let currentIndex = 0;
     let autoplayId = null;
+    let slides = Array.from(documentObject.querySelectorAll('.slide'));
+
+    function setSlides(images) {
+      sliderWrapper.innerHTML = images
+        .map(
+          (image, index) =>
+            `<img src="${image}" class="slide ${index === 0 ? 'active' : ''}" alt="Doctor case ${index + 1}">`
+        )
+        .join('');
+      slides = Array.from(documentObject.querySelectorAll('.slide'));
+      currentIndex = 0;
+      showSlide(currentIndex);
+    }
 
     function showSlide(index) {
       slides.forEach((slide, slideIndex) => {
@@ -149,6 +167,10 @@
 
     showSlide(currentIndex);
     startAutoplay();
+
+    return {
+      setSlides
+    };
   }
 
   function setupDoctorCasePage() {
@@ -170,6 +192,8 @@
       doctorSection.dataset.doctorId = String(doctor.id);
     }
 
+    const sliderApi = setupSlider();
+
     if (doctor) {
       if (titleNode) titleNode.textContent = doctor.name || t('doctor_name_fallback', 'Integrat doctor');
       if (descriptionNode) {
@@ -180,6 +204,7 @@
       }
       renderList(specialtiesLeft, splitEducation(doctor));
       renderList(specialtiesRight, splitFocus(doctor));
+      sliderApi?.setSlides?.(doctorCases(doctor));
       if (typeof documentObject.title === 'string') {
         documentObject.title = `${doctor.name} | Integrat`;
       }
@@ -196,11 +221,6 @@
     bookingButton?.addEventListener('click', async () => {
       if (!doctor?.id) {
         setBookingStatus(statusNode, t('doctor_incomplete', 'Doctor information is incomplete.'), { isError: true });
-        return;
-      }
-
-      if (!windowObject.localStorage?.getItem('token')) {
-        redirectToClinicAuth(doctor.id);
         return;
       }
 
@@ -245,8 +265,6 @@
         bookingButton.disabled = false;
       }
     });
-
-    setupSlider();
   }
 
   setupDoctorCasePage();

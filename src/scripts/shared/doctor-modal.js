@@ -54,6 +54,14 @@
     container.appendChild(booking);
   }
 
+  function parseCases(raw, fallbackImage) {
+    const values = String(raw || '')
+      .split('||')
+      .map((item) => item.trim())
+      .filter(Boolean);
+    return values.length ? values : [fallbackImage || '../../assets/images/orange-doctor.png'];
+  }
+
   function setBookingStatus(modal, message, options = {}) {
     const node = modal.querySelector('[data-booking-status]');
     if (!node) return;
@@ -105,11 +113,12 @@
         `;
       }
 
-      imageNodes.forEach((node) => {
-        const url = data.img || '../../assets/images/orange-doctor.png';
+      const caseImages = parseCases(data.cases, data.img);
+      imageNodes.forEach((node, index) => {
+        const url = caseImages[index % caseImages.length] || data.img || '../../assets/images/orange-doctor.png';
         if (node.tagName === 'IMG') {
           node.src = url;
-          node.alt = data.name || 'Doctor portrait';
+          node.alt = `${data.name || 'Doctor'} case ${index + 1}`;
         } else {
           node.style.backgroundImage = `url(${url})`;
           node.style.backgroundSize = 'cover';
@@ -142,6 +151,7 @@
         edu: card.dataset.edu,
         spec: card.dataset.spec,
         img: card.dataset.img,
+        cases: card.dataset.cases,
         specialty: card.dataset.specialty
       });
     });
@@ -165,11 +175,6 @@
         const doctorId = Number(modal.dataset.doctorId || 0);
         if (!doctorId) {
           setBookingStatus(modal, t('doctor_incomplete', 'Doctor information is incomplete.'), { isError: true });
-          return;
-        }
-
-        if (!windowObject.localStorage.getItem('token')) {
-          redirectToClinicAuth();
           return;
         }
 

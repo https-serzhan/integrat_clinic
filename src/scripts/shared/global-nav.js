@@ -1,5 +1,6 @@
 (function globalNavigation(windowObject, documentObject) {
   const config = windowObject.IntegratConfig || {};
+  const siteData = windowObject.IntegratSiteData || {};
   const contact = config.contact || {};
   const socials = config.socials || {};
   const siteScope = config.siteScope || {};
@@ -49,12 +50,7 @@
   }
 
   function goToAppointmentFlow() {
-    if (hasToken()) {
-      windowObject.location.href = 'doctors.html';
-      return;
-    }
-
-    windowObject.location.href = 'auth.html?returnTo=doctors.html';
+    windowObject.location.href = 'doctors.html';
   }
 
   function wireHeaderButton() {
@@ -115,6 +111,12 @@
         goToAppointmentFlow();
       });
     });
+  }
+
+  function wireSecondaryButton() {
+    const secondaryButton = documentObject.querySelector('.header-right .btn-outline');
+    if (!secondaryButton) return;
+    secondaryButton.remove();
   }
 
   function syncActiveNavigation() {
@@ -223,15 +225,28 @@
     });
   }
 
+  function bindSharedMedia() {
+    const homeVideoSrc = siteData.media?.homeVideoSrc;
+    if (!homeVideoSrc) return;
+
+    documentObject.querySelectorAll('video[data-home-video]').forEach((video) => {
+      if (video.getAttribute('src') !== homeVideoSrc) {
+        video.src = homeVideoSrc;
+      }
+    });
+  }
+
   function init() {
     renderSharedNavigation();
     pruneArchivedNavigation();
     syncActiveNavigation();
     wireHeaderButton();
+    wireSecondaryButton();
     wireBookingButtons();
     wirePromoButtons();
     makeLogoClickable();
     populateGlobalContent();
+    bindSharedMedia();
     windowObject.IntegratI18n?.applyDomTranslations?.();
   }
 

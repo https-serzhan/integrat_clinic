@@ -1,170 +1,85 @@
 # Integrat Dental Ecosystem
 
-## Project Overview
+Integrat is a multi-page dental clinic and academy application built with static HTML/CSS/JS on the frontend and one Express backend.
 
-Integrat Dental Ecosystem is a multi-page web application for a dental clinic and academy.
-It combines:
+## What is in the project
 
-- a public clinic website
-- doctor browsing and appointment booking
-- an academy area with sign-up, login, and course purchase flow
-- an admin area for reviewing appointments and academy payment requests
+- public clinic pages
+- doctors listing and doctor detail flow
+- client appointment booking and cancellation
+- academy login, course purchase requests, and gated course pages
+- admin panel for appointments and academy payment requests
 
-The project is deployed as one Node.js + Express application and uses Supabase as the primary production database.
+The client dashboard is part of the doctors page. Logged-in clients can open `doctors.html#clientDashboard` to review and cancel appointments.
 
-## Problem Statement
-
-Dental service businesses often split their online presence into disconnected tools:
-
-- a marketing website for the clinic
-- a separate booking flow
-- a separate training or academy platform
-- manual communication through phone or messenger
-
-This creates inconsistent user experience, duplicated data, and weak administrative control.
-
-This project solves that problem by providing one integrated system where:
-
-- visitors can discover the clinic and its doctors
-- patients must log in before booking an appointment, so the clinic knows exactly who booked
-- academy users can register, request course purchase, and access approved materials
-- administrators can review requests in one place
-
-## Objectives
-
-- build a single ecosystem for clinic and academy services
-- enforce authenticated booking for doctor appointments
-- centralize operational data in Supabase
-- support admin review for academy payment approvals
-- provide a deployable full-stack solution on Vercel
-
-## Main Features
-
-### Clinic side
-
-- public landing pages
-- contact form
-- doctors listing
-- doctor detail page
-- authenticated appointment booking
-
-### Academy side
-
-- academy sign-up and login
-- course catalog
-- payment request workflow
-- gated course access after approval
-
-### Admin side
-
-- admin login via academy auth
-- appointment list
-- payment request list
-- manual approval or rejection of payment requests
-
-## Tech Stack
-
-### Frontend
-
-- HTML5
-- CSS3
-- Vanilla JavaScript
-
-### Backend
+## Stack
 
 - Node.js 20
 - Express
-- Cookie Parser
+- Vanilla JavaScript
+- HTML/CSS
+- optional Supabase integration
+- optional Telegram notifications
 
-### Database and external services
-
-- Supabase
-- Telegram Bot API for notifications
-
-### Deployment
-
-- Vercel
-
-## Architecture
-
-The project uses a simple monolithic structure:
-
-- `src/pages` contains all HTML pages
-- `src/styles` contains page and shared CSS
-- `src/scripts` contains frontend logic
-- `src/backend/academy/server.js` contains the Express backend
-- `api/index.js` exposes the backend as a Vercel serverless function entrypoint
-- `tools/prepare-public.js` copies the frontend into `public/` for Vercel static serving
-
-The backend serves:
-
-- API endpoints for auth, contacts, appointments, courses, and admin actions
-- static frontend assets and pages
-
-## Core User Flows
-
-### 1. Contact form
-
-1. User opens a public page.
-2. User fills name, phone, and comment.
-3. Frontend sends the request to the backend.
-4. Backend validates input.
-5. Backend stores the record in Supabase.
-6. Backend optionally sends a Telegram notification.
-
-### 2. Doctor appointment booking
-
-1. User opens the doctors area or a doctor page.
-2. If the user is not authenticated, the frontend redirects them to clinic login/register.
-3. After login or sign-up, the user returns to the doctor flow.
-4. User selects time and submits appointment.
-5. Backend validates the user and the doctor.
-6. Backend stores the appointment in Supabase.
-
-### 3. Academy course purchase
-
-1. User signs up or logs in through the academy flow.
-2. User opens a course and sends a payment request.
-3. Backend creates a pending payment request.
-4. Admin reviews the request.
-5. If approved, the user gains course access.
-
-## Project Structure
+## Project structure
 
 ```text
 .
 ├── api/
 ├── assets/
 ├── docs/
-├── tools/
 ├── src/
 │   ├── backend/academy/
 │   ├── pages/
 │   ├── scripts/
 │   └── styles/
-├── .env
 ├── package.json
 └── vercel.json
 ```
 
+There is no source `public/` folder. The app serves `src/` and `assets/` directly.
+
 ## Pages
 
-- `index.html` - landing page
-- `clinic.html` - clinic information
-- `doctors.html` - doctors list
-- `doctor.html` - single doctor page with booking flow
-- `academy.html` - academy landing and access point
-- `videos.html` - gated academy videos page
-- `about.html` - about page
-- `faq.html` - FAQ page
-- `auth.html` - clinic authentication page
-- `admin.html` - admin panel
-- `laboratory.html` - reserved for future work
-- `store.html` - reserved for future work
+- `src/pages/index.html` - home
+- `src/pages/clinic.html` - clinic
+- `src/pages/doctors.html` - doctors and client dashboard
+- `src/pages/doctor.html` - single doctor page
+- `src/pages/academy.html` - academy
+- `src/pages/videos.html` - academy course viewer
+- `src/pages/about.html` - about
+- `src/pages/faq.html` - FAQ
+- `src/pages/auth.html` - clinic auth
+- `src/pages/admin.html` - admin
+- `src/pages/laboratory.html` - kept intentionally
+- `src/pages/store.html` - kept intentionally
 
-## Environment Variables
+## Local run
 
-Minimum required production variables:
+Install dependencies from the repo root:
+
+```bash
+npm install
+```
+
+Start the app:
+
+```bash
+npm start
+```
+
+Open:
+
+- `http://localhost:3000`
+- `http://localhost:3000/src/pages/doctors.html`
+- `http://localhost:3000/src/pages/academy.html`
+- `http://localhost:3000/src/pages/admin.html`
+
+`npm run build` is a no-op kept for deployment parity.
+
+## Environment
+
+Minimum production variables:
 
 ```env
 JWT_SECRET=
@@ -192,51 +107,31 @@ TELEGRAM_THREAD_ID=
 TELEGRAM_STARTUP_NOTIFY=1
 FAKE_BACKEND_LINK=
 ALLOWED_CORS_ORIGINS=
+INTEGRAT_DATA_DIR=
 ```
 
-## Local Run
-
-1. Create `.env` in the project root and fill it with the variables listed below.
-2. Run the SQL from [docs/supabase-schema.md](docs/supabase-schema.md).
-3. Install dependencies:
-
-```bash
-npm install
-```
-
-4. Start the server:
-
-```bash
-npm start
-```
-
-5. Open:
-
-- `http://localhost:3000/src/pages/index.html`
-- `http://localhost:3000/src/pages/academy.html`
-- `http://localhost:3000/src/pages/admin.html`
+If Supabase is not configured, the backend falls back to local JSON storage in `src/backend/academy/data/`.
 
 ## Deployment
 
-The project is prepared for Vercel.
+The project is prepared for Vercel:
 
-Deployment guide:
+- static files are served directly from the repository
+- API routes go through `api/index.js`
+- `/` rewrites to `src/pages/index.html`
+
+Supporting docs:
 
 - [docs/vercel-deploy.md](docs/vercel-deploy.md)
-
-Database setup:
-
 - [docs/supabase-schema.md](docs/supabase-schema.md)
-
-System explanation and defense notes:
-
 - [docs/project-explanation.md](docs/project-explanation.md)
 
-## Technical Notes
+## Notes
 
-- Supabase is the primary production data source.
-- Telegram is optional and should not block core business flows.
-- `laboratory.html` and `store.html` are intentionally kept for future development.
+- install dependencies only in the repo root
+- `store.html` and `laboratory.html` are intentionally retained
+- the site is locked to English
+- shared video sections use the same configured home-page video source
 
 ## Student IDs
 

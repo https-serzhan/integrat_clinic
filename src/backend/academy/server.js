@@ -1001,6 +1001,68 @@ async function listAppointmentRecords({ patientId = null } = {}) {
   return normalized.length ? normalized : localFallback;
 }
 
+async function setAppointmentStatus({ appointmentId, patientId, status }) {
+  const appointmentKey = String(appointmentId || '').trim();
+  const patientKey = String(patientId || '').trim();
+  const nextStatus = String(status || '').trim().toLowerCase();
+
+  if (!appointmentKey || !patientKey || !nextStatus) {
+    return { ok: false, reason: 'appointmentId, patientId, and status are required.', appointment: null };
+  }
+
+  let localAppointment = null;
+  const appointments = getAppointments();
+  const localTarget = appointments.find(
+    (item) => String(item?.id ?? '') === appointmentKey && String(item?.patient_id || '') === patientKey
+  );
+
+  if (localTarget) {
+    localTarget.status = nextStatus;
+    localTarget.updated_at = new Date().toISOString();
+    saveAppointments(appointments);
+    localAppointment =
+      listLocalAppointmentsExpanded().find(
+        (item) => String(item?.id ?? '') === appointmentKey && String(item?.patientId || '') === patientKey
+      ) || null;
+  }
+
+  if (!isSupabaseConfigured()) {
+    if (!localAppointment) {
+      return { ok: false, reason: 'Appointment not found.', appointment: null };
+    }
+    return { ok: true, reason: null, appointment: localAppointment };
+  }
+
+  const result = await supabaseRequest(
+    `${supabaseTablePath(SUPABASE_APPOINTMENTS_TABLE)}${buildSupabaseQuery({
+      id: `eq.${appointmentKey}`,
+      patient_id: `eq.${patientKey}`
+    })}`,
+    {
+      method: 'PATCH',
+      headers: {
+        Prefer: 'return=representation'
+      },
+      body: JSON.stringify({
+        status: nextStatus
+      })
+    }
+  );
+
+  if (!result.ok || !Array.isArray(result.data) || !result.data.length) {
+    if (localAppointment) {
+      return { ok: true, reason: null, appointment: localAppointment };
+    }
+    return { ok: false, reason: result.reason || 'Appointment was not updated.', appointment: null };
+  }
+
+  return {
+    ok: true,
+    reason: null,
+    appointment: normalizeAppointmentRow(result.data[0])
+  };
+}
+
 function normalizePaymentRequestRow(row) {
   if (!row || typeof row !== 'object') return null;
 
@@ -1353,6 +1415,10 @@ function currentBearerUser(req) {
   return users.find((user) => user.id === payload.sub) || null;
 }
 
+function currentClinicUser(req) {
+  return currentBearerUser(req) || currentUser(req);
+}
+
 function setSession(res, user) {
   const token = signToken(buildSessionSnapshot(user));
   res.cookie(SESSION_COOKIE, token, {
@@ -1416,7 +1482,7 @@ function adminRequired(req, res, next) {
 }
 
 function clinicAuthRequired(req, res, next) {
-  const user = currentBearerUser(req);
+  const user = currentClinicUser(req);
   if (!user) {
     return res.status(401).json({ detail: 'Could not validate credentials' });
   }
@@ -1426,7 +1492,7 @@ function clinicAuthRequired(req, res, next) {
 }
 
 function clinicAdminRequired(req, res, next) {
-  const user = currentBearerUser(req);
+  const user = currentClinicUser(req);
   if (!user) {
     return res.status(401).json({ detail: 'Could not validate credentials' });
   }
@@ -1889,23 +1955,62 @@ async function createAppointmentHandler(req, res) {
 app.post('/appointments', clinicAuthRequired, createAppointmentHandler);
 app.post('/api/appointments', clinicAuthRequired, createAppointmentHandler);
 
-async function listClinicAppointmentsHandler(req, res) {
-  const appointments = await listAppointmentRecords({
-    patientId: req.user.role === 'admin' ? null : req.user.id
-  });
-
-  return res.json(appointments.map((item) => ({
+function serializeClinicAppointment(item) {
+  return {
     id: item.id,
     datetime: item.datetime,
     status: item.status,
     patient_email: item.patientEmail,
     doctor_name: item.doctorName,
     created_at: item.createdAt
-  })));
+  };
+}
+
+async function listClinicAppointmentsHandler(req, res) {
+  const appointments = await listAppointmentRecords({
+    patientId: req.user.role === 'admin' ? null : req.user.id
+  });
+
+  return res.json(appointments.map(serializeClinicAppointment));
 }
 
 app.get('/appointments', clinicAuthRequired, listClinicAppointmentsHandler);
 app.get('/api/appointments', clinicAuthRequired, listClinicAppointmentsHandler);
+
+async function cancelClinicAppointmentHandler(req, res) {
+  const appointmentId = String(req.params.appointmentId || '').trim();
+  if (!appointmentId) {
+    return res.status(400).json({ detail: 'appointmentId is required' });
+  }
+
+  const appointments = await listAppointmentRecords({ patientId: req.user.id });
+  const appointment = appointments.find(
+    (item) => String(item?.id ?? '') === appointmentId && String(item?.patientId || '') === String(req.user.id)
+  );
+
+  if (!appointment) {
+    return res.status(404).json({ detail: 'Appointment not found' });
+  }
+
+  if (String(appointment.status || '').toLowerCase() === 'cancelled') {
+    return res.json({ appointment: serializeClinicAppointment(appointment), alreadyCancelled: true });
+  }
+
+  const updated = await setAppointmentStatus({
+    appointmentId,
+    patientId: req.user.id,
+    status: 'cancelled'
+  });
+
+  if (!updated.ok || !updated.appointment) {
+    return res.status(500).json({ detail: updated.reason || 'Could not cancel appointment.' });
+  }
+
+  return res.json({ appointment: serializeClinicAppointment(updated.appointment) });
+}
+
+app.post('/appointments/:appointmentId/cancel', clinicAuthRequired, cancelClinicAppointmentHandler);
+app.post('/api/appointments/:appointmentId/cancel', clinicAuthRequired, cancelClinicAppointmentHandler);
 
 app.get('/api/admin/appointments', adminRequired, async (_req, res) => {
   const appointments = await listAppointmentRecords();

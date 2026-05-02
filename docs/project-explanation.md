@@ -156,10 +156,10 @@ The project is prepared for Vercel.
 Production deployment structure:
 
 - `api/index.js` exposes the Express app
-- `tools/prepare-public.js` copies frontend files to `public/`
+- `src/` and `assets/` hold the static frontend files directly
 - `vercel.json` defines routing behavior
 
-This lets Vercel serve static pages while routing API requests to the backend function.
+This lets Vercel serve static pages from the repository while routing API requests to the backend function.
 
 ## 11. Why Supabase Is Important
 

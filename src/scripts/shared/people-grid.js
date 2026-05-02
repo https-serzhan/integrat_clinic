@@ -41,6 +41,7 @@
       specialty_ru: entry.specialty_ru || specialty,
       categories,
       image: entry.image || '../../assets/images/orange-doctor.png',
+      cases: Array.isArray(entry.cases) && entry.cases.length ? entry.cases : [entry.image || '../../assets/images/orange-doctor.png'],
       experience: entry.experience || 10,
       education: entry.education || t('doctor_education_fallback', 'Education profile will be published soon.'),
       education_ru: entry.education_ru || entry.education || t('doctor_education_fallback', 'Education profile will be published soon.'),
@@ -70,6 +71,7 @@
         data-edu="${escapeHtml(localizedEducation)}"
         data-spec="${escapeHtml(localizedSpec)}"
         data-img="${escapeHtml(entry.image)}"
+        data-cases="${escapeHtml(entry.cases.join('||'))}"
         data-category="${escapeHtml(entry.categories.join(' '))}">
         <div class="doctor-photo">
           <img src="${escapeHtml(entry.image)}" alt="${escapeHtml(entry.name)}" />
@@ -96,6 +98,7 @@
         data-edu="${escapeHtml(localizedEducation)}"
         data-spec="${escapeHtml(localizedSpec)}"
         data-img="${escapeHtml(entry.image)}"
+        data-cases="${escapeHtml(entry.cases.join('||'))}"
         data-category="${escapeHtml(entry.categories.join(' '))}">
         <div class="doctor-times">${tags}</div>
         <div class="doctor-info">

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../styles/global.css">
 
     <link rel="stylesheet" href="../styles/doctors.css">
+    <link rel="stylesheet" href="../styles/dashboard.css">
 </head>
 
 <body class="page-doctors">
@@ -30,7 +31,6 @@
 
         <div class="header-right">
             <button class="btn-black">GET IN TOUCH</button>
-            <button class="btn-outline">ENG</button>
         </div>
     </div>
 </header>
@@ -73,6 +73,43 @@
     </div>
 </section>
 
+<section class="doctors-dashboard" id="clientDashboard">
+    <div class="container dashboard-main">
+        <section class="dashboard-card" id="dashboardAccessGuard" hidden>
+            <h2>Login Required</h2>
+            <p>You need a client account to view your bookings and manage cancellations.</p>
+            <a class="dashboard-link" href="auth.html?returnTo=doctors.html%23clientDashboard">Open login</a>
+        </section>
+
+        <section class="dashboard-panel" id="dashboardPanel" hidden>
+            <div class="dashboard-summary">
+                <article class="dashboard-summary__card">
+                    <span class="dashboard-summary__label">Total</span>
+                    <strong id="dashboardTotalCount">0</strong>
+                </article>
+                <article class="dashboard-summary__card">
+                    <span class="dashboard-summary__label">Scheduled</span>
+                    <strong id="dashboardScheduledCount">0</strong>
+                </article>
+                <article class="dashboard-summary__card">
+                    <span class="dashboard-summary__label">Cancelled</span>
+                    <strong id="dashboardCancelledCount">0</strong>
+                </article>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="dashboard-card__header">
+                    <h2>My Appointments</h2>
+                    <p>Latest bookings appear first.</p>
+                </div>
+
+                <div id="dashboardAppointmentsList" class="dashboard-list"></div>
+                <p id="dashboardFeedback" class="dashboard-feedback"></p>
+            </div>
+        </section>
+    </div>
+</section>
+
 <section class="treatments-page">
     <div class="container">
 
@@ -100,27 +137,27 @@
             <div class="treatments-cards">
 
                 <a href="#" class="treatment-card" data-category="veneers">
-                    <img src="../../assets/images/blue-doctor.png" alt="">
+                    <img src="../../assets/images/compensation_or_orthosurgery.png" alt="Compensation or orthosurgery treatment">
                 </a>
 
                 <a href="#" class="treatment-card" data-category="implants">
-                    <img src="../../assets/images/blue-doctor.png" alt="">
+                    <img src="../../assets/images/maxillary_expansion_final.png" alt="Maxillary expansion treatment">
                 </a>
 
                 <a href="#" class="treatment-card" data-category="ortho">
-                    <img src="../../assets/images/blue-doctor.png" alt="">
+                    <img src="../../assets/images/orthodontic_retreatment_of_open_bite_3.png" alt="Orthodontic retreatment">
                 </a>
 
                 <a href="#" class="treatment-card" data-category="veneers implants">
-                    <img src="../../assets/images/blue-doctor.png" alt="">
+                    <img src="../../assets/images/skelet_extension_of_tooth_rows_final.png" alt="Skeletal extension treatment">
                 </a>
 
                 <a href="#" class="treatment-card" data-category="ortho">
-                    <img src="../../assets/images/blue-doctor.png" alt="">
+                    <img src="../../assets/images/sometimes_one_tooth_can_cause_problem_final.png" alt="Single-tooth treatment case">
                 </a>
 
                 <a href="#" class="treatment-card" data-category="veneers">
-                    <img src="../../assets/images/blue-doctor.png" alt="">
+                    <img src="../../assets/images/uprighting_without_side_effect.png" alt="Uprighting treatment">
                 </a>
 
             </div>
@@ -134,17 +171,17 @@
 
         <form class="contact-form" id="contactForm">
 
-            <h2 class="contact-title">ЗАПОЛНИТЕ ФОРМУ</h2>
+            <h2 class="contact-title">FILL OUT THE FORM</h2>
             <p class="contact-subtitle">
-                и наши менеджеры позвонят вам<br>
-                для подробной консультации
+                and our managers will call you<br>
+                for a detailed consultation
             </p>
 
             <div class="form-row">
                 <input
                         type="text"
                         name="fullname"
-                        placeholder="ФИО"
+                        placeholder="Full name"
                         required
                 >
 
@@ -159,22 +196,21 @@
 
             <textarea
                     name="comment"
-                    placeholder="Комментарий"
+                    placeholder="Comment"
                     required
             ></textarea>
 
             <div class="form-bottom">
 
                 <button type="submit" class="send-btn">
-                    Отправить
+                    Send
                 </button>
 
                 <label class="checkbox">
                     <input type="checkbox" required>
                     <span class="checkmark"></span>
                     <p>
-                        Ставя отметку, я даю свое согласие на обработку
-                        своих персональных данных.
+                        By checking the box, I consent to the processing of my personal data.
                     </p>
                 </label>
 
@@ -183,7 +219,7 @@
         </form>
 
         <div class="contact-info">
-            <p class="address">Астана, Мангилик Ел 36</p>
+            <p class="address">Astana, Mangilik El 36</p>
             <p class="phone">+7 747 457 17 40</p>
         </div>
 
@@ -218,12 +254,11 @@
 
             <div class="doctor-actions">
                 <button class="btn-black">Cases</button>
-                <button class="btn-black">Записаться к врачу</button>
+                <button class="btn-black">Book a doctor appointment</button>
             </div>
         </div>
     </div>
 </div>
-<script src="../scripts/shared/config.js"></script>
 <script src="../scripts/shared/site-config.js"></script>
 <script src="../scripts/shared/i18n.js"></script>
     <script src="../scripts/shared/site-data.js"></script>
@@ -233,6 +268,7 @@
 <script src="../scripts/shared/doctor-modal.js"></script>
 <script src="../scripts/shared/global-nav.js"></script>
 <script src="../scripts/doctors.js"></script>
+<script src="../scripts/dashboard.js"></script>
 <footer class="site-footer">
     <div class="container">
         <div class="site-footer__top">

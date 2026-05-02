@@ -3,6 +3,7 @@
   "framework": null,
   "buildCommand": "npm run build",
   "rewrites": [
+    { "source": "/", "destination": "/src/pages/index.html" },
     { "source": "/api/(.*)", "destination": "/api" },
     { "source": "/auth/(.*)", "destination": "/api" },
     { "source": "/appointments", "destination": "/api" },

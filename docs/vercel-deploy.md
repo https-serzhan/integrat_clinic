@@ -4,7 +4,7 @@
 
 This project is deployed on Vercel as:
 
-- static frontend files from `public/`
+- static frontend files served directly from `src/` and `assets/`
 - backend API through `api/index.js`
 
 ## Before Deployment
@@ -18,6 +18,8 @@ This project is deployed on Vercel as:
 - Framework Preset: `Other`
 - Build Command: `npm run build`
 - Install Command: `npm install`
+
+`npm run build` is intentionally a no-op. No generated `public/` directory is required.
 
 ## Required Environment Variables
 
@@ -62,3 +64,4 @@ Then create the admin account through the academy UI and promote it in Supabase.
 - Supabase must be treated as the source of truth.
 - Local JSON storage is only a fallback mechanism.
 - `laboratory.html` and `store.html` remain in the project intentionally.
+- `/` is rewritten to `src/pages/index.html` through `vercel.json`.

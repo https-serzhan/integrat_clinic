@@ -62,6 +62,12 @@
       specialty_ru: doctor.specialty_ru || meta.specialty_ru || specialty,
       categories,
       image: doctor.image || meta.image || '../../assets/images/orange-doctor.png',
+      cases:
+        Array.isArray(doctor.cases) && doctor.cases.length
+          ? doctor.cases
+          : Array.isArray(meta.cases) && meta.cases.length
+            ? meta.cases
+            : [doctor.image || meta.image || '../../assets/images/orange-doctor.png'],
       experience: doctor.experience || meta.experience || 10,
       education: doctor.education || meta.education || t('doctor_education_fallback', 'Education profile will be published soon.'),
       education_ru: doctor.education_ru || meta.education_ru || doctor.education || meta.education || t('doctor_education_fallback', 'Education profile will be published soon.'),
@@ -120,6 +126,7 @@
         data-edu="${escapeHtml(localizedDoctor.education)}"
         data-spec="${escapeHtml(localizedDoctor.spec)}"
         data-img="${escapeHtml(localizedDoctor.image)}"
+        data-cases="${escapeHtml(localizedDoctor.cases.join('||'))}"
         data-category="${escapeHtml(localizedDoctor.categories.join(' '))}">
         <div class="doctor-photo">
           <img src="${escapeHtml(localizedDoctor.image)}" alt="${escapeHtml(localizedDoctor.name)}" />

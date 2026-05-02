@@ -14,8 +14,8 @@
   function getReturnTarget() {
     const params = new URLSearchParams(windowObject.location.search);
     const raw = params.get('returnTo');
-    if (!raw) return 'index.html';
-    if (/^(https?:)?\/\//i.test(raw)) return 'index.html';
+    if (!raw) return 'doctors.html#clientDashboard';
+    if (/^(https?:)?\/\//i.test(raw)) return 'doctors.html#clientDashboard';
     return raw.startsWith('/') ? raw.slice(1) : raw;
   }
 

@@ -6,7 +6,7 @@
     "node": "20.x"
   },
   "scripts": {
-    "build": "node tools/prepare-public.js",
+    "build": "node -e \"console.log('No build step required.')\"",
     "start": "node api/index.js"
   },
   "dependencies": {

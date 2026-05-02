@@ -100,6 +100,19 @@
     feedback.classList.toggle('is-error', Boolean(isError));
   }
 
+  function storeClinicToken(accessToken) {
+    if (!accessToken) return;
+    try {
+      window.localStorage.setItem('token', accessToken);
+    } catch {}
+  }
+
+  function clearClinicToken() {
+    try {
+      window.localStorage.removeItem('token');
+    } catch {}
+  }
+
   function setUserUI(user) {
     currentUser = user || null;
 
@@ -179,6 +192,7 @@
       if (action === 'logout') {
         try {
           await api.logout();
+          clearClinicToken();
           setUserUI(null);
         } catch (error) {
           setFeedback(error.message, true);
@@ -243,6 +257,7 @@
           email,
           password
         });
+        storeClinicToken(response?.access_token);
         setUserUI(response.user);
         closeModal();
       } catch (error) {
@@ -268,6 +283,7 @@
           email,
           password
         });
+        storeClinicToken(response?.access_token);
         setUserUI(response.user);
         closeModal();
       } catch (error) {

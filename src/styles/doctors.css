@@ -91,6 +91,15 @@
     padding: 120px 0;
 }
 
+.doctors-dashboard {
+    padding: 0 0 120px;
+    background: #f6f6f6;
+}
+
+.doctors-dashboard .dashboard-main {
+    padding-top: 48px;
+}
+
 .doctors-list-header {
     display: flex;
     align-items: center;

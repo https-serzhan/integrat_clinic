@@ -30,7 +30,6 @@
         <div class="header-right">
             <button class="btn-black" id="academyAuthButton" data-action="open">LOGIN</button>
             <a class="btn-black" id="academyAdminLink" href="admin.html" hidden>ADMIN</a>
-            <button class="btn-outline">ENG</button>
         </div>
     </div>
 </header>
@@ -46,22 +45,15 @@
             <h1>ACADEMY</h1>
 
             <p>
-                Комплексный разбор принципов организации окклюзии,
-                биомеханических основ и клинических подходов к управлению
-                перемещением зубов
+                A comprehensive review of occlusion design principles,
+                biomechanics, and practical clinical strategies for
+                controlled tooth movement.
             </p>
 
             <a href="#contactForm" class="academy-btn">
                 Book an appointment <span>↗</span>
             </a>
         </div>
-    </div>
-
-    <div class="course-progress">
-        <span class="seg active" data-index="0"></span>
-        <span class="seg" data-index="1"></span>
-        <span class="seg" data-index="2"></span>
-        <span class="seg" data-index="3"></span>
     </div>
 
 </section>
@@ -97,7 +89,7 @@
 </section>
 
 <section class="doctors-slider">
-    <div class="doctors-track" data-people-slider="doctors" data-people-limit="4">
+    <div class="doctors-track" data-people-slider="lecturers" data-people-limit="4">
 
     </div>
 </section>
@@ -179,17 +171,10 @@
     <div class="container">
 
         <div class="doctors-list-header">
-            <h2>OUR LECTORS</h2>
-
-            <div class="doctors-filters" data-people-filters="lecturers">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="veneers">Veneers</button>
-                <button class="filter-btn" data-filter="implants">Implants</button>
-                <button class="filter-btn" data-filter="ortho">Ortho</button>
-            </div>
+            <h2>OUR LECTURERS</h2>
         </div>
 
-        <div class="doctors-grid" data-people-grid="lecturers" data-people-limit="5">
+        <div class="doctors-grid" data-people-grid="lecturers" data-people-limit="4">
 
         </div>
     </div>
@@ -200,17 +185,17 @@
 
         <form class="contact-form" id="contactForm">
 
-            <h2 class="contact-title">ЗАПОЛНИТЕ ФОРМУ</h2>
+            <h2 class="contact-title">FILL OUT THE FORM</h2>
             <p class="contact-subtitle">
-                и наши менеджеры позвонят вам<br>
-                для подробной консультации
+                and our managers will call you<br>
+                for a detailed consultation
             </p>
 
             <div class="form-row">
                 <input
                         type="text"
                         name="fullname"
-                        placeholder="ФИО"
+                        placeholder="Full name"
                         required
                 >
 
@@ -225,22 +210,21 @@
 
             <textarea
                     name="comment"
-                    placeholder="Комментарий"
+                    placeholder="Comment"
                     required
             ></textarea>
 
             <div class="form-bottom">
 
                 <button type="submit" class="send-btn">
-                    Отправить
+                    Send
                 </button>
 
                 <label class="checkbox">
                     <input type="checkbox" required>
                     <span class="checkmark"></span>
                     <p>
-                        Ставя отметку, я даю свое согласие на обработку
-                        своих персональных данных.
+                        By checking the box, I consent to the processing of my personal data.
                     </p>
                 </label>
 
@@ -249,7 +233,7 @@
         </form>
 
         <div class="contact-info">
-            <p class="address">Астана, Мангилик Ел 36</p>
+            <p class="address">Astana, Mangilik El 36</p>
             <p class="phone">+7 747 457 17 40</p>
         </div>
 
@@ -310,7 +294,6 @@
 </div>
 
 <script src="../scripts/shared/animations.js"></script>
-<script src="../scripts/shared/config.js"></script>
 <script src="../scripts/shared/site-config.js"></script>
 <script src="../scripts/shared/i18n.js"></script>
 <script src="../scripts/shared/site-data.js"></script>
