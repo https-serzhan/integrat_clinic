@@ -2,8 +2,15 @@
   "name": "integrat-dental",
   "private": true,
   "version": "1.0.0",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
-    "postinstall": "npm ci --prefix src/backend/academy",
-    "start": "node src/backend/academy/server.js"
+    "build": "node scripts/prepare-public.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "express": "^4.21.2"
   }
 }

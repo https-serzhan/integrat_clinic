@@ -11,6 +11,7 @@ htmlcov/
 
 node_modules/
 src/backend/academy/node_modules/
+public/
 
 .idea/
 .vscode/

@@ -45,9 +45,10 @@ const ASSETS_DIR = path.join(ROOT_DIR, 'assets');
 const SITE_DATA = require(path.join(SRC_DIR, 'scripts', 'shared', 'site-data.js'));
 
 const configuredDataDir = String(process.env.INTEGRAT_DATA_DIR || '').trim();
+const defaultRuntimeDataDir = process.env.VERCEL ? path.join('/tmp', 'integrat-data') : path.join(__dirname, 'data');
 const DATA_DIR = configuredDataDir
   ? (path.isAbsolute(configuredDataDir) ? configuredDataDir : path.join(ROOT_DIR, configuredDataDir))
-  : path.join(__dirname, 'data');
+  : defaultRuntimeDataDir;
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
 const GRANTS_FILE = path.join(DATA_DIR, 'grants.json');
 const COURSES_FILE = path.join(DATA_DIR, 'courses.json');
@@ -1336,6 +1337,18 @@ function currentBearerUser(req) {
   const token = getBearerToken(req);
   const payload = verifyToken(token);
   if (!payload?.sub) return null;
+
+  if (payload.kind === 'clinic' && payload.email) {
+    return {
+      id: String(payload.sub),
+      name: String(payload.name || '').trim() || String(payload.email).split('@')[0] || 'User',
+      email: normalizeEmail(payload.email),
+      role: normalizeRole(payload.role, 'patient'),
+      phone: payload.phone ? String(payload.phone) : null,
+      createdAt: payload.createdAt || new Date(payload.iat * 1000).toISOString()
+    };
+  }
+
   const users = getUsers();
   return users.find((user) => user.id === payload.sub) || null;
 }
@@ -1345,7 +1358,7 @@ function setSession(res, user) {
   res.cookie(SESSION_COOKIE, token, {
     httpOnly: true,
     sameSite: 'lax',
-    secure: false,
+    secure: process.env.NODE_ENV === 'production' || Boolean(process.env.VERCEL),
     maxAge: 1000 * 60 * 60 * 24 * 7
   });
 }
@@ -1354,12 +1367,20 @@ function clearSession(res) {
   res.clearCookie(SESSION_COOKIE, {
     httpOnly: true,
     sameSite: 'lax',
-    secure: false
+    secure: process.env.NODE_ENV === 'production' || Boolean(process.env.VERCEL)
   });
 }
 
 function issueClinicToken(user) {
-  return signToken({ sub: user.id, role: user.role, kind: 'clinic' });
+  return signToken({
+    sub: user.id,
+    role: user.role,
+    kind: 'clinic',
+    email: user.email,
+    name: user.name,
+    phone: user.phone || null,
+    createdAt: user.createdAt
+  });
 }
 
 function authResponse(user) {
@@ -1633,6 +1654,13 @@ app.post('/auth/register', async (req, res) => {
     return res.status(400).json({ detail: 'Email already registered' });
   }
 
+  if (isSupabaseConfigured()) {
+    const existingSupabaseUser = await findSupabaseUserByEmail(email);
+    if (existingSupabaseUser) {
+      return res.status(400).json({ detail: 'Email already registered' });
+    }
+  }
+
   const user = {
     id: randomId('usr'),
     name,
@@ -1664,7 +1692,7 @@ app.post('/auth/register', async (req, res) => {
   });
 });
 
-app.post('/auth/login', (req, res) => {
+app.post('/auth/login', async (req, res) => {
   const email = normalizeEmail(req.body.email);
   const password = String(req.body.password || '');
 
@@ -1673,7 +1701,25 @@ app.post('/auth/login', (req, res) => {
   }
 
   const users = getUsers();
-  const user = users.find((item) => item.email === email);
+  const localUser = users.find((item) => item.email === email) || null;
+  let user = localUser;
+
+  if (isSupabaseConfigured()) {
+    try {
+      const supabaseUser = await findSupabaseUserByEmail(email);
+      if (supabaseUser) {
+        user = {
+          ...supabaseUser,
+          passwordHash: supabaseUser.passwordHash || localUser?.passwordHash || '',
+          phone: supabaseUser.phone || localUser?.phone || null,
+          name: supabaseUser.name || localUser?.name || email.split('@')[0] || 'User',
+          createdAt: supabaseUser.createdAt || localUser?.createdAt || new Date().toISOString()
+        };
+      }
+    } catch {
+      user = localUser;
+    }
+  }
 
   if (!user || !verifyPassword(password, user.passwordHash)) {
     return res.status(400).json({ detail: 'Incorrect email or password' });
