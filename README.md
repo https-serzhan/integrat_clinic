@@ -27,7 +27,6 @@ The client dashboard is part of the doctors page. Logged-in clients can open `do
 .
 ├── api/
 ├── assets/
-├── docs/
 ├── src/
 │   ├── backend/academy/
 │   ├── pages/
@@ -118,13 +117,7 @@ The project is prepared for Vercel:
 
 - static files are served directly from the repository
 - API routes go through `api/index.js`
-- `/` rewrites to `src/pages/index.html`
-
-Supporting docs:
-
-- [docs/vercel-deploy.md](docs/vercel-deploy.md)
-- [docs/supabase-schema.md](docs/supabase-schema.md)
-- [docs/project-explanation.md](docs/project-explanation.md)
+- `/` redirects to `src/pages/index.html`
 
 ## Notes
 

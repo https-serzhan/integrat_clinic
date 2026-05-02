@@ -29,7 +29,7 @@
       instagram: 'https://www.instagram.com/https.serzhan/',
       telegram: 'https://t.me/altawh1d',
       whatsapp: 'https://wa.me/+77711140710',
-      google: 'https://www.youtube.com/watch?v=2qBlE2-WL60'
+      google: 'https://www.youtube.com/watch?v=xvFZjo5PgG0'
     },
     siteScope: {
       navItems: [

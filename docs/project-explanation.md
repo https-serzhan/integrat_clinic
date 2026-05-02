@@ -157,7 +157,7 @@ Production deployment structure:
 
 - `api/index.js` exposes the Express app
 - `src/` and `assets/` hold the static frontend files directly
-- `vercel.json` defines routing behavior
+- `vercel.json` redirects `/` to `src/pages/index.html` and forwards API paths to the backend
 
 This lets Vercel serve static pages from the repository while routing API requests to the backend function.
 

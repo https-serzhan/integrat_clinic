@@ -64,4 +64,4 @@ Then create the admin account through the academy UI and promote it in Supabase.
 - Supabase must be treated as the source of truth.
 - Local JSON storage is only a fallback mechanism.
 - `laboratory.html` and `store.html` remain in the project intentionally.
-- `/` is rewritten to `src/pages/index.html` through `vercel.json`.
+- `/` redirects to `src/pages/index.html` through `vercel.json` so page-relative CSS and scripts resolve correctly.
