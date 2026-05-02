@@ -20,3 +20,22 @@ for (const [sourceRelative, destinationRelative] of copies) {
   fs.mkdirSync(path.dirname(destinationPath), { recursive: true });
   fs.cpSync(sourcePath, destinationPath, { recursive: true });
 }
+
+const rootIndexHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=/src/pages/index.html">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+  <script>
+    window.location.replace('/src/pages/index.html');
+  </script>
+</head>
+<body>
+  <p>Redirecting to <a href="/src/pages/index.html">the site</a>...</p>
+</body>
+</html>
+`;
+
+fs.writeFileSync(path.join(publicDir, 'index.html'), rootIndexHtml);

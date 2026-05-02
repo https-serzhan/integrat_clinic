@@ -1,5 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "buildCommand": "npm run build"
+  "buildCommand": "npm run build",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/auth/(.*)", "destination": "/api" },
+    { "source": "/appointments", "destination": "/api" },
+    { "source": "/contacts", "destination": "/api" },
+    { "source": "/doctors", "destination": "/api" },
+    { "source": "/health", "destination": "/api" }
+  ]
 }
