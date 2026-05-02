@@ -56,6 +56,20 @@
     return `${currentBaseUrl}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
   }
 
+  function readClinicToken() {
+    try {
+      return windowObject.localStorage.getItem('token');
+    } catch {
+      return null;
+    }
+  }
+
+  function clearClinicToken() {
+    try {
+      windowObject.localStorage.removeItem('token');
+    } catch {}
+  }
+
   async function request(endpoint, options = {}) {
     const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
     const shouldTryApiPrefix = !/^\/api\//.test(normalizedEndpoint);
@@ -92,7 +106,7 @@
       ...(options.headers || {})
     };
 
-    const token = windowObject.localStorage.getItem('token');
+    const token = readClinicToken();
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     }
@@ -144,8 +158,12 @@
         body: JSON.stringify(body)
       });
     },
-    logout() {
-      return request('/auth/logout', { method: 'POST' });
+    async logout() {
+      try {
+        return await request('/auth/logout', { method: 'POST' });
+      } finally {
+        clearClinicToken();
+      }
     },
     put(endpoint, body) {
       return request(endpoint, {

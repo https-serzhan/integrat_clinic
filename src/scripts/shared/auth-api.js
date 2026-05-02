@@ -52,6 +52,12 @@
     return `${baseUrl}${path.startsWith('/') ? path : `/${path}`}`;
   }
 
+  function clearClinicToken() {
+    try {
+      windowObject.localStorage.removeItem('token');
+    } catch {}
+  }
+
   async function request(path, options = {}) {
     const headers = {
       ...(options.headers || {})
@@ -107,8 +113,12 @@
         body: JSON.stringify(payload)
       });
     },
-    logout() {
-      return request('/api/auth/logout', { method: 'POST' });
+    async logout() {
+      try {
+        return await request('/api/auth/logout', { method: 'POST' });
+      } finally {
+        clearClinicToken();
+      }
     },
     me() {
       return request('/api/auth/me', { method: 'GET' });
