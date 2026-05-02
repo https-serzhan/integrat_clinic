@@ -6,8 +6,8 @@
     "node": "20.x"
   },
   "scripts": {
-    "build": "node scripts/prepare-public.js",
-    "start": "node index.js"
+    "build": "node tools/prepare-public.js",
+    "start": "node api/index.js"
   },
   "dependencies": {
     "cookie-parser": "^1.4.7",

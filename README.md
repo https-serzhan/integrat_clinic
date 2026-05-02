@@ -94,7 +94,7 @@ The project uses a simple monolithic structure:
 - `src/scripts` contains frontend logic
 - `src/backend/academy/server.js` contains the Express backend
 - `api/index.js` exposes the backend as a Vercel serverless function entrypoint
-- `scripts/prepare-public.js` copies the frontend into `public/` for Vercel static serving
+- `tools/prepare-public.js` copies the frontend into `public/` for Vercel static serving
 
 The backend serves:
 
@@ -136,14 +136,13 @@ The backend serves:
 ├── api/
 ├── assets/
 ├── docs/
-├── scripts/
+├── tools/
 ├── src/
 │   ├── backend/academy/
 │   ├── pages/
 │   ├── scripts/
 │   └── styles/
-├── .env.example
-├── index.js
+├── .env
 ├── package.json
 └── vercel.json
 ```
@@ -197,7 +196,7 @@ ALLOWED_CORS_ORIGINS=
 
 ## Local Run
 
-1. Create `.env` from `.env.example`.
+1. Create `.env` in the project root and fill it with the variables listed below.
 2. Run the SQL from [docs/supabase-schema.md](docs/supabase-schema.md).
 3. Install dependencies:
 

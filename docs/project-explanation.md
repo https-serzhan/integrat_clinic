@@ -156,7 +156,7 @@ The project is prepared for Vercel.
 Production deployment structure:
 
 - `api/index.js` exposes the Express app
-- `scripts/prepare-public.js` copies frontend files to `public/`
+- `tools/prepare-public.js` copies frontend files to `public/`
 - `vercel.json` defines routing behavior
 
 This lets Vercel serve static pages while routing API requests to the backend function.
