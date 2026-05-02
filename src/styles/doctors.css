@@ -2,6 +2,7 @@
 
 .page-doctors {
     background: #fff;
+    overflow-x: clip;
 }
 
 .doctors-hero,
@@ -93,6 +94,8 @@
 .doctors-list-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: 60px;
     margin-bottom: 48px;
 }
@@ -104,16 +107,20 @@
 
 .doctors-filters {
     display: flex;
-    gap: 100px;
+    flex-wrap: wrap;
+    gap: 20px 36px;
+    max-width: 100%;
 }
 
 .filter-btn {
     background: none;
     border: none;
-    font-size: 40px;
+    font-size: clamp(20px, 3vw, 40px);
     cursor: pointer;
     letter-spacing: 0.03em;
     opacity: 0.5;
+    white-space: normal;
+    text-align: left;
 }
 
 .filter-btn.active {
@@ -125,6 +132,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 40px 32px;
+    min-width: 0;
 }
 
 .doctors-grid > .content-state {
@@ -133,6 +141,7 @@
 
 .doctor-card {
     cursor: pointer;
+    min-width: 0;
 }
 
 .doctor-card--skeleton {
@@ -167,6 +176,7 @@
 .doctor-card p {
     font-size: 14px;
     color: #666;
+    overflow-wrap: anywhere;
 }
 
 .doctor-modal-overlay {
@@ -277,6 +287,8 @@
 .treatments-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: 60px;
     margin-bottom: 48px;
 }
@@ -288,16 +300,20 @@
 
 .treatments-filters {
     display: flex;
-    gap: 100px;
+    flex-wrap: wrap;
+    gap: 20px 36px;
+    max-width: 100%;
 }
 
 .treatment-filter {
     background: none;
     border: none;
     letter-spacing: 1px;
-    font-size: 40px;
+    font-size: clamp(20px, 3vw, 40px);
     cursor: pointer;
     opacity: 0.5;
+    white-space: normal;
+    text-align: left;
 }
 
 .treatment-filter.active {

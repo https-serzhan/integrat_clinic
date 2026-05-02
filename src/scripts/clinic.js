@@ -6,6 +6,7 @@
   const slides = Array.from(document.querySelectorAll('.treat-slide'));
   const prev = document.querySelector('.treat-arrow.prev');
   const next = document.querySelector('.treat-arrow.next');
+  const seeAllCasesLinks = document.querySelectorAll('.treat-overlay-left, .treat-overlay-right');
 
   if (slider && track && slides.length) {
     let index = 1;
@@ -57,6 +58,13 @@
     button.addEventListener('click', () => {
       const active = card.classList.toggle('is-active');
       button.textContent = active ? '−' : '+';
+    });
+  });
+
+  seeAllCasesLinks.forEach((control) => {
+    control.addEventListener('click', (event) => {
+      event.preventDefault();
+      window.location.href = 'doctors.html';
     });
   });
 })();

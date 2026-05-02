@@ -26,6 +26,15 @@
     return formatLocalDateTime(next);
   }
 
+  function toBookingIsoString(value) {
+    const normalized = String(value || '').trim();
+    if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(normalized)) {
+      return `${normalized}:00.000Z`;
+    }
+    const parsed = new Date(normalized);
+    return Number.isNaN(parsed.getTime()) ? '' : parsed.toISOString();
+  }
+
   function buildBookingForm(modal) {
     const container = modal.querySelector('.doctor-modal-body');
     if (!container || modal.querySelector('.doctor-booking')) return;
@@ -133,7 +142,8 @@
     });
 
     detailsButton?.addEventListener('click', () => {
-      windowObject.location.href = 'doctor.html';
+      const doctorId = String(modal.dataset.doctorId || '').trim();
+      windowObject.location.href = doctorId ? `doctor.html?doctor=${encodeURIComponent(doctorId)}` : 'doctor.html';
     });
 
     if (bookButton) {
@@ -171,7 +181,7 @@
         try {
           const response = await windowObject.api.post('/appointments', {
             doctor_id: doctorId,
-            datetime: new Date(dateInput.value).toISOString()
+            datetime: toBookingIsoString(dateInput.value)
           });
           const suffix = response?.telegram?.configured
             ? i18n?.isRussian?.()

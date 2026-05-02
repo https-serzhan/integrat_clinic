@@ -19,7 +19,7 @@
 <main class="container admin-main">
     <section class="admin-card" id="adminAccessGuard">
         <h2>Access Required</h2>
-        <p>You need an admin account to manage course payment requests.</p>
+        <p>You need an admin account to manage payment requests and doctor appointments.</p>
         <a class="admin-link" href="academy.html">Open academy login</a>
     </section>
 
@@ -27,6 +27,11 @@
         <h2>Payment Requests</h2>
         <div id="adminPaymentRequestsList" class="admin-list"></div>
         <p id="adminFeedback" class="admin-feedback"></p>
+    </section>
+
+    <section class="admin-card" id="adminAppointments" hidden>
+        <h2>Doctor Appointments</h2>
+        <div id="adminAppointmentsList" class="admin-list"></div>
     </section>
 
     <section class="admin-card" id="adminUsers" hidden>

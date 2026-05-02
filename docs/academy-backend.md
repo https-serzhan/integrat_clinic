@@ -1,90 +1,133 @@
 # Academy Backend
 
+## Role
+
+`src/backend/academy/server.js` serves the full project:
+- static frontend pages from `src/`
+- clinic auth and appointment endpoints
+- public contact form endpoints
+- academy auth and course endpoints
+- admin endpoints
+- Telegram notifications
+
 ## Run
 
 ```bash
 cd src/backend/academy
-npm install
+npm ci
 npm start
 ```
 
-## Entry Points
-
-- Home page: `http://localhost:3000/src/pages/index.html`
-- Academy page: `http://localhost:3000/src/pages/academy.html`
-- Videos page: `http://localhost:3000/src/pages/videos.html?course=endo-faq`
-- Admin page: `http://localhost:3000/src/pages/admin.html`
-
-## Auth and Permissions Flow
-
-- Users sign up or log in from Academy modal (`/api/auth/*`).
-- Sign up stores user in Supabase `profiles` (or local fallback if Supabase disabled).
-- Role is taken from DB (`profiles.role`) and admins are set manually in Supabase.
-- Academy purchase endpoint creates `pending` payment request.
-- Admin confirms or rejects payment requests from admin page.
-- Access is granted only after approval.
-- Videos page verifies access through `GET /api/courses/:courseId/access`.
-
-## Default Admin
-
-- Local default admin is still auto-created for offline/testing mode.
-- In Supabase mode, `profiles.role='admin'` controls admin access.
-
-## Environment Variables
-
-- `PORT`
-- `JWT_SECRET`
-- `ADMIN_EMAIL`
-- `ADMIN_PASSWORD`
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
-- `TELEGRAM_THREAD_ID` (optional)
-- `TELEGRAM_STARTUP_NOTIFY` (`1` to send fake startup link to Telegram)
-- `FAKE_BACKEND_LINK`
-- `SUPABASE_URL`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `SUPABASE_SYNC_ENABLED`
-- `SUPABASE_PROFILES_TABLE`
-- `SUPABASE_PROFILE_ID_COLUMN`
-- `SUPABASE_CONTACTS_TABLE`
-- `SUPABASE_COURSES_TABLE`
-- `SUPABASE_PAYMENT_REQUESTS_TABLE`
-- `SUPABASE_PAYMENT_SETTINGS_TABLE`
-- `SUPABASE_COURSE_ACCESS_TABLE`
-- `KASPI_PAYMENT_NUMBER`
-- `KASPI_PAYMENT_NAME`
-- `KASPI_PAYMENT_INSTRUCTIONS`
-
 ## Startup Output
 
-After `npm start`, the backend prints:
-
-- bound local URL
+On boot the server prints:
+- local URL
 - default admin email
-- Telegram configuration status
+- Telegram status
 - Supabase data mode status
+- HTTP request logging status
 - fake backend link
 
-Each incoming request is also logged with timestamp, route, status, and duration.
+If `TELEGRAM_STARTUP_NOTIFY=1`, the startup link is also sent to Telegram.
 
-## Supabase Data
+## Core Environment Variables
 
-When `SUPABASE_SYNC_ENABLED=1`, backend reads/writes:
+```env
+PORT=3000
+JWT_SECRET=change-me
+ADMIN_EMAIL=admin@integrat.local
+ADMIN_PASSWORD=Admin123!
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=
+TELEGRAM_THREAD_ID=
+TELEGRAM_STARTUP_NOTIFY=1
+FAKE_BACKEND_LINK=https://integrat-demo.example.com
+SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+SUPABASE_SYNC_ENABLED=1
+SUPABASE_PROFILES_TABLE=profiles
+SUPABASE_PROFILE_ID_COLUMN=id
+SUPABASE_CONTACTS_TABLE=contacts
+SUPABASE_APPOINTMENTS_TABLE=appointments
+SUPABASE_COURSES_TABLE=courses
+SUPABASE_PAYMENT_REQUESTS_TABLE=payment_requests
+SUPABASE_PAYMENT_SETTINGS_TABLE=payment_settings
+SUPABASE_COURSE_ACCESS_TABLE=course_access
+KASPI_PAYMENT_NUMBER=+77711140710
+KASPI_PAYMENT_NAME=Serzhan S.
+KASPI_PAYMENT_INSTRUCTIONS=Transfer the course amount to Kaspi and then send the payment request from Academy.
+ALLOWED_CORS_ORIGINS=
+INTEGRAT_DATA_DIR=
+```
 
-- `profiles` for academy auth users and roles
-- `contacts` for public contact form
-- `courses` for academy list
-- `payment_settings` for Kaspi receiver details
-- `payment_requests` for pending/approved/rejected purchase flow
-- `course_access` for approved grants
+## Data Flow
 
-## Key Endpoints
+### Clinic side
+- `POST /auth/register` creates a clinic user
+- `POST /auth/login` returns a bearer token
+- `POST /appointments` requires clinic auth
+- `POST /contacts` is public
+- contacts are saved locally and optionally synced to Supabase
+- appointments are saved locally and optionally synced to Supabase
 
-- `GET /api/courses`
+### Academy side
+- `POST /api/auth/signup` creates an academy account
+- `POST /api/auth/login` starts the academy session
+- `POST /api/courses/:courseId/purchase` creates a pending payment request
+- `GET /api/courses/:courseId/access` checks if the user may open the videos page
+- approved requests grant access through `course_access`
+
+### Admin side
+- admins are controlled by `profiles.role = 'admin'`
+- admin can review payment requests
+- admin can review appointments
+- admin can manage users, grants, and purchases
+
+## Main Endpoints
+
+### Public and clinic auth
+- `GET /health`
+- `GET /api/health`
+- `POST /auth/register`
+- `POST /auth/login`
+- `POST /auth/logout`
+- `GET /auth/me`
+- `POST /contacts`
+- `POST /api/contacts`
+- `GET /doctors`
+- `POST /appointments`
+- `GET /appointments`
+
+### Academy auth and courses
+- `POST /api/auth/signup`
+- `POST /api/auth/login`
+- `POST /api/auth/logout`
+- `GET /api/auth/me`
 - `GET /api/payment/settings`
+- `GET /api/courses`
 - `GET /api/courses/purchases/me`
 - `POST /api/courses/:courseId/purchase`
 - `GET /api/courses/:courseId/access`
+
+### Admin
+- `GET /api/admin/appointments`
+- `GET /api/admin/users`
+- `GET /api/admin/grants`
+- `POST /api/admin/grants`
+- `DELETE /api/admin/grants/:grantId`
 - `GET /api/admin/payment-requests`
 - `POST /api/admin/payment-requests/:paymentRequestId/decision`
-- `POST /api/notifications/telegram-code` (admin only)
+- `GET /api/admin/purchases`
+- `POST /api/notifications/telegram-code`
+
+## Supabase Tables Used
+
+- `profiles`
+- `contacts`
+- `appointments`
+- `courses`
+- `payment_settings`
+- `payment_requests`
+- `course_access`
+
+Use `docs/supabase-schema.md` to create them.

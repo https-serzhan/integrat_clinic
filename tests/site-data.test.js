@@ -11,15 +11,20 @@ function loadSiteData() {
   return sandbox.window.IntegratSiteData;
 }
 
-test('shared site data exposes a fuller academy content set', () => {
+test('shared site data keeps doctors and lecturers intentionally compact', () => {
   const data = loadSiteData();
   assert.ok(data);
   assert.ok(Array.isArray(data.doctors));
   assert.ok(Array.isArray(data.lecturers));
   assert.ok(Array.isArray(data.academyCourses));
-  assert.ok(data.doctors.length >= 8, 'expected at least 8 doctors');
-  assert.ok(data.lecturers.length >= 6, 'expected at least 6 lecturers');
+  assert.equal(data.doctors.length, 5, 'expected exactly 5 doctors');
+  assert.equal(data.lecturers.length, 5, 'expected exactly 5 lecturers');
   assert.ok(data.academyCourses.length >= 8, 'expected at least 8 academy courses');
+
+  const doctorCategories = new Set(data.doctors.flatMap((doctor) => doctor.categories || []));
+  const lecturerCategories = new Set(data.lecturers.flatMap((lecturer) => lecturer.categories || []));
+  assert.ok(doctorCategories.size <= 5, 'expected at most 5 doctor categories');
+  assert.ok(lecturerCategories.size <= 5, 'expected at most 5 lecturer categories');
 });
 
 test('every academy course has a matching video catalog outline', () => {

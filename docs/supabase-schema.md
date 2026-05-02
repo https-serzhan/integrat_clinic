@@ -1,13 +1,12 @@
-# Supabase Reset Schema
+# Supabase Schema
 
-Delete the old tables, then run this full reset SQL in Supabase SQL Editor.
+Run this SQL in Supabase SQL Editor.
 
 ```sql
 create extension if not exists pgcrypto;
 
--- reset order matters because of foreign keys
-
 drop table if exists public.course_access cascade;
+drop table if exists public.appointments cascade;
 drop table if exists public.payment_requests cascade;
 drop table if exists public.payment_settings cascade;
 drop table if exists public.contacts cascade;
@@ -21,16 +20,13 @@ create table public.profiles (
   full_name text not null,
   phone text,
   password_hash text not null,
-  role text not null default 'student'
-    check (role in ('student', 'patient', 'admin')),
-  preferred_language text not null default 'en'
-    check (preferred_language in ('en', 'ru')),
+  role text not null default 'student' check (role in ('student', 'patient', 'admin')),
+  preferred_language text not null default 'en' check (preferred_language in ('en', 'ru')),
   is_active boolean not null default true,
   source text not null default 'app',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  constraint profiles_phone_format_chk
-    check (phone is null or phone ~ '^7[0-9]{10}$')
+  constraint profiles_phone_format_chk check (phone is null or phone ~ '^7[0-9]{10}$')
 );
 
 create table public.contacts (
@@ -39,8 +35,21 @@ create table public.contacts (
   phone_number text not null,
   comment text not null,
   created_at timestamptz not null default now(),
-  constraint contacts_phone_number_format_chk
-    check (phone_number ~ '^7[0-9]{10}$')
+  constraint contacts_phone_number_format_chk check (phone_number ~ '^7[0-9]{10}$')
+);
+
+create table public.appointments (
+  id uuid primary key default gen_random_uuid(),
+  patient_id text not null,
+  patient_email text not null,
+  patient_name text not null,
+  patient_phone text,
+  doctor_id bigint not null,
+  doctor_name text not null,
+  scheduled_at timestamptz not null,
+  status text not null default 'scheduled' check (status in ('scheduled', 'confirmed', 'completed', 'cancelled')),
+  source text not null default 'clinic',
+  created_at timestamptz not null default now()
 );
 
 create table public.courses (
@@ -72,8 +81,7 @@ create table public.payment_requests (
   course_title text,
   amount numeric(12,2) not null default 0,
   currency text not null default 'USD',
-  status text not null default 'pending'
-    check (status in ('pending', 'approved', 'rejected')),
+  status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
   payment_provider text not null default 'kaspi',
   request_note text,
   created_at timestamptz not null default now(),
@@ -95,6 +103,9 @@ create table public.course_access (
 
 create index profiles_email_idx on public.profiles(email);
 create index profiles_role_idx on public.profiles(role);
+create index appointments_patient_id_idx on public.appointments(patient_id);
+create index appointments_doctor_id_idx on public.appointments(doctor_id);
+create index appointments_scheduled_at_idx on public.appointments(scheduled_at);
 create index payment_requests_user_idx on public.payment_requests(user_id);
 create index payment_requests_course_idx on public.payment_requests(course_id);
 create index payment_requests_status_idx on public.payment_requests(status);
@@ -120,13 +131,12 @@ before update on public.courses
 for each row
 execute function public.set_updated_at();
 
--- public catalog + manager settings
 insert into public.payment_settings (provider, receiver_name, receiver_number, instructions)
 values (
   'kaspi',
   'Serzhan S.',
   '+77711140710',
-  'Transfer the course amount to this Kaspi number, then press "Send payment request" in Academy so the manager can approve access.'
+  'Transfer the course amount to this Kaspi number, then press Send payment request in Academy so the manager can approve access.'
 )
 on conflict (provider) do update set
   receiver_name = excluded.receiver_name,
@@ -136,10 +146,14 @@ on conflict (provider) do update set
 
 insert into public.courses (id, title, description, price, price_label, currency, badge, category)
 values
-  ('endo-faq', 'FAQ in Endodontics - Part I', 'Clinical decision making for diagnosis, access, irrigation, shaping, and complication prevention in endodontics.', 139, '$139', 'USD', 'Best seller', 'endodontics'),
-  ('implant-lab', 'Precision Implant Lab', 'Treatment planning, implant positioning, restoration sequencing, and communication between surgery and prosthetics.', 259, '$259', 'USD', 'Hands-on', 'implants'),
-  ('digital-smile', 'Digital Smile Workflow', 'Digital scan-to-design workflow for smile planning, mockups, and esthetic case presentation.', 189, '$189', 'USD', 'New', 'digital dentistry'),
-  ('occlusion-protocols', 'Occlusion Protocols', 'Occlusal analysis, functional risk reduction, and interdisciplinary planning for complex restorative cases.', 229, '$229', 'USD', 'Advanced', 'occlusion')
+  ('endo-faq', 'FAQ in Endodontics - Part I', 'Case triage, access design, instrumentation logic, and complication control for daily endodontics.', 139, '$139', 'USD', 'Best seller', 'endodontics'),
+  ('implant-lab', 'Precision Implant Lab', 'Guided surgery planning, prosthetic sequencing, and clinic-lab communication for implant cases.', 259, '$259', 'USD', 'Hands-on', 'implants'),
+  ('digital-smile', 'Digital Smile Workflow', 'From intraoral scan to mockup, presentation, and restorative execution in esthetic cases.', 189, '$189', 'USD', 'New', 'digital'),
+  ('occlusion-protocols', 'Occlusion Protocols', 'Functional diagnosis, bite design, and interdisciplinary occlusion planning.', 229, '$229', 'USD', 'Advanced', 'occlusion'),
+  ('perio-blueprint', 'Perio Stability Blueprint', 'Soft-tissue stability, maintenance planning, and restorative sequencing for periodontal cases.', 149, '$149', 'USD', 'Clinical', 'periodontics'),
+  ('pediatric-chairside', 'Pediatric Chairside Flow', 'Child adaptation, prevention systems, and parent communication for pediatric dentistry.', 119, '$119', 'USD', 'Popular', 'pediatric'),
+  ('anterior-composites', 'Anterior Composite Layering', 'Shade mapping, isolation, morphology, and finishing for everyday esthetic restorations.', 159, '$159', 'USD', 'Workshop', 'esthetic'),
+  ('aligner-planning', 'Aligner Case Planning', 'Digital setup analysis, biomechanics, staging, and retention planning.', 199, '$199', 'USD', 'Planner', 'orthodontics')
 on conflict (id) do update set
   title = excluded.title,
   description = excluded.description,
@@ -152,13 +166,11 @@ on conflict (id) do update set
 
 alter table public.profiles enable row level security;
 alter table public.contacts enable row level security;
+alter table public.appointments enable row level security;
 alter table public.courses enable row level security;
 alter table public.payment_settings enable row level security;
 alter table public.payment_requests enable row level security;
 alter table public.course_access enable row level security;
-
--- the backend uses the service role key, which bypasses RLS.
--- these read policies are only for safe public reads if you ever need them later.
 
 do $$
 begin
@@ -187,9 +199,17 @@ begin
 end $$;
 ```
 
-## Required `.env`
+## Admin Promotion
 
-Use these backend values after the reset:
+Sign up the future admin through the Academy UI, then promote that account:
+
+```sql
+update public.profiles
+set role = 'admin'
+where email = 'your-admin-email@example.com';
+```
+
+## Backend Table Mapping
 
 ```env
 SUPABASE_SYNC_ENABLED=1
@@ -198,31 +218,9 @@ SUPABASE_SERVICE_ROLE_KEY=YOUR_SUPABASE_SERVICE_ROLE_KEY
 SUPABASE_PROFILES_TABLE=profiles
 SUPABASE_PROFILE_ID_COLUMN=id
 SUPABASE_CONTACTS_TABLE=contacts
+SUPABASE_APPOINTMENTS_TABLE=appointments
 SUPABASE_COURSES_TABLE=courses
 SUPABASE_PAYMENT_REQUESTS_TABLE=payment_requests
 SUPABASE_PAYMENT_SETTINGS_TABLE=payment_settings
 SUPABASE_COURSE_ACCESS_TABLE=course_access
 ```
-
-## Admin Setup
-
-Do not manually invent `password_hash` values.
-Use this flow instead:
-
-1. Sign up through the academy UI with the future admin email.
-2. In Supabase SQL editor, promote that row:
-
-```sql
-update public.profiles
-set role = 'admin'
-where email = 'your-admin-email@example.com';
-```
-
-3. Log out and log back in.
-
-## What This Fixes
-
-- `payment_requests.id` is UUID-backed, so inserts no longer fail on values like `pay_...`
-- `payment_requests.user_id`, `reviewed_by`, and `course_access.user_id` all reference `profiles.id` cleanly
-- one user can request each course only once because of `unique (user_id, course_id)`
-- contact form stores only `full_name`, `phone_number`, and `comment`

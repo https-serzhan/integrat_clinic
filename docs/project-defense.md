@@ -1,114 +1,94 @@
 # Project Defense Notes
 
-## Project goal
+## Project Summary
 
-Integrat is a unified dental platform with:
+Integrat is a dental platform that combines clinic presentation, doctor discovery, appointment capture, academy access, and admin approval in one system.
 
-- Clinic showcase + lead capture
-- Doctor browsing and appointment requests
-- Academy catalog with authentication
-- Paid course access control
-- Admin management panel
-- English/Russian UI toggle
-- Supabase-backed academy users, contacts, and payment approvals
+## Business Flows Implemented
 
-## Final architecture
+### Clinic flow
+- public user opens the website
+- user submits a contact request
+- manager receives a Telegram notification
+- authenticated user books a doctor appointment
+- appointment is stored and visible to admin
 
-- **Frontend**: multipage HTML/CSS/JS (`src/pages`, `src/scripts`, `src/styles`)
-- **Backend**: Express server (`src/backend/academy/server.js`) serving both static files and APIs
-- **Storage**:
-  - Primary demo/offline storage: JSON persistence in `src/backend/academy/data`
-  - Supabase data mode: `profiles`, `contacts`, `courses`, `payment_settings`, `payment_requests`, `course_access`
+### Academy flow
+- user signs up or logs in
+- user sees course catalog
+- user chooses a course
+- user gets Kaspi payment details
+- user sends a payment request
+- manager receives Telegram notification
+- admin approves or rejects the request
+- approved users can open the course videos page
 
-## Core implemented logic
+### Admin flow
+- admin account is controlled by Supabase role
+- admin can review appointments
+- admin can review payment requests
+- admin can manage access grants and purchases
 
-1. Auth
-- Clinic auth (Bearer token): register/login for dashboard + appointments
-- Academy auth (cookie session): signup/login/logout/me
+## Technical Architecture
 
-2. Courses and purchasing
-- Academy course catalog from API
-- Buy action shows Kaspi payment details
-- User sends payment request per course (`pending`)
-- Admin approve/reject updates request status
-- Access gate on videos page based on `approved` status/admin
-- Purchased courses visible for logged-in user
+- frontend: multi-page HTML, CSS, and vanilla JavaScript
+- backend: Express server in `src/backend/academy/server.js`
+- primary production database: Supabase Postgres
+- fallback storage: local JSON files in `src/backend/academy/data`
+- notifications: Telegram Bot API
 
-3. Forms and validation
-- Contact forms validate name/phone/comment/consent
-- Auth forms validate email/password strength/confirm password
-- Doctor appointment form validates datetime and auth
+## Why The Architecture Is Defensible
 
-4. Telegram manager notifications
-- Backend sends manager notifications for:
-  - new contact form submission
-  - new academy payment request
-- Sends via Telegram Bot API when env configured
-- Falls back to console logging when not configured
+- one backend serves both pages and APIs, so deployment is simple
+- frontend API calls are centralized in shared clients
+- Supabase schema is explicit and documented
+- admin approval is separated from user purchase intent
+- contact, appointment, and payment events are observable through Telegram and terminal logs
+- local fallback storage keeps the demo usable if remote services are unavailable
 
-5. UX quality
-- Skeleton loaders for academy cards, doctors grid, dashboard tables
-- Button wiring for service toggles, course actions, booking actions
-- Global language switch with persisted choice and dynamic section rerendering
+## Current Data Model
 
-6. Observability
-- Request logs with status + latency in deploy console
-- Event-level Telegram delivery logs
-- Startup summary with fake demo backend link
-- Optional startup Telegram notification with demo link
+- `profiles` for academy users and roles
+- `contacts` for public contact requests
+- `appointments` for doctor bookings
+- `courses` for academy catalog
+- `payment_settings` for Kaspi payment details
+- `payment_requests` for course payment approvals
+- `course_access` for approved learning access
 
-7. Supabase integration
-- Academy auth checks Supabase `profiles` directly when enabled
-- Contact form stores `full_name`, `phone_number`, `comment` in Supabase `contacts`
-- Payment workflow is stored in Supabase `payment_requests` + `course_access`
-- Local JSON fallback keeps demo/test deterministic if remote services are unavailable
+## Security And Access Model
 
-## Why this is backend-integration-ready
+- clinic appointment flow uses bearer token auth
+- academy flow uses cookie session auth
+- admin routes require academy admin role
+- Supabase service role is used only on the backend
+- users cannot self-approve course access
 
-- Frontend API access centralized in shared clients (`api.js`, `auth-api.js`)
-- Runtime frontend values configurable via `config.local.js`
-- Endpoint contracts are explicit and documented
-- Fallback content exists for empty/missing API data
+## User Experience Features
 
-## Backend TODO (for next iteration)
+- English and Russian language toggle
+- phone formatting and validation
+- gated appointment flow
+- gated academy flow
+- admin review pages
+- terminal request logs
+- Telegram manager notifications
 
-1. Move clinic appointments and dashboard analytics fully to Supabase/Postgres.
-2. Add payment proof upload + anti-fraud verification.
-3. Add email/phone verification workflow and rate limiting.
-4. Replace fallback secrets with mandatory production-only env validation.
-5. Add structured logger + trace IDs.
-6. Add browser-level UI regression tests for language switching.
-7. Add Docker + CI pipeline.
-8. Move secrets to environment manager (Vault/Cloud Secret Manager).
+## What Makes The Demo Complete
 
-## Endpoints summary
+- all primary business actions work end to end
+- data can persist in Supabase
+- backend startup and requests are observable
+- the project can run locally or on a VPS with one Node service
 
-### Clinic/Auth
-- `POST /auth/register`
-- `POST /auth/login`
-- `GET /auth/me`
-- `POST /contacts`
-- `GET /contacts`
-- `GET /doctors`
-- `POST /appointments`
-- `GET /appointments`
-- `GET /dashboard/summary`
+## Remaining Work That Depends On Client Assets
 
-### Academy
-- `POST /api/auth/signup`
-- `POST /api/auth/login`
-- `POST /api/auth/logout`
-- `GET /api/auth/me`
-- `GET /api/courses`
-- `GET /api/payment/settings`
-- `GET /api/courses/purchases/me`
-- `POST /api/courses/:courseId/purchase`
-- `GET /api/courses/:courseId/access`
+- replace placeholder doctor media
+- replace placeholder company videos
+- replace placeholder course media
+- replace placeholder treatment and review visuals
 
-### Admin
-- `GET /api/admin/users`
-- `GET /api/admin/payment-requests`
-- `POST /api/admin/payment-requests/:paymentRequestId/decision`
+## Deployment Position
 
-### Telegram utility
-- `POST /api/notifications/telegram-code` (admin only)
+This project is ready to deploy as a single Node.js application behind a reverse proxy.
+The deployment steps are documented in `docs/deploy-and-use.md`.

@@ -5,10 +5,12 @@
 
   const accessGuard = document.getElementById('adminAccessGuard');
   const adminPanel = document.getElementById('adminPanel');
+  const appointmentsSection = document.getElementById('adminAppointments');
   const usersSection = document.getElementById('adminUsers');
   const feedback = document.getElementById('adminFeedback');
   const usersList = document.getElementById('adminUsersList');
   const paymentRequestsList = document.getElementById('adminPaymentRequestsList');
+  const appointmentsList = document.getElementById('adminAppointmentsList');
   const logoutButton = document.getElementById('adminLogout');
 
   function t(key, fallback) {
@@ -43,6 +45,34 @@
   async function loadUsers() {
     const { users } = await api.adminListUsers('');
     renderUsers(users);
+  }
+
+  function renderAppointments(appointments) {
+    if (!appointmentsList) return;
+    appointmentsList.innerHTML = '';
+
+    appointments.forEach((appointment) => {
+      const item = document.createElement('div');
+      item.className = 'admin-list__item';
+      const scheduledAt = appointment.datetime ? new Date(appointment.datetime).toLocaleString() : '-';
+      item.innerHTML = `
+        <div class="admin-list__meta">
+          <p class="admin-list__title">${appointment.patientName || t('admin_unknown_user', 'Unknown user')} → ${appointment.doctorName || '-'}</p>
+          <p class="admin-list__subtitle">${appointment.patientEmail || '-'} · ${appointment.patientPhone || '-'} · ${appointment.status || 'scheduled'} · ${scheduledAt}</p>
+        </div>
+      `;
+      appointmentsList.appendChild(item);
+    });
+
+    if (!appointments.length) {
+      appointmentsList.innerHTML = `<p>No appointments yet.</p>`;
+    }
+  }
+
+  async function loadAppointments() {
+    if (!api.adminListAppointments) return;
+    const { appointments } = await api.adminListAppointments();
+    renderAppointments(Array.isArray(appointments) ? appointments : []);
   }
 
   function renderPaymentRequests(requests) {
@@ -106,8 +136,9 @@
   async function showAdminPanel() {
     accessGuard.hidden = true;
     adminPanel.hidden = false;
+    appointmentsSection.hidden = false;
     usersSection.hidden = false;
-    await Promise.all([loadUsers(), loadPaymentRequests()]);
+    await Promise.all([loadUsers(), loadPaymentRequests(), loadAppointments()]);
   }
 
   logoutButton.addEventListener('click', async () => {
@@ -137,6 +168,6 @@
 
   document.addEventListener('integrat:langchange', async () => {
     if (adminPanel.hidden) return;
-    await Promise.all([loadUsers(), loadPaymentRequests()]);
+    await Promise.all([loadUsers(), loadPaymentRequests(), loadAppointments()]);
   });
 })();

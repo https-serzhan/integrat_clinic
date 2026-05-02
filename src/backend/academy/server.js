@@ -69,6 +69,7 @@ const SUPABASE_SYNC_ENABLED = String(process.env.SUPABASE_SYNC_ENABLED || '').tr
 const SUPABASE_PROFILES_TABLE = String(process.env.SUPABASE_PROFILES_TABLE || 'profiles').trim() || 'profiles';
 const SUPABASE_PROFILE_ID_COLUMN = String(process.env.SUPABASE_PROFILE_ID_COLUMN || '').trim().toLowerCase();
 const SUPABASE_CONTACTS_TABLE = String(process.env.SUPABASE_CONTACTS_TABLE || 'contacts').trim() || 'contacts';
+const SUPABASE_APPOINTMENTS_TABLE = String(process.env.SUPABASE_APPOINTMENTS_TABLE || 'appointments').trim() || 'appointments';
 const SUPABASE_COURSES_TABLE = String(process.env.SUPABASE_COURSES_TABLE || 'courses').trim() || 'courses';
 const SUPABASE_PAYMENT_REQUESTS_TABLE =
   String(process.env.SUPABASE_PAYMENT_REQUESTS_TABLE || 'payment_requests').trim() || 'payment_requests';
@@ -853,6 +854,58 @@ async function insertContactRecord(contact) {
   };
 }
 
+async function insertAppointmentRecord(appointment) {
+  if (!isSupabaseConfigured()) return { ok: false, skipped: true, id: null, reason: 'Supabase disabled' };
+
+  const payload = {
+    patient_id: String(appointment.patientId || '').trim(),
+    patient_email: normalizeEmail(appointment.patientEmail),
+    patient_name: String(appointment.patientName || '').trim(),
+    patient_phone: appointment.patientPhone ? String(appointment.patientPhone).trim() : null,
+    doctor_id: Number(appointment.doctorId),
+    doctor_name: String(appointment.doctorName || '').trim(),
+    scheduled_at: String(appointment.datetime || ''),
+    status: String(appointment.status || 'scheduled').trim() || 'scheduled',
+    source: String(appointment.source || 'clinic').trim() || 'clinic',
+    created_at: String(appointment.createdAt || new Date().toISOString())
+  };
+
+  let result = null;
+
+  for (let attempt = 0; attempt < 10; attempt += 1) {
+    result = await supabaseRequest(supabaseTablePath(SUPABASE_APPOINTMENTS_TABLE), {
+      method: 'POST',
+      headers: {
+        Prefer: 'return=representation'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (result.ok) {
+      const inserted = Array.isArray(result.data) && result.data.length ? result.data[0] : null;
+      return {
+        ok: true,
+        skipped: false,
+        id: inserted?.id ?? null,
+        reason: null
+      };
+    }
+
+    const missingColumn = extractMissingSupabaseColumn(result.reason);
+    if (!missingColumn || !Object.prototype.hasOwnProperty.call(payload, missingColumn)) {
+      break;
+    }
+    delete payload[missingColumn];
+  }
+
+  return {
+    ok: false,
+    skipped: false,
+    id: null,
+    reason: result?.reason || 'Supabase appointments insert failed.'
+  };
+}
+
 function normalizePaymentRequestRow(row) {
   if (!row || typeof row !== 'object') return null;
 
@@ -1455,12 +1508,21 @@ app.get('/health', (_req, res) => {
 });
 
 app.post('/auth/register', async (req, res) => {
+  const name = String(req.body.name || '').trim();
+  const phone = String(req.body.phone || '').replace(/\D/g, '');
   const email = normalizeEmail(req.body.email);
   const password = String(req.body.password || '');
-  const name = String(req.body.name || '').trim() || email.split('@')[0] || 'User';
 
-  if (!email || !password) {
-    return res.status(400).json({ detail: 'Email and password are required' });
+  if (!name || !phone || !email || !password) {
+    return res.status(400).json({ detail: 'Name, phone, email and password are required' });
+  }
+
+  if (name.length < 2) {
+    return res.status(400).json({ detail: 'Name must contain at least 2 characters' });
+  }
+
+  if (phone.length !== 11 || !phone.startsWith('7')) {
+    return res.status(400).json({ detail: 'Phone number must be in +7 (XXX) XXX XX - XX format' });
   }
 
   if (!validEmail(email)) {
@@ -1480,6 +1542,7 @@ app.post('/auth/register', async (req, res) => {
   const user = {
     id: randomId('usr'),
     name,
+    phone,
     email,
     passwordHash: hashPassword(password),
     role: 'patient',
@@ -1492,6 +1555,8 @@ app.post('/auth/register', async (req, res) => {
   void syncUserProfileToSupabase(user, { source: 'clinic-register' });
 
   const telegram = await notifyTelegramWithCode('clinic-register', {
+    name,
+    phone,
     email,
     role: user.role
   });
@@ -1632,7 +1697,25 @@ app.post('/appointments', clinicAuthRequired, async (req, res) => {
   appointments.unshift(appointment);
   saveAppointments(appointments);
 
+  const supabaseInsert = await insertAppointmentRecord({
+    patientId: req.user.id,
+    patientEmail: req.user.email,
+    patientName: req.user.name,
+    patientPhone: req.user.phone || null,
+    doctorId,
+    doctorName: doctor.name,
+    datetime,
+    status: appointment.status,
+    source: 'clinic',
+    createdAt: appointment.created_at
+  });
+
+  if (!supabaseInsert.ok && !supabaseInsert.skipped) {
+    console.log(`[supabase] Appointment sync failed for ${req.user.email}: ${supabaseInsert.reason || 'unknown reason'}`);
+  }
+
   const telegram = await notifyTelegramWithCode('appointment', {
+    patientName: req.user.name,
     patientEmail: req.user.email,
     doctor: doctor.name,
     datetime
@@ -1640,10 +1723,13 @@ app.post('/appointments', clinicAuthRequired, async (req, res) => {
 
   return res.status(201).json({
     status: 'success',
-    id: appointment.id,
+    id: supabaseInsert.ok && supabaseInsert.id !== null ? supabaseInsert.id : appointment.id,
     telegram: {
       codeSent: telegram.delivered,
       configured: isTelegramConfigured()
+    },
+    storage: {
+      supabaseSaved: supabaseInsert.ok
     }
   });
 });
@@ -1672,17 +1758,31 @@ app.get('/appointments', clinicAuthRequired, (req, res) => {
   return res.json(joined);
 });
 
-app.get('/dashboard/summary', clinicAdminRequired, (_req, res) => {
-  const users = getUsers();
-  const contacts = getContacts();
+app.get('/api/admin/appointments', adminRequired, (_req, res) => {
   const appointments = getAppointments();
+  const users = getUsers();
+  const doctors = getDoctors();
 
-  res.json({
-    totalContacts: contacts.length,
-    totalAppointments: appointments.length,
-    totalUsers: users.length,
-    telegramConfigured: isTelegramConfigured()
-  });
+  const expanded = appointments
+    .map((item) => {
+      const patient = users.find((user) => user.id === item.patient_id);
+      const doctor = doctors.find((entry) => Number(entry.id) === Number(item.doctor_id));
+      return {
+        id: item.id,
+        patientId: item.patient_id,
+        patientEmail: patient?.email || null,
+        patientName: patient?.name || null,
+        patientPhone: patient?.phone || null,
+        doctorId: item.doctor_id,
+        doctorName: doctor?.name || null,
+        datetime: item.datetime,
+        status: item.status || 'scheduled',
+        createdAt: item.created_at
+      };
+    })
+    .sort((a, b) => new Date(b.datetime).getTime() - new Date(a.datetime).getTime());
+
+  res.json({ appointments: expanded });
 });
 
 app.post('/api/auth/signup', async (req, res) => {

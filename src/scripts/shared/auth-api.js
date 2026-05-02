@@ -167,6 +167,9 @@
     adminListPaymentRequests() {
       return request('/api/admin/payment-requests', { method: 'GET' });
     },
+    adminListAppointments() {
+      return request('/api/admin/appointments', { method: 'GET' });
+    },
     adminPaymentDecision(paymentRequestId, payload = {}) {
       return request(`/api/admin/payment-requests/${encodeURIComponent(paymentRequestId)}/decision`, {
         method: 'POST',

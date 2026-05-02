@@ -43,6 +43,12 @@
                         <p>Orthodontics</p>
                     </div>
                 </div>
+
+                <div class="doctor-case-booking">
+                    <label class="doctor-case-booking__label" for="doctorCaseBookingDatetime">Preferred appointment time</label>
+                    <input id="doctorCaseBookingDatetime" class="doctor-case-booking__input" type="datetime-local" step="1800">
+                    <p class="doctor-case-booking__status" aria-live="polite"></p>
+                </div>
             </div>
 
             <button class="doctor-btn">Записаться к врачу</button>
@@ -68,6 +74,7 @@
 <script src="../scripts/shared/site-config.js"></script>
 <script src="../scripts/shared/i18n.js"></script>
 <script src="../scripts/shared/site-data.js"></script>
+<script src="../scripts/shared/api.js"></script>
 <script src="../scripts/shared/global-nav.js"></script>
 <script src="../scripts/doctor.js"></script>
 <footer class="site-footer">

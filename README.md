@@ -1,138 +1,103 @@
 # Integrat Dental Ecosystem
 
-Deploy-ready frontend + backend in one repository.
+Integrat is a multi-page dental website with a single Node.js backend.
 
-- Frontend: static pages in `src/pages`, shared scripts in `src/scripts`, styles in `src/styles`.
-- Backend: unified Express API + static hosting in `src/backend/academy/server.js`.
-- Legacy FastAPI backend remains in `src/backend/api` (not required for the main deploy flow).
-- UI language: English/Russian toggle with persisted selection and dynamic re-render support.
+It includes:
+- clinic pages and public contact forms
+- doctor listing and authenticated appointment requests
+- academy signup, login, course purchasing, and gated video access
+- admin approval flow for academy payments
+- Telegram notifications for manager events
+- Supabase storage for production data
 
-## Quick Start
+## Repository Structure
 
-1. Install backend dependencies:
+- `src/pages` for HTML pages
+- `src/styles` for CSS
+- `src/scripts` for frontend logic
+- `src/backend/academy` for the Node.js server and local fallback data
+- `docs/deploy-and-use.md` for deployment steps
+- `docs/academy-backend.md` for backend details
+- `docs/project-defense.md` for project presentation notes
+- `docs/supabase-schema.md` for the Supabase SQL schema
+
+## Local Run
+
+1. Create `.env` in the repository root.
+2. Create or update `src/scripts/shared/config.local.js`.
+3. Apply the SQL from `docs/supabase-schema.md` if you want Supabase-backed data.
+4. Install backend dependencies.
+5. Start the backend.
 
 ```bash
 cd src/backend/academy
-npm install
-```
-
-2. Configure environment:
-
-```bash
-cd /Users/serzhansrsnbv/Desktop/dental_proj
-edit .env
-edit src/scripts/shared/config.local.js
-```
-
-3. Start server:
-
-```bash
-cd src/backend/academy
+npm ci
 npm start
 ```
 
-4. Open app:
+## Main URLs
 
-- `http://localhost:3000/src/pages/index.html`
-- Academy admin: `http://localhost:3000/src/pages/admin.html`
+- Home: `http://localhost:3000/src/pages/index.html`
+- Clinic: `http://localhost:3000/src/pages/clinic.html`
+- Doctors: `http://localhost:3000/src/pages/doctors.html`
+- Academy: `http://localhost:3000/src/pages/academy.html`
+- About: `http://localhost:3000/src/pages/about.html`
+- Admin: `http://localhost:3000/src/pages/admin.html`
 
-On startup the backend now prints:
+## Current Runtime Requirements
 
-- local backend URL
-- fake demo backend link
-- Telegram configuration status
-- Supabase data mode status
-- request logs for every HTTP call
+Backend `.env` should include at minimum:
 
-## Default Admin
+```env
+PORT=3000
+JWT_SECRET=change-me
+ADMIN_EMAIL=admin@integrat.local
+ADMIN_PASSWORD=Admin123!
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=
+TELEGRAM_THREAD_ID=
+TELEGRAM_STARTUP_NOTIFY=1
+FAKE_BACKEND_LINK=https://integrat-demo.example.com
+SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+SUPABASE_SYNC_ENABLED=1
+SUPABASE_PROFILES_TABLE=profiles
+SUPABASE_PROFILE_ID_COLUMN=id
+SUPABASE_CONTACTS_TABLE=contacts
+SUPABASE_APPOINTMENTS_TABLE=appointments
+SUPABASE_COURSES_TABLE=courses
+SUPABASE_PAYMENT_REQUESTS_TABLE=payment_requests
+SUPABASE_PAYMENT_SETTINGS_TABLE=payment_settings
+SUPABASE_COURSE_ACCESS_TABLE=course_access
+KASPI_PAYMENT_NUMBER=+77711140710
+KASPI_PAYMENT_NAME=Serzhan S.
+KASPI_PAYMENT_INSTRUCTIONS=Transfer the course amount to Kaspi and then send the payment request from Academy.
+ALLOWED_CORS_ORIGINS=
+INTEGRAT_DATA_DIR=
+```
 
-- Email: `admin@integrat.local`
-- Password: `Admin123!`
-
-Override via `.env`:
-
-- `ADMIN_EMAIL`
-- `ADMIN_PASSWORD`
-- `JWT_SECRET`
-
-Frontend runtime values are kept in:
+Frontend runtime config is stored in:
 
 - `src/scripts/shared/config.local.js`
 
-## Telegram Notification Setup
+## What The Backend Does
 
-Set these in `.env` when your bot API is ready:
+- serves the frontend pages and assets
+- stores contacts
+- stores clinic auth users and appointments
+- handles academy auth, purchases, and access checks
+- exposes admin endpoints for appointments, users, grants, purchases, and payment requests
+- sends Telegram notifications for contact, appointment, and payment events
+- prints startup and request logs to the terminal
 
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
-- `TELEGRAM_THREAD_ID` (optional, for forum topics)
-- `TELEGRAM_STARTUP_NOTIFY=1` if you want startup link notifications sent to Telegram
+## Verification
 
-After contact submissions and new academy payment requests, backend sends manager notifications to Telegram and logs delivery results in server console.
+Run the automated checks:
 
-`POST /api/notifications/telegram-code` is admin-protected.
+```bash
+node --test tests/*.test.js
+```
 
-## Supabase Data Mode
+## Deployment
 
-When `SUPABASE_SYNC_ENABLED=1`, academy and contact data are handled through Supabase tables (see `docs/supabase-schema.md`).
-
-Set these in `.env`:
-
-- `SUPABASE_URL`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `SUPABASE_SYNC_ENABLED=1`
-- `SUPABASE_PROFILES_TABLE=profiles`
-- `SUPABASE_PROFILE_ID_COLUMN=id`
-- `SUPABASE_CONTACTS_TABLE=contacts`
-- `SUPABASE_COURSES_TABLE=courses`
-- `SUPABASE_PAYMENT_REQUESTS_TABLE=payment_requests`
-- `SUPABASE_PAYMENT_SETTINGS_TABLE=payment_settings`
-- `SUPABASE_COURSE_ACCESS_TABLE=course_access`
-- `KASPI_PAYMENT_NUMBER`
-- `KASPI_PAYMENT_NAME`
-- `KASPI_PAYMENT_INSTRUCTIONS`
-
-Local JSON storage remains as fallback for offline/testing.
-
-## Main API Endpoints
-
-### Clinic/Auth (Bearer token)
-
-- `POST /auth/register`
-- `POST /auth/login`
-- `GET /auth/me`
-- `POST /contacts`
-- `GET /contacts` (admin bearer)
-- `GET /doctors`
-- `POST /appointments` (auth bearer)
-- `GET /appointments` (auth bearer)
-- `GET /dashboard/summary` (admin bearer)
-
-### Academy (Cookie session)
-
-- `POST /api/auth/signup`
-- `POST /api/auth/login`
-- `POST /api/auth/logout`
-- `GET /api/auth/me`
-- `GET /api/courses`
-- `GET /api/payment/settings`
-- `GET /api/courses/purchases/me`
-- `POST /api/courses/:courseId/purchase`
-- `GET /api/courses/:courseId/access`
-
-### Admin (Cookie session, role=admin)
-
-- `GET /api/admin/users`
-- `GET /api/admin/payment-requests`
-- `POST /api/admin/payment-requests/:paymentRequestId/decision`
-
-### Telegram utility
-
-- `POST /api/notifications/telegram-code` (admin session required)
-
-## Documentation
-
-- Deployment + operations: `docs/deploy-and-use.md`
-- Defense notes for presentation: `docs/project-defense.md`
-- Backend details: `docs/academy-backend.md`
-- Supabase SQL: `docs/supabase-schema.md`
+Use `docs/deploy-and-use.md` for the full deployment procedure.

@@ -30,6 +30,46 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || ''));
   }
 
+  function normalizePhoneDigits(value) {
+    let digits = String(value || '').replace(/\D/g, '');
+    if (digits.startsWith('7') || digits.startsWith('8')) {
+      digits = digits.slice(1);
+    }
+    return digits.slice(0, 10);
+  }
+
+  function formatPhone(localDigits) {
+    let formatted = '+7';
+    if (localDigits.length > 0) formatted += ` (${localDigits.slice(0, 3)}`;
+    if (localDigits.length >= 3) formatted += ')';
+    if (localDigits.length > 3) formatted += ` ${localDigits.slice(3, 6)}`;
+    if (localDigits.length > 6) formatted += ` ${localDigits.slice(6, 8)}`;
+    if (localDigits.length > 8) formatted += ` - ${localDigits.slice(8, 10)}`;
+    return formatted;
+  }
+
+  function setupPhoneMask(phoneInput) {
+    if (!phoneInput || phoneInput.dataset?.phoneMaskBound === 'true') return;
+    if (phoneInput.dataset) phoneInput.dataset.phoneMaskBound = 'true';
+    phoneInput.placeholder = '+7 (___) ___ __ - __';
+    phoneInput.inputMode = 'numeric';
+    phoneInput.maxLength = 20;
+
+    phoneInput.addEventListener('focus', () => {
+      if (!normalizePhoneDigits(phoneInput.value)) {
+        phoneInput.value = '+7';
+      }
+    });
+
+    phoneInput.addEventListener('input', () => {
+      phoneInput.value = formatPhone(normalizePhoneDigits(phoneInput.value));
+    });
+
+    phoneInput.value = normalizePhoneDigits(phoneInput.value)
+      ? formatPhone(normalizePhoneDigits(phoneInput.value))
+      : '+7';
+  }
+
   function strongPassword(value) {
     const password = String(value || '');
     return (
@@ -47,9 +87,21 @@
     button.disabled = pending;
   }
 
+  function fieldValue(form, fieldName) {
+    const directField = form[fieldName];
+    if (directField && typeof directField === 'object' && 'value' in directField) {
+      return String(directField.value || '');
+    }
+
+    const node = form.querySelector?.(`[name="${fieldName}"]`);
+    return String(node?.value || '');
+  }
+
   function redirectAfterAuth() {
     windowObject.location.href = getReturnTarget();
   }
+
+  setupPhoneMask(registerForm.querySelector?.('[name="phone"]') || registerForm.phone);
 
   tabs.forEach((tab) => {
     tab.addEventListener('click', () => {
@@ -96,11 +148,14 @@
     event.preventDefault();
     showError('registerError', '');
 
-    const email = String(registerForm.email.value || '').trim();
-    const password = String(registerForm.password.value || '');
-    const confirmPassword = String(registerForm.confirmPassword.value || '');
+    const name = fieldValue(registerForm, 'name').trim();
+    const localPhoneDigits = normalizePhoneDigits(fieldValue(registerForm, 'phone'));
+    const phone = `7${localPhoneDigits}`;
+    const email = fieldValue(registerForm, 'email').trim();
+    const password = fieldValue(registerForm, 'password');
+    const confirmPassword = fieldValue(registerForm, 'confirmPassword');
 
-    if (!validEmail(email)) {
+    if (!name || name.length < 2 || !validEmail(email) || localPhoneDigits.length !== 10) {
       showError('registerError', t('form_invalid', 'Please complete the form correctly before submitting.'));
       return;
     }
@@ -126,7 +181,12 @@
     setSubmitting(registerForm, true);
 
     try {
-      await windowObject.api.post('/auth/register', { email, password });
+      await windowObject.api.post('/auth/register', {
+        name,
+        phone,
+        email,
+        password
+      });
       const data = await windowObject.api.post('/auth/login', { email, password });
       windowObject.localStorage.setItem('token', data.access_token);
       redirectAfterAuth();

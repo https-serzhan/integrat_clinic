@@ -48,6 +48,15 @@
     windowObject.location.href = `auth.html?returnTo=${encodeURIComponent(returnTo)}`;
   }
 
+  function goToAppointmentFlow() {
+    if (hasToken()) {
+      windowObject.location.href = 'doctors.html';
+      return;
+    }
+
+    windowObject.location.href = 'auth.html?returnTo=doctors.html';
+  }
+
   function wireHeaderButton() {
     const primaryButton = documentObject.querySelector('.header-right .btn-black');
     if (!primaryButton || primaryButton.id === 'academyAuthButton') return;
@@ -94,9 +103,16 @@
     documentObject.querySelectorAll('.book-pill').forEach((button) => {
       button.addEventListener('click', (event) => {
         event.preventDefault();
-        if (!scrollToContactForm()) {
-          windowObject.location.href = 'doctors.html';
-        }
+        goToAppointmentFlow();
+      });
+    });
+  }
+
+  function wirePromoButtons() {
+    documentObject.querySelectorAll('.treatment-card[href="#"]').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        goToAppointmentFlow();
       });
     });
   }
@@ -135,17 +151,6 @@
     });
   }
 
-  function maybeAddDashboardLink() {
-    const nav = documentObject.querySelector('.nav-pill');
-    if (!nav || !hasToken() || nav.querySelector('a[href="dashboard.html"]')) return;
-
-    const dashLink = documentObject.createElement('a');
-    dashLink.href = 'dashboard.html';
-    dashLink.className = 'pill';
-    dashLink.textContent = 'DASHBOARD';
-    nav.appendChild(dashLink);
-  }
-
   function makeLogoClickable() {
     documentObject.querySelectorAll('.logo, .site-footer__logo').forEach((logo) => {
       if (logo.tagName === 'A') return;
@@ -163,12 +168,21 @@
       anchor.href = url;
       anchor.classList.remove('link-disabled');
       anchor.removeAttribute('aria-disabled');
+      if (/^https?:\/\//i.test(url)) {
+        anchor.setAttribute('target', '_blank');
+        anchor.setAttribute('rel', 'noopener noreferrer');
+      } else {
+        anchor.removeAttribute('target');
+        anchor.removeAttribute('rel');
+      }
       return;
     }
 
     anchor.href = '#';
     anchor.classList.add('link-disabled');
     anchor.setAttribute('aria-disabled', 'true');
+    anchor.removeAttribute('target');
+    anchor.removeAttribute('rel');
   }
 
   function populateGlobalContent() {
@@ -213,9 +227,9 @@
     renderSharedNavigation();
     pruneArchivedNavigation();
     syncActiveNavigation();
-    maybeAddDashboardLink();
     wireHeaderButton();
     wireBookingButtons();
+    wirePromoButtons();
     makeLogoClickable();
     populateGlobalContent();
     windowObject.IntegratI18n?.applyDomTranslations?.();

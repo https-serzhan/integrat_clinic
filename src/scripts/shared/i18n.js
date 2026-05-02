@@ -42,7 +42,6 @@
       academy_show_more: 'show more',
       academy_all_shown: 'all courses shown',
       all: 'All',
-      dashboard_summary_missing: 'Requires backend summary endpoint.',
       language_button_en: 'ENG',
       language_button_ru: 'RU',
       contact_request_failed: 'Failed to send the request.',
@@ -58,11 +57,6 @@
       doctor_incomplete: 'Doctor information is incomplete.',
       doctor_api_missing: 'Clinic API is not configured yet.',
       doctors_empty: 'Profiles will be added soon.',
-      dashboard_no_contacts: 'No contact requests have been submitted yet.',
-      dashboard_no_appointments: 'No appointments have been created yet.',
-      dashboard_contacts_series: 'Contacts',
-      dashboard_appointments_series: 'Appointments',
-      dashboard_load_failed: 'Failed to load dashboard data.',
       admin_unknown_user: 'Unknown user',
       admin_granted_at: 'Granted at {datetime}',
       admin_remove: 'Remove',
@@ -125,7 +119,6 @@
       academy_show_more: 'показать еще',
       academy_all_shown: 'показаны все курсы',
       all: 'Все',
-      dashboard_summary_missing: 'Нужен backend endpoint для сводки.',
       language_button_en: 'ENG',
       language_button_ru: 'RU',
       contact_request_failed: 'Не удалось отправить заявку.',
@@ -141,11 +134,6 @@
       doctor_incomplete: 'Информация о враче заполнена не полностью.',
       doctor_api_missing: 'Clinic API пока не настроен.',
       doctors_empty: 'Профили будут добавлены позже.',
-      dashboard_no_contacts: 'Заявок через форму пока нет.',
-      dashboard_no_appointments: 'Записей на прием пока нет.',
-      dashboard_contacts_series: 'Заявки',
-      dashboard_appointments_series: 'Приемы',
-      dashboard_load_failed: 'Не удалось загрузить данные дашборда.',
       admin_unknown_user: 'Неизвестный пользователь',
       admin_granted_at: 'Выдано {datetime}',
       admin_remove: 'Удалить',
@@ -271,7 +259,7 @@
   }
 
   function syncLanguageButtonText() {
-    const label = currentLanguage === 'en' ? t('language_button_en', 'ENG') : t('language_button_ru', 'RU');
+    const label = currentLanguage === 'en' ? t('language_button_ru', 'RU') : t('language_button_en', 'ENG');
     documentObject.querySelectorAll('.btn-outline, [data-lang-toggle]').forEach((button) => {
       if (!button.closest('.header-right, .auth-page, .admin-header, .videos-header, .faq-header')) return;
       button.textContent = label;
@@ -279,6 +267,8 @@
   }
 
   function applyDomTranslations() {
+    bindLanguageButtons();
+
     if (documentObject.body) {
       const walker = documentObject.createTreeWalker(
         documentObject.body,
@@ -305,11 +295,14 @@
     syncLanguageButtonText();
     documentObject.documentElement.setAttribute('lang', currentLanguage);
 
-    documentObject.dispatchEvent(
-      new CustomEvent('integrat:langchange', {
-        detail: { lang: currentLanguage }
-      })
-    );
+    const CustomEventConstructor = windowObject.CustomEvent || globalThis.CustomEvent;
+    if (typeof CustomEventConstructor === 'function') {
+      documentObject.dispatchEvent(
+        new CustomEventConstructor('integrat:langchange', {
+          detail: { lang: currentLanguage }
+        })
+      );
+    }
   }
 
   function setLanguage(lang) {

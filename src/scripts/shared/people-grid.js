@@ -130,6 +130,7 @@
     if (!sourceName) return;
 
     const entries = resolveEntries(sourceName);
+    const limit = Number(grid.dataset.peopleLimit || 0);
     const requestedFilter = grid.dataset.activeFilter || 'all';
     const root = typeof grid.closest === 'function' ? grid.closest('[data-people-section]') : null;
     const filters = root?.querySelector?.('[data-people-filters]') || null;
@@ -145,13 +146,14 @@
       effectiveFilter === 'all'
         ? entries
         : entries.filter((entry) => entry.categories.includes(effectiveFilter));
+    const visible = limit > 0 ? filtered.slice(0, limit) : filtered;
 
-    if (!filtered.length) {
+    if (!visible.length) {
       grid.innerHTML = `<div class="content-state">${escapeHtml(t('doctors_empty', 'Profiles will be added soon.'))}</div>`;
       return;
     }
 
-    grid.innerHTML = filtered.map((entry) => cardMarkup(entry, 'article')).join('');
+    grid.innerHTML = visible.map((entry) => cardMarkup(entry, 'article')).join('');
   }
 
   function renderTrack(track) {

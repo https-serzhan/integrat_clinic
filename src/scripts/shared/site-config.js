@@ -159,8 +159,8 @@
   const defaultSocials = {
     instagram: '',
     telegram: '',
-    whatsapp: 'https://wa.me/77474571740',
-    google: 'https://maps.google.com/?q=Astana%20Mangilik%20El%2036'
+    whatsapp: 'https://wa.me/+77711140710',
+    google: 'https://www.youtube.com/watch?v=2qBlE2-WL60'
   };
 
   const defaultSiteScope = {
