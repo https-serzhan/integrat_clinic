@@ -15,11 +15,10 @@ It includes:
 - `src/pages` for HTML pages
 - `src/styles` for CSS
 - `src/scripts` for frontend logic
-- `src/backend/academy` for the Node.js server and local fallback data
+- `src/backend/academy` for the Node.js server
 - `docs/deploy-and-use.md` for deployment steps
 - `docs/railway-deploy.md` for Railway deployment
 - `docs/academy-backend.md` for backend details
-- `docs/project-defense.md` for project presentation notes
 - `docs/supabase-schema.md` for the Supabase SQL schema
 - `Dockerfile` for root-level container deployment
 - `.env.example` for deploy-time variables
@@ -46,6 +45,8 @@ npm start
 - Academy: `http://localhost:3000/src/pages/academy.html`
 - About: `http://localhost:3000/src/pages/about.html`
 - Admin: `http://localhost:3000/src/pages/admin.html`
+- Laboratory: `http://localhost:3000/src/pages/laboratory.html`
+- Store: `http://localhost:3000/src/pages/store.html`
 
 ## Current Runtime Requirements
 
@@ -86,23 +87,20 @@ Frontend runtime config is stored in:
 ## What The Backend Does
 
 - serves the frontend pages and assets
-- stores contacts
-- stores clinic auth users and appointments
+- handles contact submissions
+- handles clinic auth users and appointments
 - handles academy auth, purchases, and access checks
 - exposes admin endpoints for appointments, users, grants, purchases, and payment requests
 - sends Telegram notifications for contact, appointment, and payment events
 - prints startup and request logs to the terminal
-
-## Verification
-
-Run the automated checks:
-
-```bash
-node --test tests/*.test.js
-```
 
 ## Deployment
 
 Use `docs/deploy-and-use.md` for the full deployment procedure.
 For Railway, use `docs/railway-deploy.md`.
 The repository also includes a root `package.json` so Railway can run it correctly even when it chooses Node/Railpack instead of the `Dockerfile`.
+
+## Notes
+
+- `laboratory.html` and `store.html` are kept in the project for upcoming work.
+- When Supabase is enabled, it should be treated as the primary production data store.

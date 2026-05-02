@@ -1,5 +1,4 @@
 .env
-src/scripts/shared/config.local.js
 .venv/
 venv/
 env/
@@ -19,11 +18,6 @@ src/backend/academy/node_modules/
 .DS_Store
 
 *.log
-*.sqlite3
-*.sqlite3-journal
-integrat_clinic.db
-integrat_clinic.db-journal
-
 src/backend/academy/data/*.json
 !src/backend/academy/data/.gitkeep
 

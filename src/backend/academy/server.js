@@ -906,6 +906,100 @@ async function insertAppointmentRecord(appointment) {
   };
 }
 
+function normalizeAppointmentRow(row) {
+  if (!row || typeof row !== 'object') return null;
+
+  const id = row.id ?? null;
+  const patientId = String(row.patient_id || row.patientId || '').trim();
+  const doctorIdRaw = row.doctor_id ?? row.doctorId ?? null;
+  const doctorId = doctorIdRaw === null || doctorIdRaw === undefined || doctorIdRaw === ''
+    ? null
+    : Number(doctorIdRaw);
+  const datetime = String(row.scheduled_at || row.datetime || '').trim();
+  const createdAt = String(row.created_at || row.createdAt || '').trim();
+
+  if (!patientId || !datetime) return null;
+
+  return {
+    id,
+    patientId,
+    patientEmail: row.patient_email ? String(row.patient_email) : (row.patientEmail ? String(row.patientEmail) : null),
+    patientName: row.patient_name ? String(row.patient_name) : (row.patientName ? String(row.patientName) : null),
+    patientPhone: row.patient_phone ? String(row.patient_phone) : (row.patientPhone ? String(row.patientPhone) : null),
+    doctorId: Number.isFinite(doctorId) ? doctorId : null,
+    doctorName: row.doctor_name ? String(row.doctor_name) : (row.doctorName ? String(row.doctorName) : null),
+    datetime,
+    status: String(row.status || 'scheduled').trim() || 'scheduled',
+    createdAt: createdAt || new Date().toISOString()
+  };
+}
+
+function listLocalAppointmentsExpanded() {
+  const appointments = getAppointments();
+  const users = getUsers();
+  const doctors = getDoctors();
+
+  return appointments
+    .map((item) => {
+      const patient = users.find((user) => user.id === item.patient_id);
+      const doctor = doctors.find((entry) => Number(entry.id) === Number(item.doctor_id));
+      return normalizeAppointmentRow({
+        id: item.id,
+        patient_id: item.patient_id,
+        patient_email: patient?.email || null,
+        patient_name: patient?.name || null,
+        patient_phone: patient?.phone || null,
+        doctor_id: item.doctor_id,
+        doctor_name: doctor?.name || null,
+        datetime: item.datetime,
+        status: item.status || 'scheduled',
+        created_at: item.created_at
+      });
+    })
+    .filter(Boolean)
+    .sort((a, b) => new Date(b.datetime).getTime() - new Date(a.datetime).getTime());
+}
+
+async function listAppointmentRecords({ patientId = null } = {}) {
+  const localFallback = listLocalAppointmentsExpanded()
+    .filter((item) => (patientId ? item.patientId === patientId : true));
+
+  if (!isSupabaseConfigured()) {
+    return localFallback;
+  }
+
+  const query = {
+    select: '*',
+    order: 'scheduled_at.desc'
+  };
+  if (patientId) query.patient_id = `eq.${patientId}`;
+
+  let result = await supabaseRequest(
+    `${supabaseTablePath(SUPABASE_APPOINTMENTS_TABLE)}${buildSupabaseQuery(query)}`,
+    { method: 'GET' }
+  );
+
+  if (!result.ok && hasMissingSupabaseColumn(result.reason, 'scheduled_at')) {
+    const fallbackQuery = { select: '*' };
+    if (patientId) fallbackQuery.patient_id = `eq.${patientId}`;
+    result = await supabaseRequest(
+      `${supabaseTablePath(SUPABASE_APPOINTMENTS_TABLE)}${buildSupabaseQuery(fallbackQuery)}`,
+      { method: 'GET' }
+    );
+  }
+
+  if (!result.ok || !Array.isArray(result.data)) {
+    return localFallback;
+  }
+
+  const normalized = result.data
+    .map(normalizeAppointmentRow)
+    .filter(Boolean)
+    .sort((a, b) => new Date(b.datetime).getTime() - new Date(a.datetime).getTime());
+
+  return normalized.length ? normalized : localFallback;
+}
+
 function normalizePaymentRequestRow(row) {
   if (!row || typeof row !== 'object') return null;
 
@@ -1734,55 +1828,24 @@ app.post('/appointments', clinicAuthRequired, async (req, res) => {
   });
 });
 
-app.get('/appointments', clinicAuthRequired, (req, res) => {
-  const appointments = getAppointments();
-  const users = getUsers();
-  const doctors = getDoctors();
+app.get('/appointments', clinicAuthRequired, async (req, res) => {
+  const appointments = await listAppointmentRecords({
+    patientId: req.user.role === 'admin' ? null : req.user.id
+  });
 
-  const joined = appointments
-    .filter((item) => req.user.role === 'admin' || item.patient_id === req.user.id)
-    .map((item) => {
-      const patient = users.find((user) => user.id === item.patient_id);
-      const doctor = doctors.find((doc) => Number(doc.id) === Number(item.doctor_id));
-      return {
-        id: item.id,
-        datetime: item.datetime,
-        status: item.status || 'scheduled',
-        patient_email: patient?.email || null,
-        doctor_name: doctor?.name || null,
-        created_at: item.created_at
-      };
-    })
-    .sort((a, b) => new Date(b.datetime).getTime() - new Date(a.datetime).getTime());
-
-  return res.json(joined);
+  return res.json(appointments.map((item) => ({
+    id: item.id,
+    datetime: item.datetime,
+    status: item.status,
+    patient_email: item.patientEmail,
+    doctor_name: item.doctorName,
+    created_at: item.createdAt
+  })));
 });
 
-app.get('/api/admin/appointments', adminRequired, (_req, res) => {
-  const appointments = getAppointments();
-  const users = getUsers();
-  const doctors = getDoctors();
-
-  const expanded = appointments
-    .map((item) => {
-      const patient = users.find((user) => user.id === item.patient_id);
-      const doctor = doctors.find((entry) => Number(entry.id) === Number(item.doctor_id));
-      return {
-        id: item.id,
-        patientId: item.patient_id,
-        patientEmail: patient?.email || null,
-        patientName: patient?.name || null,
-        patientPhone: patient?.phone || null,
-        doctorId: item.doctor_id,
-        doctorName: doctor?.name || null,
-        datetime: item.datetime,
-        status: item.status || 'scheduled',
-        createdAt: item.created_at
-      };
-    })
-    .sort((a, b) => new Date(b.datetime).getTime() - new Date(a.datetime).getTime());
-
-  res.json({ appointments: expanded });
+app.get('/api/admin/appointments', adminRequired, async (_req, res) => {
+  const appointments = await listAppointmentRecords();
+  res.json({ appointments });
 });
 
 app.post('/api/auth/signup', async (req, res) => {
