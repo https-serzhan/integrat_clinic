@@ -48,6 +48,9 @@
   function normalizeDoctor(doctor, index) {
     const meta = findMetadata(doctor, index);
     const specialty = doctor.specialty || meta.specialty || t('doctor_specialist_fallback', 'Dental specialist');
+    const image = [doctor.image, meta.image].find((value) => {
+      return value && !/\/(?:blue|orange)-doctor\.png$/i.test(String(value));
+    }) || doctor.image || meta.image || '../../assets/images/orange-doctor.png';
     const categories =
       Array.isArray(doctor.categories) && doctor.categories.length
         ? doctor.categories
@@ -61,13 +64,13 @@
       specialty,
       specialty_ru: doctor.specialty_ru || meta.specialty_ru || specialty,
       categories,
-      image: doctor.image || meta.image || '../../assets/images/orange-doctor.png',
+      image,
       cases:
         Array.isArray(doctor.cases) && doctor.cases.length
           ? doctor.cases
           : Array.isArray(meta.cases) && meta.cases.length
             ? meta.cases
-            : [doctor.image || meta.image || '../../assets/images/orange-doctor.png'],
+            : [image],
       experience: doctor.experience || meta.experience || 10,
       education: doctor.education || meta.education || t('doctor_education_fallback', 'Education profile will be published soon.'),
       education_ru: doctor.education_ru || meta.education_ru || doctor.education || meta.education || t('doctor_education_fallback', 'Education profile will be published soon.'),
