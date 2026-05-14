@@ -32,6 +32,9 @@ jobs:
         run: npm ci
 
       - name: Build project
+        env:
+          VITE_EVENTS_API_URL: ${{ vars.VITE_EVENTS_API_URL }}
+          VITE_REQUIRE_REMOTE_EVENTS: "1"
         run: npm run build
 
       - name: Setup Pages
@@ -40,7 +43,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: client/dist
 
   deploy:
     environment:
