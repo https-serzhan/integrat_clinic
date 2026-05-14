@@ -1,4 +1,4 @@
-import legacySiteData from '../scripts/shared/site-data.js';
+import legacySiteDataSource from '../scripts/shared/site-data.js?raw';
 import type {
   AcademyCourse,
   AcademyLesson,
@@ -7,6 +7,15 @@ import type {
   SiteDataShape
 } from '../types/models';
 import { toAssetUrl } from '../lib/assets';
+
+function loadLegacySiteData(): SiteDataShape {
+  const globalScope: { IntegratSiteData?: unknown } = {};
+  const moduleScope: { exports?: unknown } = { exports: undefined };
+
+  new Function('window', 'globalThis', 'module', legacySiteDataSource)(globalScope, globalScope, moduleScope);
+
+  return (moduleScope.exports || globalScope.IntegratSiteData || {}) as SiteDataShape;
+}
 
 function normalizeDoctor(doctor: Partial<SiteDataShape['doctors'][number]>): SiteDataShape['doctors'][number] {
   return {
@@ -53,7 +62,7 @@ function normalizeCourse(course: AcademyCourse): AcademyCourse {
   };
 }
 
-const rawSiteData = legacySiteData as unknown as SiteDataShape;
+const rawSiteData = loadLegacySiteData();
 
 export const siteData: SiteDataShape = {
   doctors: Array.isArray(rawSiteData.doctors) ? rawSiteData.doctors.map(normalizeDoctor) : [],
