@@ -1,0 +1,168 @@
+#root {
+    min-height: 100vh;
+}
+
+body.auth-modal-open {
+    overflow: hidden;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-remove,
+button.treatment-card,
+.academy-card__dot,
+.academy-btn--button,
+.doctor-card.is-clickable,
+.doctor-slide.is-clickable,
+.faq-close-link,
+.videos-close {
+    cursor: pointer;
+}
+
+button.treatment-card {
+    border: none;
+    background: transparent;
+    padding: 0;
+    text-align: inherit;
+}
+
+.doctor-card.is-clickable:focus-visible,
+.doctor-slide.is-clickable:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 4px;
+}
+
+.academy-feedback {
+    margin-bottom: 24px;
+    color: #2f2f2f;
+}
+
+.academy-feedback.is-error {
+    color: #9c1f1f;
+}
+
+.academy-feedback.is-success {
+    color: #176b2c;
+}
+
+.academy-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.academy-sort {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.academy-sort select {
+    border: 1px solid #d4d4d8;
+    border-radius: 999px;
+    padding: 10px 14px;
+    background: #fff;
+    font: inherit;
+}
+
+.doctors-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.academy-purchases {
+    padding: 0 0 120px;
+}
+
+.academy-purchases .container {
+    display: grid;
+    gap: 18px;
+}
+
+.academy-purchases__head {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.academy-purchases__list {
+    display: grid;
+    gap: 12px;
+}
+
+.academy-purchases__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    text-decoration: none;
+    background: #fff;
+}
+
+.academy-purchases__empty {
+    color: #666;
+}
+
+.academy-card__dots button {
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+.academy-btn--button {
+    border: none;
+    background: none;
+    font: inherit;
+}
+
+.doctor-text p + p {
+    margin-top: 16px;
+}
+
+.doctor-text strong {
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+.videos-access button.btn-black {
+    margin-left: 12px;
+}
+
+.videos-close {
+    text-decoration: none;
+}
+
+.content-state {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .academy-purchases__head {
+        font-size: 24px;
+    }
+
+    .academy-toolbar {
+        justify-content: flex-start;
+    }
+
+    .doctors-toolbar {
+        justify-content: flex-start;
+    }
+
+    .header-right {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+}

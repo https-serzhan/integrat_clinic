@@ -42,6 +42,8 @@ const JWT_SECRET = process.env.JWT_SECRET || 'integrat_dev_secret_change_me';
 const SESSION_COOKIE = 'integrat_session';
 const SRC_DIR = path.join(ROOT_DIR, 'src');
 const ASSETS_DIR = path.join(ROOT_DIR, 'assets');
+const DIST_DIR = path.join(ROOT_DIR, 'dist');
+const DIST_INDEX_FILE = path.join(DIST_DIR, 'index.html');
 const SITE_DATA = require(path.join(SRC_DIR, 'scripts', 'shared', 'site-data.js'));
 
 const configuredDataDir = String(process.env.INTEGRAT_DATA_DIR || '').trim();
@@ -2455,10 +2457,56 @@ app.get('/api/admin/purchases', adminRequired, async (_req, res) => {
 });
 
 app.use('/assets', express.static(ASSETS_DIR));
-app.use('/src', express.static(SRC_DIR));
 
-app.get('/', (_req, res) => {
-  res.redirect('/src/pages/index.html');
+const LEGACY_ROUTE_MAP = {
+  '/index.html': '/',
+  '/clinic.html': '/clinic',
+  '/doctors.html': '/doctors',
+  '/doctor.html': '/doctor',
+  '/academy.html': '/academy',
+  '/videos.html': '/videos',
+  '/about.html': '/about',
+  '/faq.html': '/faq',
+  '/auth.html': '/auth',
+  '/admin.html': '/admin',
+  '/laboratory.html': '/laboratory',
+  '/store.html': '/store',
+  '/src/pages/index.html': '/',
+  '/src/pages/clinic.html': '/clinic',
+  '/src/pages/doctors.html': '/doctors',
+  '/src/pages/doctor.html': '/doctor',
+  '/src/pages/academy.html': '/academy',
+  '/src/pages/videos.html': '/videos',
+  '/src/pages/about.html': '/about',
+  '/src/pages/faq.html': '/faq',
+  '/src/pages/auth.html': '/auth',
+  '/src/pages/admin.html': '/admin',
+  '/src/pages/laboratory.html': '/laboratory',
+  '/src/pages/store.html': '/store'
+};
+
+Object.entries(LEGACY_ROUTE_MAP).forEach(([legacyPath, modernPath]) => {
+  app.get(legacyPath, (req, res) => {
+    const queryIndex = req.originalUrl.indexOf('?');
+    const query = queryIndex >= 0 ? req.originalUrl.slice(queryIndex) : '';
+    res.redirect(`${modernPath}${query}`);
+  });
+});
+
+if (fs.existsSync(DIST_DIR)) {
+  app.use(express.static(DIST_DIR));
+}
+
+app.get('*', (req, res) => {
+  if (fs.existsSync(DIST_INDEX_FILE)) {
+    return res.sendFile(DIST_INDEX_FILE);
+  }
+
+  if (req.path === '/') {
+    return res.status(200).send('Frontend build not found. Run "npm run dev" for development or "npm run build" before "npm start".');
+  }
+
+  return res.status(404).send('Not found');
 });
 
 function startServer(port = PORT) {
