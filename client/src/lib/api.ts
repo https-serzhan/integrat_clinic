@@ -156,7 +156,7 @@ async function submitRemoteEvent<TPayload>(
   type: string,
   payload: TPayload
 ): Promise<(Partial<ContactSubmissionResponse> & { storedRemotely?: boolean; notified?: boolean }) | null> {
-  const endpoint = getEnvValue('VITE_EVENTS_API_URL') || (import.meta.env.DEV ? 'http://localhost:4000/api/events' : '');
+  const endpoint = getEnvValue('VITE_EVENTS_API_URL') || '/api/events';
   const requireRemote = getEnvValue('VITE_REQUIRE_REMOTE_EVENTS') !== '0';
   if (!endpoint) {
     if (requireRemote) {

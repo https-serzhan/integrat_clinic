@@ -71,7 +71,7 @@ Run the frontend in another terminal:
 npm run client:dev
 ```
 
-Open `http://localhost:5173`. The frontend sends event requests to `http://localhost:4000/api/events` by default.
+Open `http://localhost:5173`. The frontend sends event requests to `/api/events`, and Vite proxies that path to `http://localhost:4000` during local development.
 
 Production preview:
 
@@ -103,7 +103,7 @@ Handled events:
 Required frontend env:
 
 ```bash
-VITE_EVENTS_API_URL=http://localhost:4000/api/events
+VITE_EVENTS_API_URL=/api/events
 VITE_REQUIRE_REMOTE_EVENTS=1
 ```
 
@@ -127,18 +127,51 @@ Create Supabase tables with `supabase/schema.sql`.
 
 If your existing `contacts` table uses `full_name` or `name` instead of `fullname`, either set `SUPABASE_CONTACTS_NAME_COLUMN` or let the server auto-retry common column names. The server also retries `comment` and `message` for the message column.
 
-Do not expose Telegram bot tokens or Supabase service-role keys with a `VITE_` prefix. GitHub Pages can host the client only; deploy the server separately for the Telegram/Supabase flow.
+Do not expose Telegram bot tokens or Supabase service-role keys with a `VITE_` prefix.
 
-## GitHub Pages
+## Vercel deployment
 
-The client is configured for GitHub Pages with a workflow in `.github/workflows/deploy-pages.yml`.
+The project is configured for a single Vercel deployment:
 
-For forms, registrations, appointments, and payment requests to work on GitHub Pages, deploy the `server/` folder separately and add its event endpoint as a repository variable:
+- static frontend from `client/dist`
+- backend functions from `api/events.js` and `api/health.js`
+- SPA routing handled by `vercel.json`
+
+Required Vercel environment variables:
 
 ```text
-VITE_EVENTS_API_URL=https://your-server-domain.com/api/events
+TELEGRAM_BOT_TOKEN=...
+TELEGRAM_CHAT_ID=...
+TELEGRAM_THREAD_ID=...
+SUPABASE_URL=...
+SUPABASE_SERVICE_ROLE_KEY=...
+SUPABASE_PROFILES_TABLE=profiles
+SUPABASE_CONTACTS_TABLE=contacts
+SUPABASE_CONTACTS_NAME_COLUMN=fullname
+SUPABASE_CONTACTS_COMMENT_COLUMN=comment
+SUPABASE_APPOINTMENTS_TABLE=appointments
+SUPABASE_PAYMENT_REQUESTS_TABLE=payment_requests
+SUPABASE_COURSE_ACCESS_TABLE=course_access
 ```
 
-Expected Pages URL after deployment:
+Optional frontend env:
 
-`https://https-serzhan.github.io/integrat_clinic/`
+```text
+VITE_EVENTS_API_URL=/api/events
+VITE_REQUIRE_REMOTE_EVENTS=1
+```
+
+Deploy steps:
+
+1. Push the repository to GitHub.
+2. Import the repository into Vercel.
+3. Use the repository root as the Vercel project root.
+4. Let Vercel read `vercel.json`.
+5. Add the environment variables above in the Vercel dashboard.
+6. Deploy.
+
+After deployment:
+
+- frontend routes work directly on the Vercel domain
+- forms post to `/api/events`
+- Telegram notifications and Supabase writes run inside Vercel Functions
