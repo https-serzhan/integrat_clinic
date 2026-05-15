@@ -133,7 +133,7 @@ Do not expose Telegram bot tokens or Supabase service-role keys with a `VITE_` p
 
 The project is configured for a single Vercel deployment:
 
-- static frontend from `client/dist`
+- static frontend from `dist`
 - backend functions from `api/events.js` and `api/health.js`
 - SPA routing handled by `vercel.json`
 
